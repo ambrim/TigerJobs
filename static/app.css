@@ -1,0 +1,81 @@
+/* Navbar styling */
+.navbar-custom {
+    background-color: #2058DC;
+}
+
+.navbar-brand {
+    color: white !important;
+    font-size: 25px;
+}
+
+.nav-link {
+    color: white !important;
+    font-size: 20px;
+}
+
+.small-logo {
+    height: 30px;
+}
+
+/* Containers */
+.top-container {
+    margin-top: 30px;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.center-container {
+    text-align: center;
+}
+
+/* Element Styling */
+h1 {
+    color: #2058DC;
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+h2 {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+/* Text Colors */
+.blue {
+    color: #2058DC;
+}
+
+.yellow {
+    color: #FAB305;
+}
+
+/* Landing page */
+.landing-btn {
+    color: #2058DC;
+    font-size: 30px;
+    background-color: white;
+    border: 1px solid #2058DC;
+    padding: 20px 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 8px 4px;
+    cursor: pointer;
+    border-radius: 50px;
+    margin-bottom: 50px;
+}
+.landing-btn:hover {
+    color: white;
+    background-color: #2058DC;
+    transition: 0.3s;
+}
+.landing-desc {
+    font-size: 30px;
+}
+.landing-img {
+   min-height: 300px;
+   margin-top: -50px;
+   max-width: 100%;
+}
+.landing-list {
+    font-size: 20px;
+}
