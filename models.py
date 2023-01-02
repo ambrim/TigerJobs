@@ -15,8 +15,8 @@ class Interviews (Base):
     final_round = sqlalchemy.Column(sqlalchemy.Boolean)
     # Duration of interview
     duration = sqlalchemy.Column(sqlalchemy.String)
-    # ID of company
-    company = sqlalchemy.Column(sqlalchemy.Integer)
+    # Company Name
+    company = sqlalchemy.Column(sqlalchemy.String)
     # Questions asked
     question_description = sqlalchemy.Column(sqlalchemy.String)
     # How user got interview
@@ -33,7 +33,7 @@ class Interviews (Base):
     major = sqlalchemy.Column(sqlalchemy.String)
     # User's certificates
     certificates = sqlalchemy.Column(sqlalchemy.String)
-    # User's class (fr, so, jr, or sr)
+    # User's class (fr, so, jr, sr, grad, other)
     grade = sqlalchemy.Column(sqlalchemy.String)
 
 # Interships Review Table
@@ -52,8 +52,8 @@ class Internships (Base):
     type = sqlalchemy.Column(sqlalchemy.String)
     # Length of internship in months
     length = sqlalchemy.Column(sqlalchemy.Integer)
-    # ID of company
-    company = sqlalchemy.Column(sqlalchemy.Integer)
+    # Company Name
+    company = sqlalchemy.Column(sqlalchemy.String)
     # Type of company
     company_type = sqlalchemy.Column(sqlalchemy.String)
     # Internship salary per hour

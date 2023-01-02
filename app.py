@@ -11,7 +11,8 @@ import auth
 app.secret_key = os.getenv('SECRET_KEY')
 
 #----------------------------------------------------------------------
-
+# General Routes
+#----------------------------------------------------------------------
 # Landing page
 @app.route('/', methods=['GET'])
 @app.route('/index', methods=['GET'])
@@ -24,15 +25,46 @@ def index():
 @app.route('/login', methods=['GET'])
 def netID():
     _ = auth.authenticate()
-    # if netid is None:
-    #     return flask.redirect('/error')
-    # coop = flask.session.get('coop')
-    return flask.redirect("/internships")
-
-# Internships Page
-@app.route('/internships', methods=['GET'])
-def internships():
+    return flask.redirect("/jobs")
+#----------------------------------------------------------------------
+# Jobs Routes
+#----------------------------------------------------------------------
+# Jobs main page
+@app.route('/jobs', methods=['GET'])
+def jobs():
     netid = auth.authenticate()
-    html = flask.render_template('templates/test.html', netid=netid)
+    html = flask.render_template('templates/jobs.html', netid=netid)
     response = flask.make_response(html)
     return response
+#----------------------------------------------------------------------
+# Interviews Routes
+#----------------------------------------------------------------------
+# Interviews main page
+@app.route('/interviews', methods=['GET'])
+def interviews():
+    netid = auth.authenticate()
+    html = flask.render_template('templates/interviews.html', netid=netid)
+    response = flask.make_response(html)
+    return response
+#----------------------------------------------------------------------
+# Companies Routes
+#----------------------------------------------------------------------
+# Companies main page
+@app.route('/companies', methods=['GET'])
+def companies():
+    netid = auth.authenticate()
+    html = flask.render_template('templates/companies.html', netid=netid)
+    response = flask.make_response(html)
+    return response
+#----------------------------------------------------------------------
+# Profile Routes
+#----------------------------------------------------------------------
+# Profile main page
+@app.route('/profile', methods=['GET'])
+def profile():
+    netid = auth.authenticate()
+    html = flask.render_template('templates/profile.html', netid=netid)
+    response = flask.make_response(html)
+    return response
+
+
