@@ -7,11 +7,16 @@ import os
 db_url = os.getenv("DATABASE_URL")
 
 # Add test users
-def add_test_interview(session):
-    interview = models.Interviews(
-        title="Test"
-    )
-    session.add(interview)
+def add_test_users(session):
+    user = models.Users(
+                netid = "test",
+                major = '',
+                certificates = '',
+                grade = '',
+                interview_upvotes = [],
+                internship_upvotes = []
+            )
+    session.add(user)
 
 def main():
     # Create engine and drop and recreate all tables
@@ -21,7 +26,7 @@ def main():
 
     with sqlalchemy.orm.Session(engine) as session:
         # Add fake test data if needed
-        add_test_interview(session)
+        add_test_users(session)
         session.commit()
         
     engine.dispose()
