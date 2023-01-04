@@ -1,0 +1,24 @@
+{% if job_search_res == [] %} {% for job in job_search_res %}
+<div>
+    <div id="job-search-results-{{job.jobid}}"
+          class="card job-search-results-card">
+          {% if jobid is not none and jobid == job.jobid %}
+          <a data-jobid="{{job.jobid}}"
+           class="job-search-results-link selected-job border border-3 border-warning"
+           href="job?query={{last_query}}&jobid={{job.jobid}}"
+           style="background-color: #eff8fe">
+          {% else %}
+               <a data-jobid="{{job.jobid}}"
+               class="job-search-results-link"
+               href="job?query={{last_query}}&jobid={{job.jobid}}">
+                {% endif %}
+                    <div class="card-body">
+                    <strong class="job-search-results-displayname">{{job.displayname.split('/') |
+                        join(' / ')}}</strong>
+                         <div class="job-search-results-title">{{job.title}}</div>
+                    </div>
+               </a>
+          </a>
+    </div>
+</div>
+{% endfor %} {% endif %}

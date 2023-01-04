@@ -1,0 +1,20 @@
+<div id="job-search-form" class="input-group">
+     <input id="job-search-form-input"
+            class="form-control form-control-lg"
+            type="text"
+            name="query"
+            placeholder="Search for a job review"
+            value="{{ last_query_unquoted }}"
+            pattern="^[a-zA-Z0-9-:?%\x22\x27\x26\x2C ]+$"
+            maxlength="100"
+            autocomplete="off"
+            data-bs-toggle="tooltip"
+            data-bs-placement="top"
+            data-bs-trigger="hover"
+            title="Enter a company, job title, or keyword..."
+            autofocus
+            autocapitalize="off" />
+</div>
+<small id="job-search-help" class="form-text text-muted">
+    Enter a company, job title, or keyword...
+</small>

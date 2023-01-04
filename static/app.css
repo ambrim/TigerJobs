@@ -111,3 +111,13 @@ h2 {
     margin-left: 30px;
     margin-right: 30px;
 }
+
+/* Jobs page */
+.search-col {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.no-results {
+    font-size: 20px;
+}
