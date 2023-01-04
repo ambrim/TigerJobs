@@ -2,6 +2,7 @@ import flask
 import os
 import database
 import models
+import json
 
 #----------------------------------------------------------------------
 
@@ -63,7 +64,38 @@ def companies():
 @app.route('/profile', methods=['GET'])
 def profile():
     netid = auth.authenticate()
-    html = flask.render_template('templates/profile.html', netid=netid)
+    user = database.get_user(netid)
+    interviews, internships = database.get_reviews_by_user(netid)
+    html = flask.render_template('templates/profile.html', 
+                netid=netid,
+                user=user,
+                interviews=interviews,
+                internships=internships
+            )
+    response = flask.make_response(html)
+    return response
+
+# Update profile route
+@app.route('/profile/update', methods=['POST'])
+def profile_update():
+    netid = auth.authenticate()
+    # Get form data
+    data = json.loads(flask.request.form.to_dict()['event_data'])
+    # Get old user data
+    old_user = database.get_user(netid)
+    user = models.Users(
+        netid=netid,
+        major=data['major'],
+        certificates = data['certificates'],
+        grade = data['grade'],
+        interview_upvotes = old_user.interview_upvotes,
+        internship_upvotes = old_user.internship_upvotes
+    )
+    database.update_user(user)
+    html = flask.render_template('templates/profileform.html', 
+                netid=netid,
+                user=user
+            )
     response = flask.make_response(html)
     return response
 

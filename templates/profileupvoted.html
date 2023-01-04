@@ -1,0 +1,11 @@
+<div id="upvoted-reviews">
+    <div><b>Upvoted Job Reviews</b></div>
+    {% for i in user.internship_upvotes %}
+        <div>{{i}}</div>
+    {% endfor %}
+    <br>
+    <div><b>Upvoted Interview Reviews</b></div>
+    {% for i in user.interview_upvotes %}
+        <div>{{i}}</div>
+    {% endfor %}
+</div>

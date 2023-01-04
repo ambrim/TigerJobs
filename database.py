@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 import sqlalchemy
 import sqlalchemy.orm
 from sqlalchemy.exc import SQLAlchemyError
@@ -118,9 +118,38 @@ def get_user(netid) -> models.Users:
         company = session.query(models.Users).filter(
             models.Users.netid == netid).first()
     return company
+# Update user
+def update_user(user:models.Users):
+    with sqlalchemy.orm.Session(engine) as session:
+        session.query(models.Users).filter(
+            models.Users.netid == user.netid).update(
+                {
+                    'netid': user.netid,
+                    'major': user.major,
+                    'certificates': user.certificates,
+                    'grade': user.grade,
+                    'interview_upvotes': user.interview_upvotes,
+                    'internship_upvotes': user.internship_upvotes
+                }
+            )
+        session.commit()
 # Delete a user
 def delete_user(netid):
     with sqlalchemy.orm.Session(engine) as session:
         session.query(models.Users).filter(
             models.Users.netid == netid).delete()
         session.commit()
+# Get all reviews by user
+def get_reviews_by_user(netid):
+    interviews = []
+    with sqlalchemy.orm.Session(engine) as session:
+        interviews = session.query(models.Interviews).filter(
+            models.Interviews.netid == netid
+        ).all()
+    internships = []
+    with sqlalchemy.orm.Session(engine) as session:
+        internships = session.query(models.Internships).filter(
+            models.Internships.netid == netid
+        ).all()
+    return (interviews, internships)
+    

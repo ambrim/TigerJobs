@@ -1,0 +1,34 @@
+<div id="profile-form">
+<form>
+    <div class="form-group">
+        <label for="profile-major"><b>Major (or Prospective Major)</b></label>
+        <input type="text" class="form-control" id="profile-major" aria-describedby="majorHelp"
+            placeholder="Enter the 3 letter code for your major (eg. COS for Computer Science)" maxlength="3" 
+            value='{{user.major}}'>
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="profile-certificates"><b>Planned Certificates</b></label>
+        <input type="text" class="form-control" id="profile-certificates" aria-describedby="certificateHelp"
+            placeholder="Enter your planned certificates (separated by a comma)"
+            value='{{user.certificates}}'>
+    </div>
+    <br>
+    <div class="form-group">
+        <label for="profile-year"><b>Class Year</b></label>
+        <select class="form-select" id="profile-year">
+            <option value="na"{% if user.grade == "na" %}selected="selected"{% endif %}>Select your current class year</option>
+            <option value="fr"{% if user.grade == "fr" %}selected="selected"{% endif %}>Freshman (4 years till graduation)</option>
+            <option value="so"{% if user.grade == "so" %}selected="selected"{% endif %}>Sophomore (3 years till graduation)</option>
+            <option value="jr"{% if user.grade == "jr" %}selected="selected"{% endif %}>Junior (2 years till graduation)</option>
+            <option value="sr"{% if user.grade == "sr" %}selected="selected"{% endif %}>Senior (1 year till graduation)</option>
+            <option value="grad"{% if user.grade == "grad" %}selected="selected"{% endif %}>Graduate Student</option>
+            <option value="other"{% if user.grade == "other" %}selected="selected"{% endif %}>Other</option>
+        </select>
+    </div>
+    <br>
+    <div>
+        <button type="button" class="profile-btn" onclick="updateProfile()"><b>Update Profile</b></button>
+    </div>
+</form>
+</div>

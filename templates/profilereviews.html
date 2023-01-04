@@ -1,0 +1,103 @@
+<div id="profile-reviews">
+    <div class="accordion" id="job-reviews">
+        <div><b>Your Job Reviews</b></div>
+        <br>
+        {% for i in internships %}
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                        aria-expanded="false" aria-controls="collapseOne">
+                        {{i.title}},&nbsp;<b>{{i.company}}</b>
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                    data-bs-parent="#job-reviews">
+                    <div class="accordion-body">
+                        <div class="row">
+                            <div class="col-sm">
+                                <div><b>Location:&nbsp;</b>{{i.location}}</div>
+                            </div>
+                            <div class="col-sm">
+                                <div><b>Length:&nbsp;</b>{{i.length}} months</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <div><b>Job Type:&nbsp;</b>{{i.type}}</div>
+                            </div>
+                            <div class="col-sm">
+                                <div><b>Company Type:&nbsp;</b>{{i.company_type}}</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <div><b>Salary:&nbsp;</b>${{i.salary}} per hour</div>
+                            </div>
+                            <div class="col-sm">
+                                <div><b>Number of Upvotes:&nbsp;</b>{{i.upvotes}}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div><b>Description:&nbsp;</b>{{i.description}}</div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm">
+                                <div><b>Difficulty Rating:&nbsp;</b>{{i.difficulty}} / 5</div>
+                            </div>
+                            <div class="col-sm">
+                                <div><b>Enjoyment Rating:&nbsp;</b>{{i.enjoyment}} / 5</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <br>
+    <div class="accordion" id="interview-reviews">
+        <div><b>Your Interview Reviews</b></div>
+        <br>
+        {% for i in interviews %}
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                    aria-expanded="false" aria-controls="collapseTwo">
+                    {% if i.final %}<b>{{i.company}}</b>, Round {{i.round}} (Final){% endif %}
+                    {% if not i.final %}<b>{{i.company}}</b>, Round {{i.round}}{% endif %}
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                data-bs-parent="#interview-reviews">
+                <div class="accordion-body">
+                    <div class="row">
+                        <div class="col-sm">
+                            <div><b>Duration:&nbsp;</b>{{i.duration}}</div>
+                        </div>
+                        <div class="col-sm">
+                            <div><b>How you got interview:&nbsp;</b>{{i.how_interview}}</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div><b>Questions Asked:&nbsp;</b>{{i.question_description}}</div>
+                    </div>
+                    <div>
+                        <div><b>Tips for interview:&nbsp;</b>{{i.tips}}</div>
+                    </div>
+                    <div>
+                        <div><b>Number of upvotes:&nbsp;</b>{{i.upvotes}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <div><b>Difficulty Rating:&nbsp;</b>{{i.difficulty}} / 5</div>
+                        </div>
+                        <div class="col-sm">
+                            <div><b>Enjoyment Rating:&nbsp;</b>{{i.enjoyment}} / 5</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
