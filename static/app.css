@@ -23,9 +23,11 @@
     margin-left: 100px;
     margin-right: 100px;
 }
-
 .center-container {
     text-align: center;
+}
+.right-container {
+    text-align: right;
 }
 
 /* Element Styling */
@@ -81,10 +83,32 @@ h2 {
 }
 
 /* Profile page */
+.add-review-btn {
+    color: #2058DC;
+    font-size: 20px;
+    background-color: white;
+    border: 1px solid #2058DC;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 8px 4px;
+    cursor: pointer;
+    border-radius: 50px;
+    margin-bottom: 30px;
+}
+.add-review-btn:hover {
+    color: white;
+    background-color: #2058DC;
+    transition: 0.3s;
+}
 .blurb-bg {
     background-color: #eff8fe;
     padding: 50px;
     border-radius: 20px;
+}
+.modal-header {
+    border: 0px;
 }
 .profile-btn {
     color: white;
@@ -101,6 +125,42 @@ h2 {
     color: white;
     background-color: #fddb5b;
     border: 1px solid #fddb5b;
+    transition: 0.3s;
+}
+.profile-btn-submit {
+    color: white;
+    background-color: #51a34f;
+    border: 1px solid #51a34f;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.profile-btn-submit:hover {
+    color: white;
+    background-color: #90ee90;
+    border: 1px solid #90ee90;
+    transition: 0.3s;
+}
+.profile-btn-reset {
+    color: white;
+    background-color: #dc3646;
+    border: 1px solid #dc3646;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.profile-btn-reset:hover {
+    color: white;
+    background-color: #FF7276;
+    border: 1px solid #FF7276;
     transition: 0.3s;
 }
 .profile-col {

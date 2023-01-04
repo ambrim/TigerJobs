@@ -94,13 +94,37 @@ def get_company(id) -> models.Companies:
     company = None
     with sqlalchemy.orm.Session(engine) as session:
         company = session.query(models.Companies).filter(
-            models.Internships.id == id).first()
+            models.Companies.id == id).first()
+    return company
+# Get company from name
+def get_company_by_name(name) -> models.Companies:
+    # Make sure to only get one company
+    company = None
+    with sqlalchemy.orm.Session(engine) as session:
+        company = session.query(models.Companies).filter(
+            models.Companies.name == name).first()
     return company
 # Delete a company
 def delete_company(id):
     with sqlalchemy.orm.Session(engine) as session:
         session.query(models.Companies).filter(
             models.Companies.id == id).delete()
+        session.commit()
+# Update company
+def update_company(company:models.Companies):
+    with sqlalchemy.orm.Session(engine) as session:
+        session.query(models.Companies).filter(
+            models.Companies.id == company.id).update(
+                {
+                    'name': company.name,
+                    'num_interviews': company.num_interviews,
+                    'num_internships': company.num_internships,
+                    'interview_difficulty': company.interview_difficulty,
+                    'interview_enjoyment': company.interview_enjoyment,
+                    'internship_difficulty': company.internship_difficulty,
+                    'internship_enjoyment': company.internship_enjoyment
+                }
+            )
         session.commit()
 #----------------------------------------------------------------------
 # User Queries

@@ -58,7 +58,7 @@
                     </p>
                     <br>
                     <div class="center-container">
-                        <button class="profile-btn"><b>Leave a review</b></button>
+                        <button class="profile-btn" data-bs-toggle="modal" data-bs-target="#addReviewModal"><b>Leave a review</b></button>
                     </div>
                 </div>
                 <br>
@@ -80,6 +80,7 @@
             </div>
         </div>
     </div>
+    {% include 'templates/addreviewform.html' %}
     <script>
         let request = null;
         function updateProfile() {

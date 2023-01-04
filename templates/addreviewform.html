@@ -1,0 +1,354 @@
+<!-- Modal -->
+<div class="modal fade" id="addReviewModal" tabindex="-1" aria-labelledby="addReviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div> -->
+            <div class="modal-body">
+                <div class="right-container">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="resetForm()"></button>
+                </div>
+                <div id="whatTitle" class="center-container">
+                    <h2 class="modal-title" id="exampleModalLabel">What type of review would you like to leave?</h2>
+                    <br>
+                    <button class="add-review-btn" onclick="showJobForm()">Job Review</button>
+                    <button class="add-review-btn" onclick="showInterviewForm()">Interview Review</button>
+                </div>
+                <form id="addJobForm">
+                    <div class="center-container">
+                        <h2>Add a Job Review</h2>
+                    </div>
+                    <div class="form-group">
+                        <label for="job-title"><b>Job Position Title</b></label>
+                        <input type="text" class="form-control" id="job-title" aria-describedby="jobTitleHelp"
+                            placeholder="Enter job position title (e.g. Business Intern)">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="job-location"><b>Job Location</b></label>
+                        <input type="text" class="form-control" id="job-location" aria-describedby="jobLocationHelp"
+                            placeholder="Enter job city and state (e.g. Miami, FL)">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="job-type"><b>Job Type</b></label>
+                        <select class="form-select" id="job-type">
+                            <option value="" disabled selected>Choose the best option</option>
+                            <option value="Internship: Industry - Private Sector">Internship: Industry - Private Sector</option>
+                            <option value="Internship: Industry - Public Sector">Internship: Industry - Public Sector</option>
+                            <option value="Research - Princeton Sponsored">Research - Princeton Sponsored</option>
+                            <option value="Research - Non-Princeton">Research - Non-Princeton</option>
+                            <option value="Co-op">Co-op</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Full-time/New grad">Full-time/New grad</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="job-length"><b>Job Length (in months)</b></label>
+                        <input type="number" class="form-control" id="job-length" aria-describedby="jobLengthHelp"
+                            placeholder="Enter the length of the job (in months)" min="0">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="job-company"><b>Company Name</b></label>
+                        <input type="text" class="form-control" id="job-company" aria-describedby="jobCompanyHelp"
+                            placeholder="Enter the name of the company">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="job-company-type"><b>Company Type</b></label>
+                        <select class="form-select" id="job-company-type">
+                            <option value="" disabled selected>Choose the best option</option>
+                            <option value="Pharmaceuticals">Pharmaceuticals</option>
+                            <option value="Biotech">Biotech</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Legal Services">Legal Services</option>
+                            <option value="Econonomics and Business Administration">Economics and Business Administration</option>
+                            <option value="Government, Education, and Policy">Government, Education, and Policy</option>
+                            <option value="Investment and Corporate Banking">Investment and Corporate Banking</option>
+                            <option value="Management Consulting">Management Consulting</option>
+                            <option value="Trading, Private Equity, and Venture Capital">Trading, Private Equity, and Venture Capital</option>
+                            <option value="Accounting and Insurance">Accounting and Insurance</option>
+                            <option value="Fintech">Fintech</option>
+                            <option value="IT and Security">IT and Security</option>
+                            <option value="Software Engineering">Software Engineering</option>
+                            <option value="Aerospace and Robotics">Aerospace and Robotics</option>
+                            <option value="Data Science and Analytics">Data Science and Analytics</option>
+                            <option value="Engineering and Project Management">Engineering and Project Management</option>
+                            <option value="Marketing and Business Development">Marketing and Business Development</option>
+                            <option value="Journalism, Publishing, and Media">Journalism, Publishing, and Media</option>
+                            <option value="Graphic Design and Production">Graphic Design and Production</option>
+                            <option value="Arts and Entertainment">Arts and Entertainment</option>
+                            <option value="National or College Laboratory">National or College Laboratory</option>
+                            <option value="STEM Research">STEM Research</option>
+                            <option value="Humanities Research">Humanities Research</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="job-description"><b>Job Description</b></label>
+                        <textarea class="form-control" id="job-description" aria-describedby="jobDescriptionHelp"
+                            placeholder="Enter a description of your daily tasks/work"></textarea>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="job-salary"><b>Job Salary (in dollars per hour) (you're anonymous!)</b></label>
+                        <input type="number" class="form-control" id="job-salary" aria-describedby="jobSalaryHelp"
+                            placeholder="Enter the salary of the job (in dollars per hour)" min="0">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="job-difficulty"><b>Difficulty Rating (from 1 to 5)</b></label>
+                        <select class="form-select" id="job-difficulty">
+                            <option value="" disabled selected>Choose the best option</option>
+                            <option value="1">1 - ez money; had all the skills needed :)</option>
+                            <option value="2">2 – doable; put in the hours and it’ll be fine</option>
+                            <option value="3">3 – tough; learn quickly or fall behind</option>
+                            <option value="4">4 – challenging; they expected things i did not think i would accomplish</option>
+                            <option value="5">5 – nearly impossible; could’ve put in double the hours and still not meet their expectations :’)</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="job-enjoyment"><b>Enjoyment Rating (from 1 to 5)</b></label>
+                        <select class="form-select" id="job-enjoyment">
+                            <option value="" disabled selected>Choose the best option</option>
+                            <option value="1">1 – would not recommend</option>
+                            <option value="2">2 – gained something out of it ig</option>
+                            <option value="3">3 – good but ….</option>
+                            <option value="4">4 – great experience and memorable supervisor</option>
+                            <option value="5">5 – had a blast!</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="center-container">
+                        <button type="button" class="profile-btn-reset" onclick="resetForm()">Reset Form</button>
+                        <button type="button" class="profile-btn-submit" onclick="submitJobForm()">Add Job Review</button>
+                    </div>
+                </form>
+                <form id="addInterviewForm">
+                    <div class="center-container">
+                        <h2>Add an Interview Review</h2>
+                    </div>
+                    <div class="form-group">
+                        <label for="interview-company"><b>Interview Company</b></label>
+                        <input type="text" class="form-control" id="interview-company" aria-describedby="interviewCompany"
+                            placeholder="Enter the company the interview was with">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="interview-round"><b>Interview Round</b></label>
+                        <input type="number" class="form-control" id="interview-round" aria-describedby="interviewRoundHelp"
+                            placeholder="Enter the round of the interview" min="0">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="interview-final"><b>Was this the final round?</b></label>
+                        <select class="form-select" id="interview-final">
+                            <option value="" disabled selected>Choose the best option</option>
+                            <option value="True">Yes</option>
+                            <option value="False">No</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="interview-duration"><b>Interview Duration</b></label>
+                        <select class="form-select" id="interview-duration">
+                            <option value="" disabled selected>Choose the best option</option>
+                            <option value="Under 30 minutes">Under 30 minutes</option>
+                            <option value="30-45 minutes">30-45 minutes</option>
+                            <option value="1 hour">1 hour</option>
+                            <option value="2 hours">2 hours</option>
+                            <option value="3 hours">3 hours</option>
+                            <option value="4 hours">4 hours</option>
+                            <option value="More than 4 hours but less than a day">More than 4 hours but less than a day</option>
+                            <option value="Full day">Full day</option>
+                            <option value="Multiple days">Multiple days</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="interview-how"><b>How did you get the interview?</b></label>
+                        <select class="form-select" id="interview-how">
+                            <option value="" disabled selected>Choose the best option</option>
+                            <option value="Application on website">Application on website</option>
+                            <option value="Application on RippleMatch/Handshake/etc">Application on RippleMatch/Handshake/etc</option>
+                            <option value="Handing in resume/Networking at job fair">Handing in resume/Networking at job fair</option>
+                            <option value="Attending a webinar">Attending a webinar</option>
+                            <option value="Attending a selective small group program">Attending a selective small group programs</option>
+                            <option value="Reaching out to company employee">Reaching out to company employee</option>
+                            <option value="Worked there previously">Worked there previously</option>
+                            <option value="Had a personal connection">Had a personal connection</option>
+                            <option value="None of the above">None of the above</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="interview-questions"><b>Interview Questions</b></label>
+                        <textarea class="form-control" id="interview-questions" aria-describedby="interviewQuestionsHelp"
+                            placeholder="Enter any questions you remember"></textarea>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="interview-tips"><b>Any tips for the interview?</b></label>
+                        <textarea class="form-control" id="interview-tips" aria-describedby="interviewQuestionsHelp"
+                            placeholder="Enter any tips for preparing for this interview (e.g. any resources you want to share? how far in advance did you get started?)"></textarea>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="interview-difficulty"><b>Difficulty Rating (from 1 to 5)</b></label>
+                        <select class="form-select" id="interview-difficulty">
+                            <option value="" disabled selected>Choose the best option</option>
+                            <option value="1">1 – little to no prep; just go in and be yourself :)</option>
+                            <option value="2">2 – doable; as long as you prepare, it’ll be fine</option>
+                            <option value="3">3 – tough; prepare beforehand then prepare for something you can’t prepare</option>
+                            <option value="4">4 – challenging; you’ll probably come out of it feeling uneasy</option>
+                            <option value="5">5 – nearly impossible; prepare some tissues :’)</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="interview-enjoyment"><b>Enjoyment Rating (from 1 to 5)</b></label>
+                        <select class="form-select" id="interview-enjoyment">
+                            <option value="" disabled selected>Choose the best option</option>
+                            <option value="1">1 – had to be done (or would not recommend)</option>
+                            <option value="2">2 – learned something out of it ig</option>
+                            <option value="3">3 – good but ….</option>
+                            <option value="4">4 – great experience and memorable interviewer</option>
+                            <option value="5">5 – had a blast!</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="center-container">
+                        <button type="button" class="profile-btn-reset" onclick="resetForm()">Reset Form</button>
+                        <button type="button" class="profile-btn-submit" onclick="submitInterviewForm()">Add Interview Review</button>
+                    </div>
+                </form>
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+            </div> -->
+        </div>
+    </div>
+</div>
+<script>
+    function submitJobForm() {
+        // Get data from form
+        var title = $('#job-title').val();
+        var location = $('#job-location').val();
+        var type = $('#job-type').val();
+        var length = $('#job-length').val();
+        var company = $('#job-company').val();
+        var companyType = $('#job-company-type').val();
+        var description = $('#job-description').val();
+        var salary = $('#job-salary').val();
+        var difficulty = $('#job-difficulty').val();
+        var enjoyment = $('#job-enjoyment').val();
+        var json_event = {
+            "title": title,
+            "location": location,
+            "type": type,
+            "length": length,
+            "company": company,
+            "companyType": companyType,
+            "description": description,
+            "salary": salary,
+            "difficulty": difficulty,
+            "enjoyment": enjoyment
+        };
+        if (request != null)
+            request.abort();
+        request = $.post("/profile/add/job", {
+            dataType: 'json',
+            contentType: 'application/json',
+            event_data: JSON.stringify(json_event)
+        }).done(function (data) {
+            $('#addReviewModal').modal('hide');
+            $('#profile-reviews').html(data);
+            resetForm();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert("Request failed");
+        });
+    }
+    function submitInterviewForm() {
+        // Get data from form
+        var company = $('#interview-company').val();
+        var round = $('#interview-round').val();
+        var final = $('#interview-final').val();
+        var duration = $('#interview-duration').val();
+        var how = $('#interview-how').val();
+        var questions = $('#interview-questions').val();
+        var tips = $('#interview-tips').val();
+        var difficulty = $('#interview-difficulty').val();
+        var enjoyment = $('#interview-enjoyment').val();
+        var json_event = {
+            "company": company,
+            "round": round,
+            "final": final,
+            "duration": duration,
+            "how": how,
+            "questions": questions,
+            "tips": tips,
+            "difficulty": difficulty,
+            "enjoyment": enjoyment
+        };
+        if (request != null)
+            request.abort();
+        request = $.post("/profile/add/interview", {
+            dataType: 'json',
+            contentType: 'application/json',
+            event_data: JSON.stringify(json_event)
+        }).done(function (data) {
+            $('#addReviewModal').modal('hide');
+            $('#profile-reviews').html(data);
+            resetForm();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert("Request failed");
+        });
+    }
+    function resetForm() {
+        // Reset job form stuff
+        $('#job-title').val("");
+        $('#job-location').val("");
+        $('#job-type').val("");
+        $('#job-length').val("");
+        $('#job-company').val("");
+        $('#job-company-type').val("");
+        $('#job-description').val("");
+        $('#job-salary').val("");
+        $('#job-difficulty').val("");
+        $('#job-enjoyment').val("");
+        // Reset interview form stuff
+        $('#interview-company').val("");
+        $('#interview-round').val("");
+        $('#interview-final').val("");
+        $('#interview-duration').val("");
+        $('#interview-how').val("");
+        $('#interview-questions').val("");
+        $('#interview-tips').val("");
+        $('#interview-difficulty').val("");
+        $('#interview-enjoyment').val("");
+        // Show correct page
+        $('#whatTitle').show();
+        $('#addJobForm').hide();
+        $('#addInterviewForm').hide();
+    }
+    function showJobForm() {
+        $('#whatTitle').hide();
+        $('#addJobForm').show();
+    }
+    function showInterviewForm() {
+        $('#whatTitle').hide();
+        $('#addInterviewForm').show();
+    }
+    function setup() {
+        $('#addJobForm').hide();
+        $('#addInterviewForm').hide();
+    }
+    $('document').ready(setup);
+</script>

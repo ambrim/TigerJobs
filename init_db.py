@@ -13,7 +13,7 @@ def add_test_internship(session):
         title = 'Software Engineering Intern',
         location = 'Tampa, FL',
         description = 'Worked for data science team',
-        type = 'Industry, Public',
+        type = 'Internship: Industry - Public Sector',
         length = 3,
         company = 'MITRE',
         company_type = 'STEM Research',

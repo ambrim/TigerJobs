@@ -99,4 +99,133 @@ def profile_update():
     response = flask.make_response(html)
     return response
 
+# Add Job Review
+@app.route('/profile/add/job', methods=['POST'])
+def add_job():
+    netid = auth.authenticate()
+    # Get current user data
+    user = database.get_user(netid)
+    # Get form data
+    data = json.loads(flask.request.form.to_dict()['event_data'])
+    # Create new internship review to add
+    internship = models.Internships(
+        netid = netid,
+        title = data['title'],
+        location = data['location'],
+        description = data['description'],
+        type = data['type'],
+        length = int(data['length']),
+        company = data['company'],
+        company_type = data['companyType'],
+        salary = int(data['salary']),
+        difficulty = int(data['difficulty']),
+        enjoyment = int(data['enjoyment']),
+        upvotes = 0,
+        major = user.major,
+        certificates = user.certificates,
+        grade = user.grade
+    )
+    # Either update company or add company to database
+    company = database.get_company_by_name(data['company'])
+    if company is None:
+        new_company = models.Companies(
+            name = data['company'],
+            num_interviews = 0,
+            num_internships = 1,
+            interview_difficulty = 0,
+            interview_enjoyment = 0,
+            internship_difficulty = int(data['difficulty']),
+            internship_enjoyment = int(data['enjoyment'])
+        )
+        database.add_company(new_company)
+    else:
+        new_company = models.Companies(
+            id = company.id,
+            name = data['company'],
+            num_interviews = company.num_interviews,
+            num_internships = 1 + company.num_internships,
+            interview_difficulty = company.interview_difficulty,
+            interview_enjoyment = company.interview_enjoyment,
+            internship_difficulty = int(data['difficulty']) + company.internship_difficulty,
+            internship_enjoyment = int(data['enjoyment']) + company.internship_enjoyment
+        )
+        database.update_company(new_company)
+    database.add_internship(internship)
+    # Rerender profile reviews template
+    interviews, internships = database.get_reviews_by_user(netid)
+    html = flask.render_template('templates/profilereviews.html', 
+                netid=netid,
+                user=user,
+                interviews=interviews,
+                internships=internships
+            )
+    response = flask.make_response(html)
+    return response
+
+# Add Interview Review
+@app.route('/profile/add/interview', methods=['POST'])
+def add_interview():
+    netid = auth.authenticate()
+    # Get current user data
+    user = database.get_user(netid)
+    # Get form data
+    data = json.loads(flask.request.form.to_dict()['event_data'])
+    # Change final to boolean
+    if data['final'] == 'True':
+        data['final'] = True
+    else:
+        data['final'] = False
+    # Create new interview review to add
+    interview = models.Interviews(
+        netid = netid,
+        round = int(data['round']),
+        final_round = data['final'],
+        duration = data['duration'],
+        company = data['company'],
+        question_description = data['questions'],
+        how_interview = data['how'],
+        tips = data['tips'],
+        difficulty = int(data['difficulty']),
+        enjoyment = int(data['enjoyment']),
+        upvotes = 0,
+        major = user.major,
+        certificates = user.certificates,
+        grade = user.grade
+    )
+    # Either update company or add company to database
+    company = database.get_company_by_name(data['company'])
+    if company is None:
+        new_company = models.Companies(
+            name = data['company'],
+            num_interviews = 1,
+            num_internships = 0,
+            interview_difficulty = int(data['difficulty']),
+            interview_enjoyment = int(data['enjoyment']),
+            internship_difficulty = 0,
+            internship_enjoyment = 0
+        )
+        database.add_company(new_company)
+    else:
+        new_company = models.Companies(
+            id = company.id,
+            name = data['company'],
+            num_interviews = 1 + company.num_interviews,
+            num_internships = company.num_internships,
+            interview_difficulty = int(data['difficulty']) + company.interview_difficulty,
+            interview_enjoyment = int(data['enjoyment']) + company.interview_enjoyment,
+            internship_difficulty = company.internship_difficulty,
+            internship_enjoyment = company.internship_enjoyment
+        )
+        database.update_company(new_company)
+    database.add_interview(interview)
+    # Rerender profile reviews template
+    interviews, internships = database.get_reviews_by_user(netid)
+    html = flask.render_template('templates/profilereviews.html', 
+                netid=netid,
+                user=user,
+                interviews=interviews,
+                internships=internships
+            )
+    response = flask.make_response(html)
+    return response
 
