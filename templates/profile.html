@@ -80,7 +80,9 @@
             </div>
         </div>
     </div>
-    {% include 'templates/addreviewform.html' %}
+    {% include 'templates/profileaddreviewform.html' %}
+    {% include 'templates/modalsuccess.html' %}
+    {% include 'templates/modalerror.html' %}
     <script>
         let request = null;
         function updateProfile() {
@@ -108,9 +110,12 @@
                 event_data: JSON.stringify(json_event)
             }).done(function (data) {
                 $('#profile-form').html(data);
+                $('#modalSuccessBody').html("Your profile was successfully updated!")
+                $('#modalSuccess').modal('show');
                 startAutocomplete();
             }).fail(function (jqXHR, textStatus, errorThrown) {
-                alert("Request failed");
+                $('#modalErrorBody').html("There was an error updating your information. Try again!")
+                $('#modalError').modal('show');
                 startAutocomplete();
             });
         }

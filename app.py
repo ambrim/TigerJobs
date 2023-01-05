@@ -69,6 +69,7 @@ def profile():
     major_codes = list(database.majors.keys())
     major_names = list(database.majors.values())
     user_certificates = user.certificates.split(",")
+    company_names = database.get_all_company_names()
     html = flask.render_template('templates/profile.html', 
                 netid=netid,
                 user=user,
@@ -76,7 +77,8 @@ def profile():
                 internships=internships,
                 major_codes=major_codes,
                 major_names=major_names,
-                user_certificates=user_certificates
+                user_certificates=user_certificates,
+                company_names=company_names
             )
     response = flask.make_response(html)
     return response
@@ -117,6 +119,9 @@ def add_job():
     netid = auth.authenticate()
     # Get current user data
     user = database.get_user(netid)
+    # Check if user has put in info yet
+    if user.grade == "" or user.major == "":
+        return "ERROR"
     # Get form data
     data = json.loads(flask.request.form.to_dict()['event_data'])
     # Create new internship review to add

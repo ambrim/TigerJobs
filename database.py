@@ -124,6 +124,16 @@ def get_all_companies() -> List[models.Companies]:
         companies = session.query(models.Companies).all()
     return companies
 
+# Get all companies names
+def get_all_company_names():
+    companies = []
+    company_names = []
+    with sqlalchemy.orm.Session(engine) as session:
+        companies = session.query(models.Companies).all()
+    for company in companies:
+        company_names.append(company.name)
+    return company_names
+
 ##### HAVE TO ADD FILTER QUERIES TOO #####
 
 # Add company to database

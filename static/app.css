@@ -45,13 +45,17 @@ h2 {
 .blue {
     color: #2058DC;
 }
-
+.green {
+    color: #51a34f;
+}
+.red {
+    color: #dc3646;
+}
 .yellow {
     color: #FAB305;
 }
 
 /* Autocomplete CSS */
-
 .autocomplete {
     /*the container must be positioned relative:*/
     position: relative;
@@ -216,6 +220,10 @@ h2 {
 }
 .profile-col {
     margin-bottom: 10px;
+}
+.required:after {
+    content: "* ";
+    color: red;
 }
 .top-container-profile {
     margin-top: 30px;
