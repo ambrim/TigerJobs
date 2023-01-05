@@ -39,12 +39,12 @@
                     <p>
                         Here is a summary of your contributions to TigerJobs so far.
                     </p>
-                    <p><b>Total Job Reviews:</b></p>
-                    <p><b>Total Interview Reviews:</b></p>
+                    <p><b>Total job reviews:</b>&nbsp;{{internships|length}}</p>
+                    <p><b>Total interview reviews:</b>&nbsp;{{interviews|length}}</p>
                     <p><b>Amount of upvotes on your job reviews:</b></p>
                     <p><b>Amount of upvotes on your interview reviews:</b></p>
-                    <p><b>Amount of job reviews you've upvoted:</b></p>
-                    <p><b>Amount of interview reviews you've upvoted:</b></p>
+                    <p><b>Amount of job reviews you've upvoted:</b>&nbsp;{{user.internship_upvotes|length}}</p>
+                    <p><b>Amount of interview reviews you've upvoted:</b>&nbsp;{{user.interview_upvotes|length}}</p>
                 </div>
             </div>
             <div class="col-sm profile-col">
@@ -85,8 +85,15 @@
         let request = null;
         function updateProfile() {
             // Get data from form
+            var profile_certificates = ""
+            var certs = $('#chosen-certificates')[0].children;
+            for (let i = 0; i < certs.length; i++) {
+                var inner = certs[i].innerHTML;
+                var cert = inner.substring(0, inner.length - 85);
+                profile_certificates += cert + ",";
+            }
+            profile_certificates = profile_certificates.substring(0, profile_certificates.length - 1);
             var profile_major = $('#profile-major').val();
-            var profile_certificates = $('#profile-certificates').val();
             var profile_year = $('#profile-year').val();
             var json_event = {
                 "major": profile_major,
@@ -101,13 +108,42 @@
                 event_data: JSON.stringify(json_event)
             }).done(function (data) {
                 $('#profile-form').html(data);
-                
+                startAutocomplete();
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 alert("Request failed");
+                startAutocomplete();
             });
         }
 
+        function startAutocomplete() {
+            // Set up autocomplete with certificates
+            var certificates = [
+                'African American Studies', 'African Studies', 'American Studies',
+                'Applications of Computing', 'Applied and Computational Mathematics',
+                'Archaeology', 'Architecture and Engineering', 'Asian American Studies',
+                'Biophysics', 'Cognitive Science', 'Contemporary European Politics and Society',
+                'Creative Writing', 'Dance', 'East Asian Studies', 'Engineering Biology',
+                'Engineering Physics', 'Entrepreneurship', 'Environmental Studies',
+                'European Cultural Studies', 'Finance', 'Gender and Sexuality Studies',
+                'Geological Engineering', 'Global Health and Health Policy', 'Hellenic Studies',
+                'History and the Practice of Diplomacy', 'Humanistic Studies', 'Jazz Studies',
+                'Journalism', 'Judaic Studies', 'Language and Culture', 'Latin American Studies',
+                'Latino Studies', 'Linguistics', 'Materials Science and Engineering',
+                'Medieval Studies', 'Music Performance', 'Music Theater', 'Near Eastern Studies',
+                'Neuroscience', 'Optimization and Quantitative Decision Science',
+                'Planets and Life', 'Quantitative and Computational Biology',
+                'Robotics and Intelligent Systems', 'Russian, East European and Eurasian Studies',
+                'South Asian Studies', 'Statistics and Machine Learning', 'Sustainable Energy',
+                'Teacher Preparation', 'Technology and Society', 'Theater',
+                'Translation and Intercultural Communication', 'Urban Studies',
+                'Values and Public Life', 'Visual Arts'
+            ]
+            // Setup autocomplete for profile form
+            autocomplete_profile(document.getElementById("profile-certificates"), certificates);
+        }
+
         function setup() {
+            startAutocomplete();
             $('#job-reviews').collapse({
                 toggle: false
             })

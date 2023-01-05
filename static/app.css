@@ -50,6 +50,45 @@ h2 {
     color: #FAB305;
 }
 
+/* Autocomplete CSS */
+
+.autocomplete {
+    /*the container must be positioned relative:*/
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.autocomplete-items {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    /*position the autocomplete items to be the same width as the container:*/
+    top: 100%;
+    left: 0;
+    right: 0;
+}
+
+.autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+}
+
+.autocomplete-items div:hover {
+    /*when hovering an item:*/
+    background-color: #e9e9e9;
+}
+
+.autocomplete-active {
+    /*when navigating through the items using the arrow keys:*/
+    background-color: #2058DC !important;
+    color: #ffffff;
+}
+
 /* Landing page */
 .landing-btn {
     color: #2058DC;
@@ -106,6 +145,18 @@ h2 {
     background-color: #eff8fe;
     padding: 50px;
     border-radius: 20px;
+}
+.certificate-btn {
+    color: white;
+    background-color: #2058DC;
+    border: 1px solid #2058DC;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 10px;
+    margin:3px;
 }
 .modal-header {
     border: 0px;

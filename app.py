@@ -66,11 +66,17 @@ def profile():
     netid = auth.authenticate()
     user = database.get_user(netid)
     interviews, internships = database.get_reviews_by_user(netid)
+    major_codes = list(database.majors.keys())
+    major_names = list(database.majors.values())
+    user_certificates = user.certificates.split(",")
     html = flask.render_template('templates/profile.html', 
                 netid=netid,
                 user=user,
                 interviews=interviews,
-                internships=internships
+                internships=internships,
+                major_codes=major_codes,
+                major_names=major_names,
+                user_certificates=user_certificates
             )
     response = flask.make_response(html)
     return response
@@ -92,9 +98,15 @@ def profile_update():
         internship_upvotes = old_user.internship_upvotes
     )
     database.update_user(user)
+    major_codes = list(database.majors.keys())
+    major_names = list(database.majors.values())
+    user_certificates = user.certificates.split(",")
     html = flask.render_template('templates/profileform.html', 
                 netid=netid,
-                user=user
+                user=user,
+                major_codes=major_codes,
+                major_names=major_names,
+                user_certificates=user_certificates
             )
     response = flask.make_response(html)
     return response

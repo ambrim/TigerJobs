@@ -10,6 +10,49 @@ db_url = os.getenv("DATABASE_URL")
 # Global engine to use
 engine =  sqlalchemy.create_engine(db_url, pool_pre_ping=True)
 #----------------------------------------------------------------------
+# Global Variables
+#----------------------------------------------------------------------
+majors = {
+   'AAS': 'African American Studies (AAS)', 'ANT': 'Anthropology (ANT)',
+   'ARC': 'Architecture (ARC)', 'ART': 'Art and Archaeology (ART)', 
+   'AST': 'Astrophysical Sciences (AST)', 'CBE': 'Chemical and Biological Engineering (CBE)',
+   'CHM': 'Chemistry (CHM)', 'CEE': 'Civil and Environmental Engineering (CEE)',
+   'CLA': 'Classics (CLA)', 'COM': 'Comparative Literature (COM)', 
+   'COS': 'Computer Science (COS)', 'EAS': 'East Asian Studies (EAS)',
+   'EEB': 'Ecology and Evolutionary Biology (EEB)', 'ECO': 'Economics (ECO)',
+   'ECE': 'Electrical and Computer Engineering (ECE)', 'ENG': 'English (ENG)',
+   'FRE': 'French (FRE)', 'GEO': 'Geosciences (GEO)', 'GER': 'German (GER)',
+   'HIS': 'History (HIS)', 'ITA': 'Italian (ITA)', 'MAT': 'Mathematics (MAT)',
+   'MAE': 'Mechanical and Aerospace Engineering (MAE)', 'MOL': 'Molecular Biology (MOL)',
+   'MUS': 'Music (MUS)', 'NES': 'Near Eastern Studies (NES)', 'NEU': 'Neuroscience (NEU)',
+   'ORF': 'Operations Research and Financial Engineering (ORF)', 'PHI': 'Philosophy (PHI)',
+   'PHY': 'Physics (PHY)', 'POL': 'Politics (POL)', 'POR': 'Portuguese (POR)', 
+   'PSY': 'Psychology (PSY)', 'SPI': 'Public Policy/School of Public and International Affairs (SPI)',
+   'REL': 'Religion (REL)', 'SLA': 'Slavic Languages and Literatures (SLA)',
+   'SOC': 'Sociology (SOC)', 'SPA': 'Spanish (SPA)'
+}
+certificates = [
+    'African American Studies', 'African Studies', 'American Studies',
+    'Applications of Computing', 'Applied and Computational Mathematics',
+    'Archaeology', 'Architecture and Engineering', 'Asian American Studies',
+    'Biophysics', 'Cognitive Science', 'Contemporary European Politics and Society',
+    'Creative Writing', 'Dance', 'East Asian Studies', 'Engineering Biology',
+    'Engineering Physics', 'Entrepreneurship', 'Environmental Studies', 
+    'European Cultural Studies', 'Finance', 'Gender and Sexuality Studies', 
+    'Geological Engineering', 'Global Health and Health Policy', 'Hellenic Studies',
+    'History and the Practice of Diplomacy', 'Humanistic Studies', 'Jazz Studies',
+    'Journalism', 'Judaic Studies', 'Language and Culture', 'Latin American Studies',
+    'Latino Studies', 'Linguistics', 'Materials Science and Engineering', 
+    'Medieval Studies', 'Music Performance', 'Music Theater', 'Near Eastern Studies',
+    'Neuroscience', 'Optimization and Quantitative Decision Science', 
+    'Planets and Life', 'Quantitative and Computational Biology', 
+    'Robotics and Intelligent Systems', 'Russian, East European and Eurasian Studies',
+    'South Asian Studies', 'Statistics and Machine Learning', 'Sustainable Energy',
+    'Teacher Preparation', 'Technology and Society', 'Theater',
+    'Translation and Intercultural Communication', 'Urban Studies',
+    'Values and Public Life', 'Visual Arts'
+]
+#----------------------------------------------------------------------
 # Interview Review Queries
 #----------------------------------------------------------------------
 # Get all interview reviews
