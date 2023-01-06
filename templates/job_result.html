@@ -1,12 +1,11 @@
 {% if job_search_res == [] %}
-<p id="job-search-results-message"
-   class="fw-light fs-4">
-    <img src="/static/job.png"
-         width="400"
-         height="400"
-         alt="TigerJobs no matches"
-         class="d-inline-block align-text-center mx-2" />
-    <br />
+<p id="job-search-results-message" class="no-results" >
+    <img src="/static/assets/job.png"
+        width="500"
+        height="350"
+        alt="No matches Tigerjobs"
+        class="d-inline-block align-text-center mx-2" />
+    <br>
     Oops, no results yet! Check the spelling, try different keywords, or use fewer filters.
 </p>
 <!--when a result is clicked from job_search_results, displays expanded review-->

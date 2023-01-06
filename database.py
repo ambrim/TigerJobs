@@ -52,6 +52,16 @@ def get_all_internships() -> List[models.Internships]:
 
 ##### HAVE TO ADD FILTER QUERIES TOO #####
 
+# Search for internship (Using get_all currently)
+MAX_QUERY_LENGTH = 200 # not used currently
+def search_for_internship(query):
+    if query is None or not isinstance(query, str):
+        return None, ""
+    res = []
+    with sqlalchemy.orm.Session(engine) as session:
+        res = session.query(models.Internships).all()
+    return res
+
 # Add internship review to database
 def add_internship(internship:models.Internships):
     with sqlalchemy.orm.Session(engine) as session:

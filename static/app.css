@@ -180,4 +180,35 @@ h2 {
 
 .no-results {
     font-size: 20px;
+    text-align: center;
 }
+
+.search-results-card {
+    width: 90%;
+    margin: auto;
+    border-radius: 10px;
+    margin-top: 1%;
+}
+
+.card-title {
+    font-weight: 700;
+    font-size: 1.15rem;
+}
+.card-subtitle {
+    font-size: 0.85rem;
+}
+
+.search-results-card:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s;
+}
+
+.search-results-displayname {
+    font-size: 0.9rem;
+}
+
+/* ??? */
+.search-results-link {
+    border-radius: 10px;
+}
+

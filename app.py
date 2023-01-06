@@ -4,6 +4,7 @@ import database
 import models
 import json
 
+
 #----------------------------------------------------------------------
 
 app = flask.Flask(__name__, template_folder='.')
@@ -35,6 +36,30 @@ def netID():
 def jobs():
     netid = auth.authenticate()
     html = flask.render_template('templates/jobs.html', netid=netid)
+    response = flask.make_response(html)
+    return response
+
+@app.route('/jobs/searchresults/<query>', methods=['POST'])
+def get_job_search_results():
+    query = flask.request.args.get("query")
+    res = database.search_for_internship(query)
+    html = flask.render_template(
+        "search/job_search_results.html",
+        job_search_res=res,
+        last_query=query
+    )
+    response = flask.make_response(html)
+    return response
+
+@app.route('/jobs/searchresults/', methods=['POST'])
+def get_job_search_results_display():
+    query = flask.request.args.get("query")
+    res = database.search_for_internship(query)
+    html = flask.render_template(
+        "search/job_search_results.html",
+        job_search_res=res,
+        last_query=query
+    )
     response = flask.make_response(html)
     return response
 #----------------------------------------------------------------------
