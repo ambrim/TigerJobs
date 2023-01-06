@@ -15,24 +15,30 @@
                     <button class="add-review-btn" onclick="showJobForm()">Job Review</button>
                     <button class="add-review-btn" onclick="showInterviewForm()">Interview Review</button>
                 </div>
-                <form id="addJobForm">
+                <form id="addJobForm" autocomplete="off">
                     <div class="center-container">
                         <h2>Add a Job Review</h2>
                     </div>
                     <div class="form-group">
-                        <label for="job-title"><b>Job Position Title</b></label>
+                        <label class="required" for="job-title"><b>Job Position Title</b></label>
                         <input type="text" class="form-control" id="job-title" aria-describedby="jobTitleHelp"
-                            placeholder="Enter job position title (e.g. Business Intern)">
+                            placeholder="Enter job position title (e.g. Business Intern)" required>
+                        <div id="error-title" class="red">
+                            Please put in your job position title.
+                        </div>
                     </div>
                     <br>
                     <div class="form-group">
-                        <label for="job-location"><b>Job Location</b></label>
+                        <label class="required" for="job-location"><b>Job Location</b></label>
                         <input type="text" class="form-control" id="job-location" aria-describedby="jobLocationHelp"
-                            placeholder="Enter job city and state (e.g. Miami, FL)">
+                            placeholder="Enter job city and state (e.g. Miami, FL) or Remote">
+                        <div id="error-location" class="red">
+                            Please put in the location of the job.
+                        </div>
                     </div>
                     <br>
                     <div class="form-group">
-                        <label for="job-type"><b>Job Type</b></label>
+                        <label class="required" for="job-type"><b>Job Type</b></label>
                         <select class="form-select" id="job-type">
                             <option value="" disabled selected>Choose the best option</option>
                             <option value="Internship: Industry - Private Sector">Internship: Industry - Private Sector</option>
@@ -44,22 +50,32 @@
                             <option value="Full-time/New grad">Full-time/New grad</option>
                             <option value="Other">Other</option>
                         </select>
+                        <div id="error-type" class="red">
+                            Please select the type of the job.
+                        </div>
                     </div>
                     <br>
                     <div class="form-group">
-                        <label for="job-length"><b>Job Length (in months)</b></label>
+                        <label class="required" for="job-length"><b>Job Length (in months)</b></label>
                         <input type="number" class="form-control" id="job-length" aria-describedby="jobLengthHelp"
-                            placeholder="Enter the length of the job (in months)" min="0">
+                            placeholder="Enter the length of the job (in months)" min="1">
+                        <div id="error-length" class="red">
+                            Please enter a valid job length (> 0).
+                        </div>
                     </div>
                     <br>
-                    <div class="form-group">
-                        <label for="job-company"><b>Company Name</b></label>
+                    <div class="form-group autocomplete">
+                        <label class="required" for="job-company"><b>Company Name</b></label>
                         <input type="text" class="form-control" id="job-company" aria-describedby="jobCompanyHelp"
                             placeholder="Enter the name of the company">
+                        <div id="error-company" class="red">
+                            Please enter the company.
+                        </div>
                     </div>
                     <br>
+                    <br>
                     <div class="form-group">
-                        <label for="job-company-type"><b>Company Type</b></label>
+                        <label class="required" for="job-company-type"><b>Company Type</b></label>
                         <select class="form-select" id="job-company-type">
                             <option value="" disabled selected>Choose the best option</option>
                             <option value="Pharmaceuticals">Pharmaceuticals</option>
@@ -87,6 +103,9 @@
                             <option value="Humanities Research">Humanities Research</option>
                             <option value="Other">Other</option>
                         </select>
+                        <div id="error-companytype" class="red">
+                            Please select the type of the company.
+                        </div>
                     </div>
                     <br>
                     <div class="form-group">
@@ -99,10 +118,13 @@
                         <label for="job-salary"><b>Job Salary (in dollars per hour) (you're anonymous!)</b></label>
                         <input type="number" class="form-control" id="job-salary" aria-describedby="jobSalaryHelp"
                             placeholder="Enter the salary of the job (in dollars per hour)" min="0">
+                        <div id="error-salary" class="red">
+                            Please enter a valid salary (>= 0).
+                        </div>
                     </div>
                     <br>
                     <div class="form-group">
-                        <label for="job-difficulty"><b>Difficulty Rating (from 1 to 5)</b></label>
+                        <label class="required" for="job-difficulty"><b>Difficulty Rating (from 1 to 5)</b></label>
                         <select class="form-select" id="job-difficulty">
                             <option value="" disabled selected>Choose the best option</option>
                             <option value="1">1 - ez money; had all the skills needed :)</option>
@@ -111,10 +133,13 @@
                             <option value="4">4 – challenging; they expected things i did not think i would accomplish</option>
                             <option value="5">5 – nearly impossible; could’ve put in double the hours and still not meet their expectations :’)</option>
                         </select>
+                        <div id="error-difficulty" class="red">
+                            Please select the difficulty of the job.
+                        </div>
                     </div>
                     <br>
                     <div class="form-group">
-                        <label for="job-enjoyment"><b>Enjoyment Rating (from 1 to 5)</b></label>
+                        <label class="required" for="job-enjoyment"><b>Enjoyment Rating (from 1 to 5)</b></label>
                         <select class="form-select" id="job-enjoyment">
                             <option value="" disabled selected>Choose the best option</option>
                             <option value="1">1 – would not recommend</option>
@@ -123,6 +148,9 @@
                             <option value="4">4 – great experience and memorable supervisor</option>
                             <option value="5">5 – had a blast!</option>
                         </select>
+                        <div id="error-enjoyment" class="red">
+                            Please select your enjoyment of the job.
+                        </div>
                     </div>
                     <br>
                     <div class="center-container">
@@ -130,33 +158,43 @@
                         <button type="button" class="profile-btn-submit" onclick="submitJobForm()">Add Job Review</button>
                     </div>
                 </form>
-                <form id="addInterviewForm">
+                <form id="addInterviewForm" autocomplete="off">
                     <div class="center-container">
                         <h2>Add an Interview Review</h2>
                     </div>
-                    <div class="form-group">
-                        <label for="interview-company"><b>Interview Company</b></label>
+                    <div class="form-group autocomplete">
+                        <label class="required" for="interview-company"><b>Interview Company</b></label>
                         <input type="text" class="form-control" id="interview-company" aria-describedby="interviewCompany"
                             placeholder="Enter the company the interview was with">
+                        <div id="error-interview-company" class="red">
+                            Please put in the company you interviewed with.
+                        </div>
                     </div>
                     <br>
+                    <br>
                     <div class="form-group">
-                        <label for="interview-round"><b>Interview Round</b></label>
+                        <label class="required" for="interview-round"><b>Interview Round</b></label>
                         <input type="number" class="form-control" id="interview-round" aria-describedby="interviewRoundHelp"
                             placeholder="Enter the round of the interview" min="0">
+                        <div id="error-interview-round" class="red">
+                            Please put in the round of the interview.
+                        </div>
                     </div>
                     <br>
                     <div class="form-group">
-                        <label for="interview-final"><b>Was this the final round?</b></label>
+                        <label class="required" for="interview-final"><b>Was this the final round?</b></label>
                         <select class="form-select" id="interview-final">
                             <option value="" disabled selected>Choose the best option</option>
                             <option value="True">Yes</option>
                             <option value="False">No</option>
                         </select>
+                        <div id="error-interview-final" class="red">
+                            Please select whether this was the final round or not.
+                        </div>
                     </div>
                     <br>
                     <div class="form-group">
-                        <label for="interview-duration"><b>Interview Duration</b></label>
+                        <label class="required" for="interview-duration"><b>Interview Duration</b></label>
                         <select class="form-select" id="interview-duration">
                             <option value="" disabled selected>Choose the best option</option>
                             <option value="Under 30 minutes">Under 30 minutes</option>
@@ -169,6 +207,9 @@
                             <option value="Full day">Full day</option>
                             <option value="Multiple days">Multiple days</option>
                         </select>
+                        <div id="error-interview-duration" class="red">
+                            Please put in the duration of the interview.
+                        </div>
                     </div>
                     <br>
                     <div class="form-group">
@@ -200,7 +241,7 @@
                     </div>
                     <br>
                     <div class="form-group">
-                        <label for="interview-difficulty"><b>Difficulty Rating (from 1 to 5)</b></label>
+                        <label class="required" for="interview-difficulty"><b>Difficulty Rating (from 1 to 5)</b></label>
                         <select class="form-select" id="interview-difficulty">
                             <option value="" disabled selected>Choose the best option</option>
                             <option value="1">1 – little to no prep; just go in and be yourself :)</option>
@@ -209,10 +250,13 @@
                             <option value="4">4 – challenging; you’ll probably come out of it feeling uneasy</option>
                             <option value="5">5 – nearly impossible; prepare some tissues :’)</option>
                         </select>
+                        <div id="error-interview-difficulty" class="red">
+                            Please select the difficulty of the interview.
+                        </div>
                     </div>
                     <br>
                     <div class="form-group">
-                        <label for="interview-enjoyment"><b>Enjoyment Rating (from 1 to 5)</b></label>
+                        <label class="required" for="interview-enjoyment"><b>Enjoyment Rating (from 1 to 5)</b></label>
                         <select class="form-select" id="interview-enjoyment">
                             <option value="" disabled selected>Choose the best option</option>
                             <option value="1">1 – had to be done (or would not recommend)</option>
@@ -221,6 +265,9 @@
                             <option value="4">4 – great experience and memorable interviewer</option>
                             <option value="5">5 – had a blast!</option>
                         </select>
+                        <div id="error-interview-enjoyment" class="red">
+                            Please select your enjoyment of the interview.
+                        </div>
                     </div>
                     <br>
                     <div class="center-container">
@@ -237,18 +284,86 @@
     </div>
 </div>
 <script>
+    // Global variable for companies but in JSON
+    var companies_json = {{ company_names | tojson }};
+    function hideErrorJob() {
+        // Hide all error messages
+        $('#error-title').hide();
+        $('#error-location').hide();
+        $('#error-type').hide();
+        $('#error-length').hide();
+        $('#error-company').hide();
+        $('#error-companytype').hide();
+        $('#error-salary').hide();
+        $('#error-difficulty').hide();
+        $('#error-enjoyment').hide();
+    }
+    function hideErrorInterview() {
+        // Hide all error messages
+        $('#error-interview-company').hide();
+        $('#error-interview-round').hide();
+        $('#error-interview-final').hide();
+        $('#error-interview-duration').hide();
+        $('#error-interview-difficulty').hide();
+        $('#error-interview-enjoyment').hide();
+    }
     function submitJobForm() {
+        // Hide all error messages
+        hideErrorJob();
+        // Count number of errors
+        var numErrors = 0;
         // Get data from form
         var title = $('#job-title').val();
+        if (title == "") {
+            $('#error-title').show();
+            numErrors++;
+        }
         var location = $('#job-location').val();
+        if (location == "") {
+            $('#error-location').show();
+            numErrors++;
+        }
         var type = $('#job-type').val();
+        if (type == null) {
+            $('#error-type').show();
+            numErrors++;
+        }
         var length = $('#job-length').val();
+        if (length == "" || isNaN(parseInt(length)) || parseInt(length) <= 0) {
+            $('#error-length').show();
+            numErrors++;
+        }
         var company = $('#job-company').val();
+        if (company == "") {
+            $('#error-company').show();
+            numErrors++;
+        }
         var companyType = $('#job-company-type').val();
+        if (companyType == null) {
+            $('#error-companytype').show();
+            numErrors++;
+        }
         var description = $('#job-description').val();
         var salary = $('#job-salary').val();
+        if (salary != "" && (isNaN(parseInt(salary)) || parseInt(salary) <= 0)) {
+            $('#error-salary').show();
+            numErrors++;
+        }
         var difficulty = $('#job-difficulty').val();
+        if (difficulty == null) {
+            $('#error-difficulty').show();
+            numErrors++;
+        }
         var enjoyment = $('#job-enjoyment').val();
+        if (enjoyment == null) {
+            $('#error-enjoyment').show();
+            numErrors++;
+        }
+        // Post if no errors
+        if (numErrors > 0) {
+            $('#addReviewModal').scrollTop(0);
+            return;
+        }
         var json_event = {
             "title": title,
             "location": location,
@@ -268,24 +383,65 @@
             contentType: 'application/json',
             event_data: JSON.stringify(json_event)
         }).done(function (data) {
+            if (data == "ERROR") {
+                $('#addReviewModal').modal('hide');
+                $('#modalErrorBody').html("Please update your major and class year before adding any reviews. Your form information will remain when you're ready to submit (don't refresh!)")
+                $('#modalError').modal('show');
+                return;
+            }
             $('#addReviewModal').modal('hide');
+            $('#modalSuccessBody').html("Job review successfully added!")
+            $('#modalSuccess').modal('show');
             $('#profile-reviews').html(data);
             resetForm();
         }).fail(function (jqXHR, textStatus, errorThrown) {
-            alert("Request failed");
+            $('#modalErrorBody').html("There was an error with our servers in adding your review! Try again!")
+            $('#modalError').modal('show');
         });
     }
     function submitInterviewForm() {
+        hideErrorInterview();
+        // Count number of errors
+        var numErrors = 0;
         // Get data from form
         var company = $('#interview-company').val();
+        if (company == "") {
+            $('#error-interview-company').show();
+            numErrors++;
+        }
         var round = $('#interview-round').val();
+        if (round == "" || isNaN(parseInt(round)) || parseInt(round) < 0) {
+            $('#error-interview-round').show();
+            numErrors++;
+        }
         var final = $('#interview-final').val();
+        if (final == null) {
+            $('#error-interview-final').show();
+            numErrors++;
+        }
         var duration = $('#interview-duration').val();
+        if (duration == null) {
+            $('#error-interview-duration').show();
+            numErrors++;
+        }
         var how = $('#interview-how').val();
         var questions = $('#interview-questions').val();
         var tips = $('#interview-tips').val();
         var difficulty = $('#interview-difficulty').val();
+        if (difficulty == null) {
+            $('#error-interview-difficulty').show();
+            numErrors++;
+        }
         var enjoyment = $('#interview-enjoyment').val();
+        if (enjoyment == null) {
+            $('#error-interview-enjoyment').show();
+            numErrors++;
+        }
+        // Post if no errors
+        if (numErrors > 0) {
+            $('#addReviewModal').scrollTop(0);
+            return;
+        }
         var json_event = {
             "company": company,
             "round": round,
@@ -304,14 +460,25 @@
             contentType: 'application/json',
             event_data: JSON.stringify(json_event)
         }).done(function (data) {
+            if (data == "ERROR") {
+                $('#modalErrorBody').html("Please update your major and class year before adding any reviews. Your form information will remain when you're ready to submit (don't refresh!)")
+                $('#modalError').modal('show');
+                return;
+            }
             $('#addReviewModal').modal('hide');
+            $('#modalSuccessBody').html("Interview review successfully added!")
+            $('#modalSuccess').modal('show');
             $('#profile-reviews').html(data);
             resetForm();
         }).fail(function (jqXHR, textStatus, errorThrown) {
-            alert("Request failed");
+            $('#modalErrorBody').html("There was an error with our servers in adding your review! Try again!")
+            $('#modalError').modal('show');
         });
     }
     function resetForm() {
+        // Hide previous error messages
+        hideErrorJob();
+        hideErrorInterview();
         // Reset job form stuff
         $('#job-title').val("");
         $('#job-location').val("");
@@ -346,9 +513,111 @@
         $('#whatTitle').hide();
         $('#addInterviewForm').show();
     }
+    function autocomplete_review_form(inp, arr) {
+        /*the autocomplete function takes two arguments,
+        the text field element and an array of possible autocompleted values:*/
+        var currentFocus;
+        /*execute a function when someone writes in the text field:*/
+        inp.addEventListener("input", function (e) {
+            var a, b, i, val = this.value;
+            /*close any already open lists of autocompleted values*/
+            closeAllLists();
+            if (!val) { return false; }
+            currentFocus = -1;
+            /*create a DIV element that will contain the items (values):*/
+            a = document.createElement("DIV");
+            a.setAttribute("id", this.id + "autocomplete-list");
+            a.setAttribute("class", "autocomplete-items");
+            /*append the DIV element as a child of the autocomplete container:*/
+            this.parentNode.appendChild(a);
+            /*for each item in the array...*/
+            for (i = 0; i < arr.length; i++) {
+                /*check if the item starts with the same letters as the text field value:*/
+                if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                    /*create a DIV element for each matching element:*/
+                    b = document.createElement("DIV");
+                    /*make the matching letters bold:*/
+                    b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                    b.innerHTML += arr[i].substr(val.length);
+                    /*insert a input field that will hold the current array item's value:*/
+                    b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                    /*execute a function when someone clicks on the item value (DIV element):*/
+                    b.addEventListener("click", function (e) {
+                        /*insert the value for the autocomplete text field:*/
+                        inp.value = this.getElementsByTagName("input")[0].value;
+                        /*close the list of autocompleted values,
+                        (or any other open lists of autocompleted values:*/
+                        closeAllLists();
+                    });
+                    a.appendChild(b);
+                }
+            }
+        });
+        /*execute a function presses a key on the keyboard:*/
+        inp.addEventListener("keydown", function (e) {
+            var x = document.getElementById(this.id + "autocomplete-list");
+            if (x) x = x.getElementsByTagName("div");
+            if (e.keyCode == 40) {
+                /*If the arrow DOWN key is pressed,
+                increase the currentFocus variable:*/
+                currentFocus++;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode == 38) { //up
+                /*If the arrow UP key is pressed,
+                decrease the currentFocus variable:*/
+                currentFocus--;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode == 13) {
+                /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                e.preventDefault();
+                if (currentFocus > -1) {
+                    /*and simulate a click on the "active" item:*/
+                    if (x) x[currentFocus].click();
+                }
+            }
+        });
+        function addActive(x) {
+            /*a function to classify an item as "active":*/
+            if (!x) return false;
+            /*start by removing the "active" class on all items:*/
+            removeActive(x);
+            if (currentFocus >= x.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (x.length - 1);
+            /*add class "autocomplete-active":*/
+            x[currentFocus].classList.add("autocomplete-active");
+        }
+        function removeActive(x) {
+            /*a function to remove the "active" class from all autocomplete items:*/
+            for (var i = 0; i < x.length; i++) {
+                x[i].classList.remove("autocomplete-active");
+            }
+        }
+        function closeAllLists(elmnt) {
+            /*close all autocomplete lists in the document,
+            except the one passed as an argument:*/
+            var x = document.getElementsByClassName("autocomplete-items");
+            for (var i = 0; i < x.length; i++) {
+                if (elmnt != x[i] && elmnt != inp) {
+                    x[i].parentNode.removeChild(x[i]);
+                }
+            }
+        }
+        /*execute a function when someone clicks in the document:*/
+        document.addEventListener("click", function (e) {
+            closeAllLists(e.target);
+        });
+    }
     function setup() {
         $('#addJobForm').hide();
         $('#addInterviewForm').hide();
+        autocomplete_review_form(document.getElementById("job-company"), companies_json);
+        autocomplete_review_form(document.getElementById("interview-company"), companies_json);
+
+        // Hide all error messages
+        hideErrorJob();
+        hideErrorInterview();
     }
     $('document').ready(setup);
 </script>

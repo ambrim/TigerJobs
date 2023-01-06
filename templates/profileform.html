@@ -1,23 +1,41 @@
 <div id="profile-form">
-<form>
+<form autocomplete="off">
     <div class="form-group">
         <label for="profile-major"><b>Major (or Prospective Major)</b></label>
-        <input type="text" class="form-control" id="profile-major" aria-describedby="majorHelp"
+        <!-- <input type="text" class="form-control" id="profile-major" aria-describedby="majorHelp"
             placeholder="Enter the 3 letter code for your major (eg. COS for Computer Science)" maxlength="3" 
-            value='{{user.major}}'>
+            value='{{user.major}}'> -->
+        <select class="form-select" id="profile-major">
+            <option disabled {% if user.major=="" %}selected="selected" {% endif %}>Select your current/prospective major</option>
+            {% for major in major_names %}
+            <option 
+                value={{major_codes[loop.index - 1]}}
+                {% if major_codes[loop.index - 1] == user.major %}selected="selected"{% endif %}
+                >
+                {{major}}
+            </option>
+            {% endfor %}
+        </select>
     </div>
     <br>
-    <div class="form-group">
+    <div class="form-group autocomplete">
         <label for="profile-certificates"><b>Planned Certificates</b></label>
         <input type="text" class="form-control" id="profile-certificates" aria-describedby="certificateHelp"
-            placeholder="Enter your planned certificates (separated by a comma)"
-            value='{{user.certificates}}'>
+            placeholder="Enter all your (planned) certificates"
+        >
+    </div>
+    <div id="chosen-certificates">
+    {% for cert in user_certificates %}
+            {% if cert != '' %}
+            <button type="button" onclick="deleteCert(this)" class="certificate-btn">{{cert}}&nbsp;<span class="close" aria-label="Close"><span aria-hidden="true">&times;</span></span></button>
+            {% endif %}
+        {% endfor %}
     </div>
     <br>
     <div class="form-group">
         <label for="profile-year"><b>Class Year</b></label>
         <select class="form-select" id="profile-year">
-            <option value="na"{% if user.grade == "na" %}selected="selected"{% endif %}>Select your current class year</option>
+            <option disabled {% if user.grade == "" %}selected="selected"{% endif %}>Select your current class year</option>
             <option value="fr"{% if user.grade == "fr" %}selected="selected"{% endif %}>Freshman (4 years till graduation)</option>
             <option value="so"{% if user.grade == "so" %}selected="selected"{% endif %}>Sophomore (3 years till graduation)</option>
             <option value="jr"{% if user.grade == "jr" %}selected="selected"{% endif %}>Junior (2 years till graduation)</option>
@@ -32,3 +50,110 @@
     </div>
 </form>
 </div>
+<script>
+    function deleteCert(el) {
+        el.remove();
+    }
+    function autocomplete_profile(inp, arr) {
+        /*the autocomplete function takes two arguments,
+        the text field element and an array of possible autocompleted values:*/
+        var currentFocus;
+        /*execute a function when someone writes in the text field:*/
+        inp.addEventListener("input", function (e) {
+            var a, b, i, val = this.value;
+            /*close any already open lists of autocompleted values*/
+            closeAllLists();
+            if (!val) { return false; }
+            currentFocus = -1;
+            /*create a DIV element that will contain the items (values):*/
+            a = document.createElement("DIV");
+            a.setAttribute("id", this.id + "autocomplete-list");
+            a.setAttribute("class", "autocomplete-items");
+            /*append the DIV element as a child of the autocomplete container:*/
+            this.parentNode.appendChild(a);
+            /*for each item in the array...*/
+            for (i = 0; i < arr.length; i++) {
+                /*check if the item starts with the same letters as the text field value:*/
+                if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                    /*create a DIV element for each matching element:*/
+                    b = document.createElement("DIV");
+                    /*make the matching letters bold:*/
+                    b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                    b.innerHTML += arr[i].substr(val.length);
+                    /*insert a input field that will hold the current array item's value:*/
+                    b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                    /*execute a function when someone clicks on the item value (DIV element):*/
+                    b.addEventListener("click", function (e) {
+                        /*insert the value for the autocomplete text field:*/
+                        inp.value = "";
+                        var newCert = $('<button type="button" onclick="deleteCert(this)" class="certificate-btn">' 
+                            + this.getElementsByTagName("input")[0].value
+                            + '&nbsp;<span class="close" aria-label="Close"><span aria-hidden="true">&times;</span></span>'
+                            + '</button>');
+                        $('#chosen-certificates').append(newCert)
+                        // inp.value = this.getElementsByTagName("input")[0].value;
+                        /*close the list of autocompleted values,
+                        (or any other open lists of autocompleted values:*/
+                        closeAllLists();
+                    });
+                    a.appendChild(b);
+                }
+            }
+        });
+        /*execute a function presses a key on the keyboard:*/
+        inp.addEventListener("keydown", function (e) {
+            var x = document.getElementById(this.id + "autocomplete-list");
+            if (x) x = x.getElementsByTagName("div");
+            if (e.keyCode == 40) {
+                /*If the arrow DOWN key is pressed,
+                increase the currentFocus variable:*/
+                currentFocus++;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode == 38) { //up
+                /*If the arrow UP key is pressed,
+                decrease the currentFocus variable:*/
+                currentFocus--;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode == 13) {
+                /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                e.preventDefault();
+                if (currentFocus > -1) {
+                    /*and simulate a click on the "active" item:*/
+                    if (x) x[currentFocus].click();
+                }
+            }
+        });
+        function addActive(x) {
+            /*a function to classify an item as "active":*/
+            if (!x) return false;
+            /*start by removing the "active" class on all items:*/
+            removeActive(x);
+            if (currentFocus >= x.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (x.length - 1);
+            /*add class "autocomplete-active":*/
+            x[currentFocus].classList.add("autocomplete-active");
+        }
+        function removeActive(x) {
+            /*a function to remove the "active" class from all autocomplete items:*/
+            for (var i = 0; i < x.length; i++) {
+                x[i].classList.remove("autocomplete-active");
+            }
+        }
+        function closeAllLists(elmnt) {
+            /*close all autocomplete lists in the document,
+            except the one passed as an argument:*/
+            var x = document.getElementsByClassName("autocomplete-items");
+            for (var i = 0; i < x.length; i++) {
+                if (elmnt != x[i] && elmnt != inp) {
+                    x[i].parentNode.removeChild(x[i]);
+                }
+            }
+        }
+        /*execute a function when someone clicks in the document:*/
+        document.addEventListener("click", function (e) {
+            closeAllLists(e.target);
+        });
+    }
+</script>
