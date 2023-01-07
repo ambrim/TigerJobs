@@ -23,14 +23,14 @@
     <div class="d-flex flex-row">
             <div id="job-search-bar" class="col-4 search-col"> 
                 {% include 'templates/job_search_form.html' %}
-            </div>
-
-            <!-- need to fix -->
-            <div id="job-search-results" class="col-1 search-col"> 
                 {% include 'templates/job_search_results.html' %}
             </div>
 
-            <div id="job-result" class="col-6 justify-content-center" >
+            <div id="job-search-bar" class="col-1"> 
+            </div>
+
+            <div id="job-result" class="col-6" >
+                result expanded
                 {% include 'templates/job_result.html' %}
             </div>
 

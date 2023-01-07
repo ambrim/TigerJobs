@@ -1,10 +1,14 @@
-{% if job_search_res != [] %} {% for job in job_search_res %}
-<div>
+{% if job_search_res != [] %} 
+{% for job in job_search_res %}
+<div class="container">
     <div class="search-results-card">
-          <div class="card-body">
-               <div class="card-title">{{job.title}}</div>
-               <div class="card-subtitle">{{job.company}}</div>
+          <div class="card-title">{{job.title}}</div>
+          <div class="card-subtitle">{{job.company}}</div>
+          <div class="card-upvotes">
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M17 11l-5-5-5 5M17 18l-5-5-5 5"/></svg>
+               {{job.upvotes}} 
           </div>
     </div>
 </div>
+
 {% endfor %} {% endif %}

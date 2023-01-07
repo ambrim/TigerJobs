@@ -35,14 +35,24 @@ def netID():
 @app.route('/jobs', methods=['GET'])
 def jobs():
     netid = auth.authenticate()
-    html = flask.render_template('templates/jobs.html', netid=netid)
+    query = "" 
+    id = ""
+    res = database.search_for_internship(query)
+    html = flask.render_template(
+        'templates/jobs.html', 
+        netid=netid, 
+        job_search_res=res,
+        jobid=id)
     response = flask.make_response(html)
     return response
 
-@app.route('/jobs/searchresults/<query>', methods=['POST'])
+@app.route('/jobs/searchresults', methods=['GET'])
 def get_job_search_results():
     query = flask.request.args.get("query")
     res = database.search_for_internship(query)
+    id = flask.request.args.get("id")
+    print("hi")
+    print(res)
     html = flask.render_template(
         "search/job_search_results.html",
         job_search_res=res,
@@ -51,12 +61,12 @@ def get_job_search_results():
     response = flask.make_response(html)
     return response
 
-@app.route('/jobs/searchresults/', methods=['POST'])
+@app.route('/jobs/result/<query>', methods=['GET'])
 def get_job_search_results_display():
     query = flask.request.args.get("query")
     res = database.search_for_internship(query)
     html = flask.render_template(
-        "search/job_search_results.html",
+        "search/job_result.html",
         job_search_res=res,
         last_query=query
     )

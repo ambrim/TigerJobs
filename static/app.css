@@ -246,7 +246,13 @@ h2 {
     width: 90%;
     margin: auto;
     border-radius: 10px;
+    border-color: #2058DC;
     margin-top: 1%;
+}
+
+.search-results-card:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s;
 }
 
 .card-title {
@@ -256,10 +262,9 @@ h2 {
 .card-subtitle {
     font-size: 0.85rem;
 }
-
-.search-results-card:hover {
-    transform: scale(1.03);
-    transition: transform 0.3s;
+.card-upvotes {
+    font-size: 0.85rem;
+    text-align: right;
 }
 
 .search-results-displayname {
