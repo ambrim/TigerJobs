@@ -45,6 +45,9 @@ h2 {
 .blue {
     color: #2058DC;
 }
+.lightblue {
+    color: #4269e2;
+}
 .green {
     color: #51a34f;
 }
@@ -152,8 +155,8 @@ h2 {
 }
 .certificate-btn {
     color: white;
-    background-color: #2058DC;
-    border: 1px solid #2058DC;
+    background-color: #4269e2;
+    border: 1px solid #4269e2;
     padding: 5px;
     text-align: center;
     text-decoration: none;
