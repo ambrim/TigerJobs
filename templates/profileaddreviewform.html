@@ -56,11 +56,11 @@
                     </div>
                     <br>
                     <div class="form-group">
-                        <label class="required" for="job-length"><b>Job Length (in months)</b></label>
+                        <label class="required" for="job-length"><b>Job Length in months (to the nearest month)</b></label>
                         <input type="number" class="form-control" id="job-length" aria-describedby="jobLengthHelp"
                             placeholder="Enter the length of the job (in months)" min="1">
                         <div id="error-length" class="red">
-                            Please enter a valid job length (> 0).
+                            Please enter a valid job length (An integer greater than 0).
                         </div>
                     </div>
                     <br>
@@ -115,11 +115,11 @@
                     </div>
                     <br>
                     <div class="form-group">
-                        <label for="job-salary"><b>Job Salary (in dollars per hour) (you're anonymous!)</b></label>
+                        <label for="job-salary"><b>Job Salary in dollars per hour (to the nearest dollar) (you're anonymous!)</b></label>
                         <input type="number" class="form-control" id="job-salary" aria-describedby="jobSalaryHelp"
                             placeholder="Enter the salary of the job (in dollars per hour)" min="0">
                         <div id="error-salary" class="red">
-                            Please enter a valid salary (>= 0).
+                            Please enter a valid salary (An integer greater than or equal to 0).
                         </div>
                     </div>
                     <br>
@@ -177,7 +177,7 @@
                         <input type="number" class="form-control" id="interview-round" aria-describedby="interviewRoundHelp"
                             placeholder="Enter the round of the interview" min="0">
                         <div id="error-interview-round" class="red">
-                            Please put in the round of the interview.
+                            Please put in the round of the interview (must be an integer greater than 0).
                         </div>
                     </div>
                     <br>
@@ -226,6 +226,9 @@
                             <option value="Had a personal connection">Had a personal connection</option>
                             <option value="None of the above">None of the above</option>
                         </select>
+                        <div id="error-interview-how" class="red">
+                            Please select how you got the interview.
+                        </div>
                     </div>
                     <br>
                     <div class="form-group">
@@ -286,6 +289,12 @@
 <script>
     // Global variable for companies but in JSON
     var companies_json = {{ company_names | tojson }};
+    // Function to tell if value is an integer or not
+    function isInt(value) {
+        return !isNaN(value) &&
+            parseInt(Number(value)) == value &&
+            !isNaN(parseInt(value, 10));
+    }
     function hideErrorJob() {
         // Hide all error messages
         $('#error-title').hide();
@@ -304,6 +313,7 @@
         $('#error-interview-round').hide();
         $('#error-interview-final').hide();
         $('#error-interview-duration').hide();
+        $('#error-interview-how').hide();
         $('#error-interview-difficulty').hide();
         $('#error-interview-enjoyment').hide();
     }
@@ -329,7 +339,7 @@
             numErrors++;
         }
         var length = $('#job-length').val();
-        if (length == "" || isNaN(parseInt(length)) || parseInt(length) <= 0) {
+        if (length == "" || !isInt(length) || parseInt(length) <= 0) {
             $('#error-length').show();
             numErrors++;
         }
@@ -345,7 +355,7 @@
         }
         var description = $('#job-description').val();
         var salary = $('#job-salary').val();
-        if (salary != "" && (isNaN(parseInt(salary)) || parseInt(salary) <= 0)) {
+        if (salary != "" && (!isInt(salary) || parseInt(salary) <= 0)) {
             $('#error-salary').show();
             numErrors++;
         }
@@ -410,7 +420,7 @@
             numErrors++;
         }
         var round = $('#interview-round').val();
-        if (round == "" || isNaN(parseInt(round)) || parseInt(round) < 0) {
+        if (round == "" || !isInt(parseInt(round)) || parseInt(round) < 0) {
             $('#error-interview-round').show();
             numErrors++;
         }
@@ -425,6 +435,10 @@
             numErrors++;
         }
         var how = $('#interview-how').val();
+        if (how == null) {
+            $('#error-interview-how').show();
+            numErrors++;
+        }
         var questions = $('#interview-questions').val();
         var tips = $('#interview-tips').val();
         var difficulty = $('#interview-difficulty').val();
@@ -461,6 +475,7 @@
             event_data: JSON.stringify(json_event)
         }).done(function (data) {
             if (data == "ERROR") {
+                $('#addReviewModal').modal('hide');
                 $('#modalErrorBody').html("Please update your major and class year before adding any reviews. Your form information will remain when you're ready to submit (don't refresh!)")
                 $('#modalError').modal('show');
                 return;

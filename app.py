@@ -4,7 +4,6 @@ import database
 import models
 import json
 
-
 #----------------------------------------------------------------------
 
 app = flask.Flask(__name__, template_folder='.')
@@ -35,41 +34,7 @@ def netID():
 @app.route('/jobs', methods=['GET'])
 def jobs():
     netid = auth.authenticate()
-    query = "" 
-    id = ""
-    res = database.search_for_internship(query)
-    html = flask.render_template(
-        'templates/jobs.html', 
-        netid=netid, 
-        job_search_res=res,
-        jobid=id)
-    response = flask.make_response(html)
-    return response
-
-@app.route('/jobs/searchresults', methods=['GET'])
-def get_job_search_results():
-    query = flask.request.args.get("query")
-    res = database.search_for_internship(query)
-    id = flask.request.args.get("id")
-    print("hi")
-    print(res)
-    html = flask.render_template(
-        "search/job_search_results.html",
-        job_search_res=res,
-        last_query=query
-    )
-    response = flask.make_response(html)
-    return response
-
-@app.route('/jobs/result/<query>', methods=['GET'])
-def get_job_search_results_display():
-    query = flask.request.args.get("query")
-    res = database.search_for_internship(query)
-    html = flask.render_template(
-        "search/job_result.html",
-        job_search_res=res,
-        last_query=query
-    )
+    html = flask.render_template('templates/jobs.html', netid=netid)
     response = flask.make_response(html)
     return response
 #----------------------------------------------------------------------
@@ -159,24 +124,45 @@ def add_job():
         return "ERROR"
     # Get form data
     data = json.loads(flask.request.form.to_dict()['event_data'])
-    # Create new internship review to add
-    internship = models.Internships(
-        netid = netid,
-        title = data['title'],
-        location = data['location'],
-        description = data['description'],
-        type = data['type'],
-        length = int(data['length']),
-        company = data['company'],
-        company_type = data['companyType'],
-        salary = int(data['salary']),
-        difficulty = int(data['difficulty']),
-        enjoyment = int(data['enjoyment']),
-        upvotes = 0,
-        major = user.major,
-        certificates = user.certificates,
-        grade = user.grade
-    )
+    # Check data['salary'] to be nonempty
+    if data['salary'] == '':
+        # Create new internship review to add
+        internship = models.Internships(
+            netid = netid,
+            title = data['title'],
+            location = data['location'],
+            description = data['description'],
+            type = data['type'],
+            length = int(data['length']),
+            company = data['company'],
+            company_type = data['companyType'],
+            difficulty = int(data['difficulty']),
+            enjoyment = int(data['enjoyment']),
+            upvotes = 0,
+            major = user.major,
+            certificates = user.certificates,
+            grade = user.grade
+        )
+    # Check data['salary'] to be nonempty
+    else:
+        # Create new internship review to add
+        internship = models.Internships(
+            netid = netid,
+            title = data['title'],
+            location = data['location'],
+            description = data['description'],
+            type = data['type'],
+            length = int(data['length']),
+            company = data['company'],
+            company_type = data['companyType'],
+            salary = int(data['salary']),
+            difficulty = int(data['difficulty']),
+            enjoyment = int(data['enjoyment']),
+            upvotes = 0,
+            major = user.major,
+            certificates = user.certificates,
+            grade = user.grade
+        )
     # Either update company or add company to database
     company = database.get_company_by_name(data['company'])
     if company is None:
@@ -220,6 +206,9 @@ def add_interview():
     netid = auth.authenticate()
     # Get current user data
     user = database.get_user(netid)
+    # Check if user has put in info yet
+    if user.grade == "" or user.major == "":
+        return "ERROR"
     # Get form data
     data = json.loads(flask.request.form.to_dict()['event_data'])
     # Change final to boolean
@@ -274,7 +263,82 @@ def add_interview():
     interviews, internships = database.get_reviews_by_user(netid)
     html = flask.render_template('templates/profilereviews.html', 
                 netid=netid,
-                user=user,
+                interviews=interviews,
+                internships=internships
+            )
+    response = flask.make_response(html)
+    return response
+
+# Delete job review
+@app.route('/profile/delete/job', methods=['POST'])
+def delete_job():
+    netid = auth.authenticate()
+    # Get job id for review to delete
+    id = flask.request.args.get('id')
+    # Get job review
+    internship = database.get_internship(id)
+    # Make sure current user is one deleting internship
+    if internship.netid != netid:
+        return "YOU ARE NOT THE WRITER OF THIS REVIEW!"
+    # Get company for job
+    company = database.get_company_by_name(internship.company)
+    # Update company
+    new_company = models.Companies(
+        id = company.id,
+        name = company.name,
+        num_interviews = company.num_interviews,
+        num_internships = max(company.num_internships - 1, 0),
+        interview_difficulty = company.interview_difficulty,
+        interview_enjoyment = company.interview_enjoyment,
+        internship_difficulty = max(company.internship_difficulty - internship.difficulty, 0),
+        internship_enjoyment = max(company.internship_enjoyment - internship.enjoyment, 0)
+    )
+    database.update_company(new_company)
+    # ALSO MIGHT HAVE TO DELETE THIS ID FROM ALL UPVOTES THAT CONTAIN IT?
+    # Delete job review
+    database.delete_internship(id)
+    # Rerender profile reviews template
+    interviews, internships = database.get_reviews_by_user(netid)
+    html = flask.render_template('templates/profilereviews.html', 
+                netid=netid,
+                interviews=interviews,
+                internships=internships
+            )
+    response = flask.make_response(html)
+    return response
+
+# Delete job review
+@app.route('/profile/delete/interview', methods=['POST'])
+def delete_inteview():
+    netid = auth.authenticate()
+    # Get interview id for review to delete
+    id = flask.request.args.get('id')
+    # Get interview review
+    interview = database.get_interview(id)
+    # Make sure current user is one deleting internship
+    if interview.netid != netid:
+        return "YOU ARE NOT THE WRITER OF THIS REVIEW!"
+    # Get company for job
+    company = database.get_company_by_name(interview.company)
+    # Update company
+    new_company = models.Companies(
+        id = company.id,
+        name = company.name,
+        num_interviews = max(company.num_interviews - 1, 0),
+        num_internships = company.num_internships,
+        interview_difficulty = max(company.interview_difficulty - interview.difficulty, 0),
+        interview_enjoyment = max(company.interview_enjoyment - interview.enjoyment, 0),
+        internship_difficulty = company.internship_difficulty,
+        internship_enjoyment = company.internship_enjoyment
+    )
+    database.update_company(new_company)
+    # ALSO MIGHT HAVE TO DELETE THIS ID FROM ALL UPVOTES THAT CONTAIN IT?
+    # Delete interview review
+    database.delete_interview(id)
+    # Rerender profile reviews template
+    interviews, internships = database.get_reviews_by_user(netid)
+    html = flask.render_template('templates/profilereviews.html', 
+                netid=netid,
                 interviews=interviews,
                 internships=internships
             )

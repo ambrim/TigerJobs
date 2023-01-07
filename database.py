@@ -2,6 +2,7 @@ from typing import List, Tuple
 import sqlalchemy
 import sqlalchemy.orm
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import func
 import models
 import os
 
@@ -165,7 +166,7 @@ def get_company_by_name(name) -> models.Companies:
     company = None
     with sqlalchemy.orm.Session(engine) as session:
         company = session.query(models.Companies).filter(
-            models.Companies.name == name).first()
+            models.Companies.name.ilike(name)).first()
     return company
 # Delete a company
 def delete_company(id):

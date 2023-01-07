@@ -48,6 +48,10 @@
                                 <div><b>Enjoyment Rating:&nbsp;</b>{{i.enjoyment}} / 5</div>
                             </div>
                         </div>
+                        <br>
+                        <div class="center-container">
+                            <button class="profile-btn-reset" onclick="deleteJob({{i.id}})"><b>Delete This Job Review</b></button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -93,9 +97,45 @@
                             <div><b>Enjoyment Rating:&nbsp;</b>{{i.enjoyment}} / 5</div>
                         </div>
                     </div>
+                    <br>
+                    <div class="center-container">
+                        <button class="profile-btn-reset" onclick="deleteInterview({{i.id}})"><b>Delete This Interview Review</b></button>
+                    </div>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
 </div>
+<script>
+    function deleteJob(id) {
+        if (request != null)
+            request.abort();
+        url = "/profile/delete/job?id=" + id;
+        request = $.post(url, {})
+        .done(function (data) {
+            $('#modalSuccessBody').html("Job review successfully deleted!")
+            $('#modalSuccess').modal('show');
+            $('#profile-reviews').html(data);
+            resetForm();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            $('#modalErrorBody').html("There was an error with our servers in deleting your review! Try again!")
+            $('#modalError').modal('show');
+        });
+    }
+    function deleteInterview(id) {
+        if (request != null)
+            request.abort();
+        url = "/profile/delete/interview?id=" + id;
+        request = $.post(url, {})
+            .done(function (data) {
+                $('#modalSuccessBody').html("Interview review successfully deleted!")
+                $('#modalSuccess').modal('show');
+                $('#profile-reviews').html(data);
+                resetForm();
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                $('#modalErrorBody').html("There was an error with our servers in deleting your review! Try again!")
+                $('#modalError').modal('show');
+            });
+    }
+</script>
