@@ -1,13 +1,51 @@
-{% if job_search_res != [] %} 
+{% if job_search_res == [] %} 
+<p id="job-search-results-message" class="no-results" >
+     <img src="/static/assets/job.png"
+         width="500"
+         height="350"
+         alt="No matches Tigerjobs"
+         class="d-inline-block align-text-center mx-2" />
+     <br>
+     Oops, no results yet! Check your spelling, try different keywords, or adjust filters.
+ </p>
+{% else %}
 {% for job in job_search_res %}
-<div class="container">
+<div class="container-flush">
     <div class="search-results-card">
-          <div class="card-title">{{job.title}}</div>
-          <div class="card-subtitle">{{job.company}}</div>
-          <div class="card-upvotes">
-               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M17 11l-5-5-5 5M17 18l-5-5-5 5"/></svg>
-               {{job.upvotes}} 
+          <div class="row">
+               <div class="col-sm-auto">
+                    <div class="card-title"> <b>{{job.title}}</b></div>
+               </div>
+               <div class="col-sm-auto">
+                    <div class="card-subtitle">{{job.company}}</div>
+               </div>
           </div>
+          <div class="row">
+               <div class="col">
+                    <div class="card-content">
+                         Difficulty: <b></b>
+                         Enjoyment: <b></b>
+                    </div>
+               </div> 
+               <div class="col">
+                    <div class="card-upvotes">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M17 11l-5-5-5 5M17 18l-5-5-5 5"/></svg>
+                         {{job.major}} 
+                    </div>
+                    <div class="card-content">
+                         Location: {{job.company}} <br>
+                         Job Type:  <br>
+                         Job Field: <br>
+                         Length: <br>
+                         Salary: $<br>
+                    </div>
+               </div> 
+          </div>
+          <div class="row">
+               <div class="card-content">
+                    Description: 
+               </div>
+          </div>        
     </div>
 </div>
 
