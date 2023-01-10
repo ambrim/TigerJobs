@@ -38,6 +38,19 @@
                     </div>
                     <br>
                     <div class="form-group">
+                        <label class="required" for="job-locationstyle"><b>Location Style</b></label>
+                        <select class="form-select" id="job-locationstyle">
+                            <option value="" disabled selected>Choose the best option</option>
+                            <option value="In-person">In-person</option>
+                            <option value="Hybrid">Hybrid</option>
+                            <option value="Virtual">Virtual</option>
+                        </select>
+                        <div id="error-locationstyle" class="red">
+                            Please select the style of the location.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
                         <label class="required" for="job-type"><b>Job Type</b></label>
                         <select class="form-select" id="job-type">
                             <option value="" disabled selected>Choose the best option</option>
@@ -115,11 +128,92 @@
                     </div>
                     <br>
                     <div class="form-group">
+                        <label for="job-technologies"><b>Technologies Used</b></label>
+                        <input type="text" class="form-control" id="job-technologies" aria-describedby="jobTechnologyHelp"
+                            placeholder="Enter any technologies you used (e.g. Excel, PowerPoint, Python)">
+                    </div>
+                    <br>
+                    <div class="form-group">
                         <label for="job-salary"><b>Job Salary in dollars per hour (to the nearest dollar) (you're anonymous!)</b></label>
                         <input type="number" class="form-control" id="job-salary" aria-describedby="jobSalaryHelp"
                             placeholder="Enter the salary of the job (in dollars per hour)" min="0">
                         <div id="error-salary" class="red">
                             Please enter a valid salary (An integer greater than or equal to 0).
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="job-supervisor"><b>How well did your supervisor support/teach you (from 1 to 5)?</b></label>
+                        <select class="form-select" id="job-supervisor">
+                            <option value="" disabled selected>Choose the best option</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <div id="error-supervisor" class="red">
+                            Please rate your job supervisor (you're anonymous!)
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="job-pay"><b>How was your pay relative to other jobs in this field (from 1 to 5)?</b></label>
+                        <select class="form-select" id="job-pay">
+                            <option value="" disabled selected>Choose the best option</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <div id="error-pay" class="red">
+                            Please rate your job pay (you're anonymous!)
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="job-balance"><b>How was your work/life balance (from 1 to 5)?</b></label>
+                        <select class="form-select" id="job-balance">
+                            <option value="" disabled selected>Choose the best option</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <div id="error-balance" class="red">
+                            Please rate your work/life balance (you're anonymous!)
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="job-culture"><b>How was the company culture (from 1 to 5)?</b></label>
+                        <select class="form-select" id="job-culture">
+                            <option value="" disabled selected>Choose the best option</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <div id="error-culture" class="red">
+                            Please rate the culture of the company (you're anonymous!)
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="job-career"><b>How much do you think this job impacted your career (from 1 to 5)?</b></label>
+                        <select class="form-select" id="job-career">
+                            <option value="" disabled selected>Choose the best option</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <div id="error-career" class="red">
+                            Please rate the impact of this job on your overall career.
                         </div>
                     </div>
                     <br>
@@ -213,7 +307,7 @@
                     </div>
                     <br>
                     <div class="form-group">
-                        <label for="interview-how"><b>How did you get the interview?</b></label>
+                        <label class="required" for="interview-how"><b>How did you get the interview?</b></label>
                         <select class="form-select" id="interview-how">
                             <option value="" disabled selected>Choose the best option</option>
                             <option value="Application on website">Application on website</option>
@@ -299,11 +393,17 @@
         // Hide all error messages
         $('#error-title').hide();
         $('#error-location').hide();
+        $('#error-locationstyle').hide();
         $('#error-type').hide();
         $('#error-length').hide();
         $('#error-company').hide();
         $('#error-companytype').hide();
         $('#error-salary').hide();
+        $('#error-supervisor').hide();
+        $('#error-pay').hide();
+        $('#error-balance').hide();
+        $('#error-culture').hide();
+        $('#error-career').hide();
         $('#error-difficulty').hide();
         $('#error-enjoyment').hide();
     }
@@ -333,6 +433,11 @@
             $('#error-location').show();
             numErrors++;
         }
+        var locationstyle = $('#job-locationstyle').val();
+        if (locationstyle == null) {
+            $('#error-locationstyle').show();
+            numErrors++;
+        }
         var type = $('#job-type').val();
         if (type == null) {
             $('#error-type').show();
@@ -354,9 +459,36 @@
             numErrors++;
         }
         var description = $('#job-description').val();
+        var technologies = $('#job-technologies').val();
         var salary = $('#job-salary').val();
         if (salary != "" && (!isInt(salary) || parseInt(salary) <= 0)) {
             $('#error-salary').show();
+            numErrors++;
+        }
+        // Ratings
+        var supervisor = $('#job-supervisor').val();
+        if (supervisor == null) {
+            $('#error-supervisor').show();
+            numErrors++;
+        }
+        var pay = $('#job-pay').val();
+        if (pay == null) {
+            $('#error-pay').show();
+            numErrors++;
+        }
+        var balance = $('#job-balance').val();
+        if (balance == null) {
+            $('#error-balance').show();
+            numErrors++;
+        }
+        var culture = $('#job-culture').val();
+        if (culture == null) {
+            $('#error-culture').show();
+            numErrors++;
+        }
+        var career = $('#job-career').val();
+        if (career == null) {
+            $('#error-career').show();
             numErrors++;
         }
         var difficulty = $('#job-difficulty').val();
@@ -377,12 +509,19 @@
         var json_event = {
             "title": title,
             "location": location,
+            "locationstyle": locationstyle,
             "type": type,
             "length": length,
             "company": company,
             "companyType": companyType,
             "description": description,
+            "technologies": technologies,
             "salary": salary,
+            "supervisor": supervisor,
+            "pay": pay,
+            "balance": balance,
+            "culture": culture,
+            "career": career,
             "difficulty": difficulty,
             "enjoyment": enjoyment
         };
@@ -497,12 +636,19 @@
         // Reset job form stuff
         $('#job-title').val("");
         $('#job-location').val("");
+        $('#job-locationstyle').val("");
         $('#job-type').val("");
         $('#job-length').val("");
         $('#job-company').val("");
         $('#job-company-type').val("");
         $('#job-description').val("");
+        $('#job-technologies').val("");
         $('#job-salary').val("");
+        $('#job-supervisor').val("");
+        $('#job-pay').val("");
+        $('#job-balance').val("");
+        $('#job-culture').val("");
+        $('#job-career').val("");
         $('#job-difficulty').val("");
         $('#job-enjoyment').val("");
         // Reset interview form stuff

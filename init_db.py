@@ -12,18 +12,26 @@ def add_test_internship(session):
         netid = 'amkumar',
         title = 'Software Engineering Intern',
         location = 'Tampa, FL',
+        virtual = 'Hybrid',
         description = 'Worked for data science team',
+        technologies = 'R, Google Colab, RedHat OpenShift',
         type = 'Internship: Industry - Public Sector',
         length = 3,
         company = 'MITRE',
         company_type = 'STEM Research',
         salary = 25,
+        supervisor = 1,
+        pay = 2,
+        balance = 3, 
+        culture = 5,
+        career_impact = 3,
         difficulty = 4,
         enjoyment = 3,
-        upvotes = 0,
+        upvotes = [],
         major = 'COS',
         certificates = 'SML, Finance',
-        grade = 'jr'
+        grade = 'jr',
+        date_created = '2022-01-10'
     )
     session.add(internship)
 
@@ -40,10 +48,11 @@ def add_test_interview(session):
         tips = 'Leetcode',
         difficulty = 2,
         enjoyment = 4,
-        upvotes = 0,
+        upvotes = [],
         major = 'COS',
         certificates = 'SML, Finance',
-        grade = 'jr'
+        grade = 'jr',
+        date_created = '2022-01-10'
     )
     session.add(interview)
 
@@ -55,6 +64,11 @@ def add_test_companies(session):
         num_internships = 1,
         interview_difficulty = 0,
         interview_enjoyment = 0,
+        internship_supervisor = 1,
+        internship_pay = 2,
+        internship_balance = 3,
+        internship_culture = 5,
+        internship_career = 3,
         internship_difficulty = 4,
         internship_enjoyment = 3
     )
@@ -65,8 +79,12 @@ def add_test_companies(session):
         num_internships = 0,
         interview_difficulty = 2,
         interview_enjoyment = 4,
+        internship_supervisor = 0,
+        internship_pay = 0,
+        internship_balance = 0,
+        internship_culture = 0,
+        internship_career = 0,
         internship_difficulty = 0,
-        # Internship enjoyment rating
         internship_enjoyment = 0
     )
     session.add(company)
@@ -74,13 +92,11 @@ def add_test_companies(session):
 # Add test users
 def add_test_users(session):
     user = models.Users(
-                netid = "amkumar",
-                major = '',
-                certificates = '',
-                grade = '',
-                interview_upvotes = [],
-                internship_upvotes = []
-            )
+        netid = "amkumar",
+        major = '',
+        certificates = '',
+        grade = ''
+    )
     session.add(user)
 
 def main():

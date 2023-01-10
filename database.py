@@ -185,6 +185,11 @@ def update_company(company:models.Companies):
                     'num_internships': company.num_internships,
                     'interview_difficulty': company.interview_difficulty,
                     'interview_enjoyment': company.interview_enjoyment,
+                    'internship_supervisor': company.internship_supervisor,
+                    'internship_pay': company.internship_pay,
+                    'internship_balance': company.internship_balance,
+                    'internship_culture': company.internship_culture,
+                    'internship_career': company.internship_career,
                     'internship_difficulty': company.internship_difficulty,
                     'internship_enjoyment': company.internship_enjoyment
                 }
@@ -215,9 +220,7 @@ def update_user(user:models.Users):
                     'netid': user.netid,
                     'major': user.major,
                     'certificates': user.certificates,
-                    'grade': user.grade,
-                    'interview_upvotes': user.interview_upvotes,
-                    'internship_upvotes': user.internship_upvotes
+                    'grade': user.grade
                 }
             )
         session.commit()

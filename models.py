@@ -27,14 +27,16 @@ class Interviews (Base):
     difficulty = sqlalchemy.Column(sqlalchemy.Integer)
     # Enjoyment of interview process from 1 to 5
     enjoyment = sqlalchemy.Column(sqlalchemy.Integer)
-    # Number of upvotes
-    upvotes = sqlalchemy.Column(sqlalchemy.Integer)
+    # Upvoting users
+    upvotes = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.String))
     # User's major
     major = sqlalchemy.Column(sqlalchemy.String)
     # User's certificates
     certificates = sqlalchemy.Column(sqlalchemy.String)
     # User's class (fr, so, jr, sr, grad, other)
     grade = sqlalchemy.Column(sqlalchemy.String)
+    # Date created (yyyy-mm-dd)
+    date_created = sqlalchemy.Column(sqlalchemy.String)
 
 # Interships Review Table
 class Internships (Base):
@@ -46,8 +48,12 @@ class Internships (Base):
     title = sqlalchemy.Column(sqlalchemy.String)
     # Location of internship
     location = sqlalchemy.Column(sqlalchemy.String)
+    # Virtual, hybrid, or in-person
+    virtual = sqlalchemy.Column(sqlalchemy.String)
     # Internship description
     description = sqlalchemy.Column(sqlalchemy.String)
+    # Technologies used description
+    technologies = sqlalchemy.Column(sqlalchemy.String)
     # Internship type
     type = sqlalchemy.Column(sqlalchemy.String)
     # Length of internship in months
@@ -58,19 +64,30 @@ class Internships (Base):
     company_type = sqlalchemy.Column(sqlalchemy.String)
     # Internship salary per hour
     salary = sqlalchemy.Column(sqlalchemy.Integer)
+    # Supervisor Rating (1 to 5)
+    supervisor = sqlalchemy.Column(sqlalchemy.Integer)
+    # Pay Rating (1 to 5)
+    pay = sqlalchemy.Column(sqlalchemy.Integer)
+    # Work/Life Balance Rating (1 to 5)
+    balance = sqlalchemy.Column(sqlalchemy.Integer)
+    # Culture Rating (1 to 5)
+    culture = sqlalchemy.Column(sqlalchemy.Integer)
+    # Career Impact Rating (1 to 5)
+    career_impact = sqlalchemy.Column(sqlalchemy.Integer)
     # Difficulty of internship (1 to 5)
     difficulty = sqlalchemy.Column(sqlalchemy.Integer)
     # Enjoyment of internship (1 to 5)
     enjoyment = sqlalchemy.Column(sqlalchemy.Integer)
-    # Number of upvotes
-    upvotes = sqlalchemy.Column(sqlalchemy.Integer)
+    # Upvoting users
+    upvotes = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.String))
     # User's major
     major = sqlalchemy.Column(sqlalchemy.String)
     # User's certificates
     certificates = sqlalchemy.Column(sqlalchemy.String)
     # User's class (fr, so, jr, or sr)
     grade = sqlalchemy.Column(sqlalchemy.String)
-
+    # Date created (yyyy-mm-dd)
+    date_created = sqlalchemy.Column(sqlalchemy.String)
 
 # Companies Table
 class Companies (Base):
@@ -86,6 +103,16 @@ class Companies (Base):
     interview_difficulty = sqlalchemy.Column(sqlalchemy.Integer)
     # Interview enjoyment rating
     interview_enjoyment = sqlalchemy.Column(sqlalchemy.Integer)
+    # Internship Supervisor Rating (1 to 5)
+    internship_supervisor = sqlalchemy.Column(sqlalchemy.Integer)
+    # Internship Pay Rating (1 to 5)
+    internship_pay = sqlalchemy.Column(sqlalchemy.Integer)
+    # Internship Work/Life Balance Rating (1 to 5)
+    internship_balance = sqlalchemy.Column(sqlalchemy.Integer)
+    # Internship Culture Rating (1 to 5)
+    internship_culture = sqlalchemy.Column(sqlalchemy.Integer)
+    # Internship Career Impact Rating (1 to 5)
+    internship_career = sqlalchemy.Column(sqlalchemy.Integer)
     # Internship difficulty rating
     internship_difficulty = sqlalchemy.Column(sqlalchemy.Integer)
     # Internship enjoyment rating
@@ -102,7 +129,3 @@ class Users (Base):
     certificates = sqlalchemy.Column(sqlalchemy.String)
     # User's class (fr, so, jr, or sr)
     grade = sqlalchemy.Column(sqlalchemy.String)
-    # Upvoted interview reviews
-    interview_upvotes = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.Integer))
-    # Favorited internship reviews
-    internship_upvotes = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.Integer))

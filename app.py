@@ -3,6 +3,7 @@ import os
 import database
 import models
 import json
+from datetime import datetime
 
 #----------------------------------------------------------------------
 
@@ -89,15 +90,12 @@ def profile_update():
     netid = auth.authenticate()
     # Get form data
     data = json.loads(flask.request.form.to_dict()['event_data'])
-    # Get old user data
-    old_user = database.get_user(netid)
+    # Update user data
     user = models.Users(
         netid=netid,
         major=data['major'],
         certificates = data['certificates'],
-        grade = data['grade'],
-        interview_upvotes = old_user.interview_upvotes,
-        internship_upvotes = old_user.internship_upvotes
+        grade = data['grade']
     )
     database.update_user(user)
     major_codes = list(database.majors.keys())
@@ -124,6 +122,8 @@ def add_job():
         return "ERROR"
     # Get form data
     data = json.loads(flask.request.form.to_dict()['event_data'])
+    # Get current date
+    today = datetime.today().strftime('%Y-%m-%d')
     # Check data['salary'] to be nonempty
     if data['salary'] == '':
         # Create new internship review to add
@@ -131,17 +131,25 @@ def add_job():
             netid = netid,
             title = data['title'],
             location = data['location'],
+            virtual = data['locationstyle'],
             description = data['description'],
+            technologies = data['technologies'],
             type = data['type'],
             length = int(data['length']),
             company = data['company'],
             company_type = data['companyType'],
+            supervisor = int(data['supervisor']),
+            pay = int(data['pay']),
+            balance = int(data['balance']),
+            culture = int(data['culture']),
+            career_impact = int(data['career']),
             difficulty = int(data['difficulty']),
             enjoyment = int(data['enjoyment']),
-            upvotes = 0,
+            upvotes = [],
             major = user.major,
             certificates = user.certificates,
-            grade = user.grade
+            grade = user.grade,
+            date_created = today
         )
     # Check data['salary'] to be nonempty
     else:
@@ -150,18 +158,26 @@ def add_job():
             netid = netid,
             title = data['title'],
             location = data['location'],
+            virtual = data['locationstyle'],
             description = data['description'],
+            technologies = data['technologies'],
             type = data['type'],
             length = int(data['length']),
             company = data['company'],
             company_type = data['companyType'],
             salary = int(data['salary']),
+            supervisor = int(data['supervisor']),
+            pay = int(data['pay']),
+            balance = int(data['balance']),
+            culture = int(data['culture']),
+            career_impact = int(data['career']),
             difficulty = int(data['difficulty']),
             enjoyment = int(data['enjoyment']),
-            upvotes = 0,
+            upvotes = [],
             major = user.major,
             certificates = user.certificates,
-            grade = user.grade
+            grade = user.grade,
+            date_created = today
         )
     # Either update company or add company to database
     company = database.get_company_by_name(data['company'])
@@ -172,6 +188,11 @@ def add_job():
             num_internships = 1,
             interview_difficulty = 0,
             interview_enjoyment = 0,
+            internship_supervisor = int(data['supervisor']),
+            internship_pay = int(data['pay']),
+            internship_balance = int(data['balance']),
+            internship_culture = int(data['culture']),
+            internship_career = int(data['career']),
             internship_difficulty = int(data['difficulty']),
             internship_enjoyment = int(data['enjoyment'])
         )
@@ -184,6 +205,11 @@ def add_job():
             num_internships = 1 + company.num_internships,
             interview_difficulty = company.interview_difficulty,
             interview_enjoyment = company.interview_enjoyment,
+            internship_supervisor = int(data['supervisor']) + company.internship_supervisor,
+            internship_pay = int(data['pay']) + company.internship_pay,
+            internship_balance = int(data['balance']) + company.internship_balance,
+            internship_culture = int(data['culture']) + company.internship_culture,
+            internship_career = int(data['career']) + company.internship_career,
             internship_difficulty = int(data['difficulty']) + company.internship_difficulty,
             internship_enjoyment = int(data['enjoyment']) + company.internship_enjoyment
         )
@@ -216,6 +242,8 @@ def add_interview():
         data['final'] = True
     else:
         data['final'] = False
+    # Get current date
+    today = datetime.today().strftime('%Y-%m-%d')
     # Create new interview review to add
     interview = models.Interviews(
         netid = netid,
@@ -228,10 +256,11 @@ def add_interview():
         tips = data['tips'],
         difficulty = int(data['difficulty']),
         enjoyment = int(data['enjoyment']),
-        upvotes = 0,
+        upvotes = [],
         major = user.major,
         certificates = user.certificates,
-        grade = user.grade
+        grade = user.grade,
+        date_created = today
     )
     # Either update company or add company to database
     company = database.get_company_by_name(data['company'])
@@ -242,6 +271,11 @@ def add_interview():
             num_internships = 0,
             interview_difficulty = int(data['difficulty']),
             interview_enjoyment = int(data['enjoyment']),
+            internship_supervisor = 0,
+            internship_pay = 0,
+            internship_balance = 0,
+            internship_culture = 0,
+            internship_career = 0,
             internship_difficulty = 0,
             internship_enjoyment = 0
         )
@@ -254,6 +288,11 @@ def add_interview():
             num_internships = company.num_internships,
             interview_difficulty = int(data['difficulty']) + company.interview_difficulty,
             interview_enjoyment = int(data['enjoyment']) + company.interview_enjoyment,
+            internship_supervisor = company.internship_supervisor,
+            internship_pay = company.internship_pay,
+            internship_balance = company.internship_balance,
+            internship_culture = company.internship_culture,
+            internship_career = company.internship_career,
             internship_difficulty = company.internship_difficulty,
             internship_enjoyment = company.internship_enjoyment
         )
@@ -290,6 +329,11 @@ def delete_job():
         num_internships = max(company.num_internships - 1, 0),
         interview_difficulty = company.interview_difficulty,
         interview_enjoyment = company.interview_enjoyment,
+        internship_supervisor = max(company.internship_supervisor - internship.supervisor, 0),
+        internship_pay = max(company.internship_pay - internship.pay, 0),
+        internship_balance = max(company.internship_balance - internship.balance, 0),
+        internship_culture = max(company.internship_culture - internship.culture, 0),
+        internship_career = max(company.internship_career - internship.career_impact, 0),
         internship_difficulty = max(company.internship_difficulty - internship.difficulty, 0),
         internship_enjoyment = max(company.internship_enjoyment - internship.enjoyment, 0)
     )
