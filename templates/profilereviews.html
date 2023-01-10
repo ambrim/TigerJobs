@@ -17,15 +17,23 @@
                                 <div><b>Location:&nbsp;</b>{{i.location}}</div>
                             </div>
                             <div class="col-sm">
-                                <div><b>Length:&nbsp;</b>{{i.length}} months</div>
+                                <div><b>Location Style:&nbsp;</b>{{i.virtual}}</div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm">
-                                <div><b>Job Type:&nbsp;</b>{{i.type}}</div>
+                                <div><b>Length:&nbsp;</b>{{i.length}} months</div>
                             </div>
                             <div class="col-sm">
+                                <div><b>Job Type:&nbsp;</b>{{i.type}}</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
                                 <div><b>Company Type:&nbsp;</b>{{i.company_type}}</div>
+                            </div>
+                            <div class="col-sm">
+                                <div><b>Technologies:&nbsp;</b>{{i.technologies}}</div>
                             </div>
                         </div>
                         <div class="row">
@@ -33,7 +41,7 @@
                                 <div><b>Salary:&nbsp;</b>${{i.salary}} per hour</div>
                             </div>
                             <div class="col-sm">
-                                <div><b>Number of Upvotes:&nbsp;</b>{{i.upvotes}}</div>
+                                <div><b>Number of Upvotes:&nbsp;</b>{{i.upvotes | length}}</div>
                             </div>
                         </div>
                         <div>
@@ -42,12 +50,37 @@
                         <br>
                         <div class="row">
                             <div class="col-sm">
+                                <div><b>Supervisor Rating:&nbsp;</b>{{i.supervisor}} / 5</div>
+                            </div>
+                            <div class="col-sm">
+                                <div><b>Pay Rating:&nbsp;</b>{{i.pay}} / 5</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <div><b>Balance Rating:&nbsp;</b>{{i.balance}} / 5</div>
+                            </div>
+                            <div class="col-sm">
+                                <div><b>Culture Rating:&nbsp;</b>{{i.culture}} / 5</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <div><b>Career Impact Rating:&nbsp;</b>{{i.career_impact}} / 5</div>
+                            </div>
+                            <div class="col-sm">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
                                 <div><b>Difficulty Rating:&nbsp;</b>{{i.difficulty}} / 5</div>
                             </div>
                             <div class="col-sm">
                                 <div><b>Enjoyment Rating:&nbsp;</b>{{i.enjoyment}} / 5</div>
                             </div>
                         </div>
+                        <br>
+                        <div><b>Date Created:&nbsp;</b>{{i.date_created}}</div>
                         <br>
                         <div class="center-container">
                             <button class="profile-btn-reset" onclick="deleteJob({{i.id}})"><b>Delete This Job Review</b></button>
@@ -87,7 +120,7 @@
                         <div><b>Tips for interview:&nbsp;</b>{{i.tips}}</div>
                     </div>
                     <div>
-                        <div><b>Number of upvotes:&nbsp;</b>{{i.upvotes}}</div>
+                        <div><b>Number of upvotes:&nbsp;</b>{{i.upvotes | length}}</div>
                     </div>
                     <div class="row">
                         <div class="col-sm">
@@ -97,6 +130,8 @@
                             <div><b>Enjoyment Rating:&nbsp;</b>{{i.enjoyment}} / 5</div>
                         </div>
                     </div>
+                    <br>
+                    <div><b>Date Created:&nbsp;</b>{{i.date_created}}</div>
                     <br>
                     <div class="center-container">
                         <button class="profile-btn-reset" onclick="deleteInterview({{i.id}})"><b>Delete This Interview Review</b></button>
