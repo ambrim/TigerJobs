@@ -268,7 +268,17 @@ h2 {
     text-align: left;
     min-width: fit-content;
     font-size: 0.85rem;
+    margin-bottom: 10px;
 }
+.category-system-card {
+    background-color: #769cff;
+    padding: 10px 15px 3px 5px ;
+    border-radius: 20px;
+    text-align: left;
+    min-width: fit-content;
+    font-size: 0.85rem;
+}
+
 .center {
     text-align: center;
 }
@@ -296,6 +306,7 @@ input.nosubmit {
 .no-results {
     font-size: 20px;
     text-align: center;
+    padding-top: 30px;
 }
 
 .search-results-card {
@@ -319,14 +330,28 @@ input.nosubmit {
     font-size: 1rem;
 }
 .card-upvotes {
+    align-content: right;
+}
+.card-upvotes-text {
     font-size: 1rem;
     align-content: right;
 }
+.card-upvotes:hover {
+    transform: translateY(-3px);
+    transition: transform 0.3s;
+}
+#upvote:hover {
+    stroke: #2058DC;
+  }
 .card-content {
     font-size: 0.9rem;
     text-align: left;
 }
-
+.card-categories {
+    font-size: 0.8rem;
+    text-align: left;
+    padding-left: 25px;
+}
 .rating-system-card {
     width: 20%;
     margin:0em;
@@ -335,6 +360,10 @@ input.nosubmit {
     font-size: 12px;
     text-align: left;
     background-color:#fddb5b;
+}
+.sort-bar {
+    padding: 8px;
+    font-size: 16px;
 }
 
 :root {

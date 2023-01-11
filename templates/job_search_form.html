@@ -12,6 +12,43 @@
             autocomplete="off"
             autocapitalize="off" />
 </form>
+<div class="sort-bar">
+    <i>Sort By:</i>
+    <span onclick="changeSortDate()" type="button" id="sortDate">
+        {% if sortDate == new %}
+            Most Recent, 
+        {% elif sortDate == old %}
+            Oldest, 
+        {% endif %}
+    </span>
+    <span type="button" id="sortUpvote">
+        {% if sortUpvote == most %}
+            Most upvoted 
+        {% elif sortUpvote == least %}
+            Least Upvoted
+        {% endif %}
+    </span>
+    <span type="button" id="sortDifficult">
+        {% if sortDifficult == high %}
+            Highest Difficulty
+        {% elif sortDifficult == low %}
+            Lowest Difficulty
+        {% endif %}
+    </span>
+    <span type="button" id="sortEnjoy">
+        {% if sortEnjoy == high %}
+            Highest Enjoyment
+        {% elif sortEnjoy == low %}
+            Lowest Enjoyment
+        {% endif %}
+    </span>
+</div>
 
-            
-
+<script>
+    function changeSortDate()
+    {
+        var elem = document.getElementById("sortDate");
+        if (elem.innerHTML=="Most Recent, ") elem.innerHTML = "Oldest, ";
+        else elem.innerHTML = "Most Recent, ";
+    }
+</script>

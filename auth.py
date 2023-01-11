@@ -76,9 +76,7 @@ def authenticate():
                 netid = username,
                 major = '',
                 certificates = '',
-                grade = '',
-                interview_upvotes = [],
-                internship_upvotes = []
+                grade = ''
             )
             database.add_user(user)
         return username
@@ -103,8 +101,7 @@ def authenticate():
             major = '',
             certificates = '',
             grade = '',
-            interview_upvotes = [],
-            internship_upvotes = []
+            
         )
         database.add_user(user)
     # The user is authenticated, so store the username in

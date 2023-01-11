@@ -35,7 +35,12 @@ def netID():
 @app.route('/jobs', methods=['GET'])
 def jobs():
     netid = auth.authenticate()
-    html = flask.render_template('templates/jobs.html', netid=netid)
+    query = flask.request.args.get("query")
+    res = database.search_for_internship(query)
+    html = flask.render_template(
+        'templates/jobs.html', 
+        netid=netid,
+        job_search_res=res)
     response = flask.make_response(html)
     return response
 #----------------------------------------------------------------------
