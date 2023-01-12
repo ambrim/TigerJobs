@@ -24,27 +24,66 @@
         <div class="row">
             <div class="col-3 filters-card">
                 <div class="filters-title">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
                     <b>Advanced Search Filters:</b>
                 </div>
+                {% include 'templates/job_search_filters.html' %}
             </div>
             <div class="col-6">
                 {% include 'templates/job_search_form.html' %}
                 {% include 'templates/job_search_results.html' %}
             </div>
-            <div class="col">
-                <div type="button">
-                    <i class="far fa-eye-slash" id="togglePassword"></i>
-                </div>
-                <div class="filters-title">
-                    <b>Show Rating Scales:</b>
+            <div class="col filters-title">
+                <div class="bottom center">
+                    <div onclick="hideRatings()" type="button" id="eye-slash" class="center">
+                        <b>Hide Rating Scales</b> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="18" fill="currentColor" class="bi bi-eye-slash" viewBox="0 0 16 16">
+                            <path d="M13.359 11.238C15.06 9.72 16 8 16 8s-3-5.5-8-5.5a7.028 7.028 0 0 0-2.79.588l.77.771A5.944 5.944 0 0 1 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.134 13.134 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755-.165.165-.337.328-.517.486l.708.709z"/>
+                            <path d="M11.297 9.176a3.5 3.5 0 0 0-4.474-4.474l.823.823a2.5 2.5 0 0 1 2.829 2.829l.822.822zm-2.943 1.299.822.822a3.5 3.5 0 0 1-4.474-4.474l.823.823a2.5 2.5 0 0 0 2.829 2.829z"/>
+                            <path d="M3.35 5.47c-.18.16-.353.322-.518.487A13.134 13.134 0 0 0 1.172 8l.195.288c.335.48.83 1.12 1.465 1.755C4.121 11.332 5.881 12.5 8 12.5c.716 0 1.39-.133 2.02-.36l.77.772A7.029 7.029 0 0 1 8 13.5C3 13.5 0 8 0 8s.939-1.721 2.641-3.238l.708.709zm10.296 8.884-12-12 .708-.708 12 12-.708.708z"/>
+                        </svg>
+ 
+                    </div>
+                    <div onclick="showRatings()" type="button" id="eye" class="top hidden">
+                        <b>Show Rating Scales</b> 
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="18" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                        </svg>
+                        <br> 
+                        <div class="left">
+                            <ul>
+                                <li>Upvote a review to save it to your profile!</li>
+                                <li>Click on a company name to check out other reviews for this company and combined stats!</li>
+                            </ul>
+                        </div>
+                        
+                         
+                        
+                    </div>
                 </div>
                 {% include 'templates/job_rating_cards.html' %}
-                <!--{% include 'templates/job_rec_cards.html' %}-->
             </div>
         </div>
     </div>
 
-</body>
+    <script>
+    function hideRatings() {
+        $('#difficult').hide();
+        $('#enjoy').hide();
+        $('#category').hide();
+        $('#eye-slash').hide();
+        $('#eye').removeClass('hidden');
+        $('#eye').show();
+    }
+    function showRatings() {
+        $('#difficult').show();
+        $('#enjoy').show();
+        $('#category').show();
+        $('#eye-slash').show();
+        $('#eye').hide();
+    }
+    </script> 
 
+</body>
 </html>

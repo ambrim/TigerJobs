@@ -16,7 +16,8 @@
     <div class="search-results-card">
           <div class="row">
                <div class="col-sm-auto">
-                    <div class="card-title"> <b>{{job.title}}</b></div>
+                    <div class="card-title"> <b>{{job.title}}</b>, {{job.company}}</div>
+                    <!--href link to company page-->
                </div>
                <div class="col d-flex justify-content-end">
                     <div type="button" class="card-upvotes">
@@ -185,16 +186,13 @@
                     </div>
                </div> 
                <div class="col">
-                    <div class="card-subtitle">
-                         <b>{{job.company}}</b>
-                         <!--href link to company page-->
-                    </div>
                     <div class="card-content">
-                         Location: {{job.location}} <br>
+                         Location: {{job.location}} ({{job.virtual}}) <br>
                          Job Type: {{job.type}} <br>
                          Job Field: {{job.company_type}} <br>
                          Length: {{job.length}} weeks <br>
                          Salary: ${{job.salary}}/hr <br>
+                         Date Posted: <i>{{job.date_created}}</i>
                     </div>
                </div> 
           </div>
@@ -202,7 +200,22 @@
                <div class="card-content">
                     Description: {{job.description}}
                </div>
-          </div>        
+          </div>  
+          <div class="row">
+               <div class="card-content">
+                    Technologies Used: {{job.technologies}}
+               </div>
+          </div>  
+          <div class="row">
+               <div class="card-content">
+                    Reviewer Info: 
+                    {% if job.grade == "jr" %} Junior
+                    {% endif %}
+                    in the {{job.major}} department with certificate(s) in <i>{{job.certificates}} 
+                    </i>
+               </div>
+          </div> 
+             
     </div>
 </div>
 {% endfor %} {% endif %} 

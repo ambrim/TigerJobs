@@ -363,9 +363,27 @@ input.nosubmit {
 }
 .sort-bar {
     padding: 8px;
-    font-size: 16px;
+    font-size: 14px;
 }
-
+.filter-text {
+    font-size: 15px;
+}
+.bottom {
+    position: relative;
+}
+.top {
+    position: absolute;
+    top: 0px;
+    left: -7px;
+    align-content: center;
+}
+.hidden {
+    display:none
+}
+.left {
+    align-content: left;
+    text-align: left;
+}
 :root {
     --star-size: 20px;
     --star-color: #fff;
