@@ -1,5 +1,5 @@
-<div class="col-3 filters-card">
-    <div class="filters-title left-container">
+<div class="col-3 filters-card container-scroll-jobs">
+    <div class="left-container">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000"
             stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="4" y1="21" x2="4" y2="14"></line>
@@ -188,7 +188,7 @@
     <div class="row">
         <div class="col-12 left-container">
             <b>Locations</b>
-            <div>
+            <div class="filters-input-div">
                 <input id="filter-location" class="filters-input" type="text" placeholder="Enter a location...">
             </div>
         </div>
@@ -197,7 +197,8 @@
         <div class="col-12 left-container">
             <b>Majors</b>
             <div>
-                <select class="filters-major" id="filters-major" multiple="multiple">
+                <select id="dropdown-majors" multiple name="native-select" placeholder="Select majors" data-search="false"
+                    data-silent-initial-value-set="true">
                     {% for major in major_names %}
                     <option value={{major_codes[loop.index - 1]}}>
                         {{major}}
@@ -210,7 +211,7 @@
     <div class="row">
         <div class="col-12 left-container">
             <b>Certificates</b>
-            <div>
+            <div class="filters-input-div">
                 <input id="filter-certificates" class="filters-input" type="text" placeholder="Enter a certificate...">
             </div>
         </div>
@@ -219,7 +220,8 @@
         <div class="col-12 left-container">
             <b>Job Fields</b>
             <div>
-                <select class="filters-major" id="filters-fields" multiple="multiple">
+                <select id="dropdown-fields" multiple name="native-select" placeholder="Select job fields" data-search="false"
+                    data-silent-initial-value-set="true">
                     <option value="Pharmaceuticals">Pharmaceuticals</option>
                     <option value="Biotech">Biotech</option>
                     <option value="Healthcare">Healthcare</option>
@@ -247,15 +249,38 @@
             </div>
         </div>
     </div>
+    <br>
+    <div class="row">
+        <div class="col-12 center-container">
+            <button class="profile-btn-submit">Update Filters</button>
+        </div>
+    </div>
 </div>
-<script>
+<script> 
     function setup() {
-        var majorDrop = new drop({
-            selector: '#filters-major'
+
+        VirtualSelect.init({
+            ele: '#dropdown-fields',
+            multiple: 'true',
+            search: true,
+            searchGroup: false, // Include group title for searching
+            searchByStartsWith: false, // Search options by startsWith() method,
+            optionsCount: 5,
+            hasOptionDescription: false,
+            disableSelectAll: false,
+            additionalClasses: 'filters-major',
         });
-        console.log(majorDrop)
-        var majorDrop = new drop({
-            selector: '#filters-fields'
+        VirtualSelect.init({
+            ele: '#dropdown-majors',
+            multiple: 'true',
+            search: true,
+            searchGroup: false, // Include group title for searching
+            searchByStartsWith: false, // Search options by startsWith() method,
+            optionsCount: 5,
+            hasOptionDescription: false,
+            disableSelectAll: false,
+            additionalClasses: 'filters-major',
         });
     }
+    $('document').ready(setup);
 </script>

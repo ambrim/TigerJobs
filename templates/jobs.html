@@ -11,6 +11,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+    <!-- Multiselect dropdown -->
+    <link rel="stylesheet" href="../static/virtual-select-master/dist/virtual-select.min.css" />
+    <script src="../static/virtual-select-master/dist/virtual-select.min.js"></script>
     <!-- CSS stylesheet  -->
     <link rel="stylesheet" type="text/css" href="../static/app.css">
     <style type="text/css"></style>
@@ -23,11 +26,11 @@
     <div class="top-container-jobs">
         <div class="row">
             {% include 'templates/job_filters.html' %}
-            <div class="col-6">
+            <div class="col-6 container-scroll-jobs">
                 {% include 'templates/job_search_form.html' %}
                 {% include 'templates/job_search_results.html' %}
             </div>
-            <div class="col filters-title">
+            <div class="col container-scroll-jobs">
                 <div class="bottom center">
                     <div onclick="hideRatings()" type="button" id="eye-slash" class="center">
                         <b>Hide Rating Scales</b> 
@@ -50,10 +53,7 @@
                                 <li>Upvote a review to save it to your profile!</li>
                                 <li>Click on a company name to check out other reviews for this company and combined stats!</li>
                             </ul>
-                        </div>
-                        
-                         
-                        
+                        </div> 
                     </div>
                 </div>
                 {% include 'templates/job_rating_cards.html' %}
