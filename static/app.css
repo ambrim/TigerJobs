@@ -29,8 +29,13 @@
 .right-container {
     text-align: right;
 }
-
+.left-container {
+    text-align: left;
+}
 /* Element Styling */
+body {
+    background-color: #c3e7ff;
+}
 h1 {
     color: #2058DC;
     font-size: 50px;
@@ -149,9 +154,14 @@ h2 {
     transition: 0.3s;
 }
 .blurb-bg {
-    background-color: #eff8fe;
+    background-color: white;
     padding: 50px;
     border-radius: 20px;
+    transition: transform 0.3s;
+}
+.blurb-bg:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s;
 }
 .certificate-btn {
     color: white;
@@ -242,15 +252,29 @@ h2 {
 }
 .filters-card {
     background-color: #ffffff;
-    padding: 10px;
+    height:85vh;
+    padding: 10px 20px;
     border-radius: 20px;
     text-align: center;
     margin-right: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* transition: transform 0.3s; */
+}
+/* .filters-card:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s;
+} */
+.filters-input {
+    width:100%;
+    height:50%;
+}
+.filters-major {
+    width: 100%;
 }
 .filters-text {
     color: #000000;
     font-size: 24px;
-    text-align: center;
 }
 .difficult-system-card {
     background-color: #FFE06A;
@@ -260,6 +284,11 @@ h2 {
     min-width: fit-content;
     font-size: 0.85rem;
     margin-bottom: 10px;
+    transition: transform 0.3s;
+}
+.difficult-system-card:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s;
 }
 .enjoy-system-card {
     background-color: #FFC652;
@@ -269,6 +298,11 @@ h2 {
     min-width: fit-content;
     font-size: 0.85rem;
     margin-bottom: 10px;
+    transition: transform 0.3s;
+}
+.enjoy-system-card:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s;
 }
 .category-system-card {
     background-color: #769cff;
@@ -277,8 +311,12 @@ h2 {
     text-align: left;
     min-width: fit-content;
     font-size: 0.85rem;
+    transition: transform 0.3s;
 }
-
+.category-system-card:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s;
+}
 .center {
     text-align: center;
 }
@@ -316,6 +354,7 @@ input.nosubmit {
     border-radius: 10px;
     padding: 15px;
     background-color: #fff;
+    transition: transform 0.3s;
 }
 
 .search-results-card:hover {
@@ -326,11 +365,15 @@ input.nosubmit {
     font-weight: 700;
     font-size: 1.15rem
 }
+.card-company {
+    font-size: 1.15rem
+}
 .card-subtitle {
     font-size: 1rem;
 }
 .card-upvotes {
     align-content: right;
+    transition: transform 0.3s;
 }
 .card-upvotes-text {
     font-size: 1rem;

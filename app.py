@@ -37,10 +37,14 @@ def jobs():
     netid = auth.authenticate()
     query = flask.request.args.get("query")
     res = database.search_for_internship(query)
-    html = flask.render_template(
-        'templates/jobs.html', 
-        netid=netid,
-        job_search_res=res)
+    major_codes = list(database.majors.keys())
+    major_names = list(database.majors.values())
+    html = flask.render_template('templates/jobs.html', 
+                netid=netid,
+                job_search_res = res,
+                major_codes=major_codes,
+                major_names=major_names
+            )
     response = flask.make_response(html)
     return response
 #----------------------------------------------------------------------
