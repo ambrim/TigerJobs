@@ -77,6 +77,22 @@
                         </div>
                     </div>
                     <br>
+                    <div class="form-group">
+                        <label class="required" for="job-year"><b>What year were you in at the time of the job?</b></label>
+                        <select class="form-select" id="job-year">
+                            <option value="" disabled selected>Select your class year at the time of the job</option>
+                            <option value="fr">Freshman (4 years till graduation)</option>
+                            <option value="so">Sophomore (3 years till graduation)</option>
+                            <option value="jr">Junior (2 years till graduation)</option>
+                            <option value="sr">Senior (1 year till graduation)</option>
+                            <option value="grad">Graduate Student</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <div id="error-year" class="red">
+                            Please select your class year at the time of the job.
+                        </div>
+                    </div>
+                    <br>
                     <div class="form-group autocomplete">
                         <label class="required" for="job-company"><b>Company Name</b></label>
                         <input type="text" class="form-control" id="job-company" aria-describedby="jobCompanyHelp"
@@ -288,6 +304,53 @@
                     </div>
                     <br>
                     <div class="form-group">
+                        <label class="required" for="interview-year"><b>What year were you in at the time of the interview?</b></label>
+                        <select class="form-select" id="interview-year">
+                            <option value="" disabled selected>Select your class year at the time of the interview</option>
+                            <option value="fr">Freshman (4 years till graduation)</option>
+                            <option value="so">Sophomore (3 years till graduation)</option>
+                            <option value="jr">Junior (2 years till graduation)</option>
+                            <option value="sr">Senior (1 year till graduation)</option>
+                            <option value="grad">Graduate Student</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <div id="error-interview-year" class="red">
+                            Please select your class year at the time of the interview.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="interview-type"><b>Interview Type</b></label>
+                        <select class="form-select" id="interview-type">
+                            <option value="" disabled selected>Choose the best option</option>
+                            <option value="Online Assessment (OA)">Online Assessment (OA)</option>
+                            <option value="Screening/Phone">Screening/Phone</option>
+                            <option value="Behavioral">Behavioral</option>
+                            <option value="Technical">Technical</option>
+                            <option value="Case">Case</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <div id="error-interview-type" class="red">
+                            Please select the type of the interview.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="interview-location"><b>Interview Location Type</b></label>
+                        <select class="form-select" id="interview-location">
+                            <option value="" disabled selected>Choose the best option</option>
+                            <option value="In-person">In-person</option>
+                            <option value="Video call">Video call</option>
+                            <option value="Phone">Phone</option>
+                            <option value="Unsupervised">Unsupervised</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <div id="error-interview-location" class="red">
+                            Please select the location type of the interview.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
                         <label class="required" for="interview-duration"><b>Interview Duration</b></label>
                         <select class="form-select" id="interview-duration">
                             <option value="" disabled selected>Choose the best option</option>
@@ -303,6 +366,15 @@
                         </select>
                         <div id="error-interview-duration" class="red">
                             Please put in the duration of the interview.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="interview-num"><b>How many interviewers did you have?</b></label>
+                        <input type="number" class="form-control" id="interview-num"
+                            placeholder="Enter the number of interviewers you had" min="0">
+                        <div id="error-interview-num" class="red">
+                            Please enter a valid number of interviewers
                         </div>
                     </div>
                     <br>
@@ -367,6 +439,18 @@
                         </div>
                     </div>
                     <br>
+                    <div class="form-group">
+                        <label class="required" for="interview-advance"><b>Did you advance/get the offer?</b></label>
+                        <select class="form-select" id="interview-advance">
+                            <option value="" disabled selected>Choose the best option</option>
+                            <option value="True">Yes</option>
+                            <option value="False">No</option>
+                        </select>
+                        <div id="error-interview-advance" class="red">
+                            Please select whether you advanced or not
+                        </div>
+                    </div>
+                    <br>
                     <div class="center-container">
                         <button type="button" class="profile-btn-reset" onclick="resetForm()">Reset Form</button>
                         <button type="button" class="profile-btn-submit" onclick="submitInterviewForm()">Add Interview Review</button>
@@ -396,6 +480,7 @@
         $('#error-locationstyle').hide();
         $('#error-type').hide();
         $('#error-length').hide();
+        $('#error-year').hide();
         $('#error-company').hide();
         $('#error-companytype').hide();
         $('#error-salary').hide();
@@ -412,10 +497,15 @@
         $('#error-interview-company').hide();
         $('#error-interview-round').hide();
         $('#error-interview-final').hide();
+        $('#error-interview-year').hide();
+        $('#error-interview-type').hide();
+        $('#error-interview-location').hide();
         $('#error-interview-duration').hide();
+        $('#error-interview-num').hide();
         $('#error-interview-how').hide();
         $('#error-interview-difficulty').hide();
         $('#error-interview-enjoyment').hide();
+        $('#error-interview-advance').hide();
     }
     function submitJobForm() {
         // Hide all error messages
@@ -446,6 +536,11 @@
         var length = $('#job-length').val();
         if (length == "" || !isInt(length) || parseInt(length) <= 0) {
             $('#error-length').show();
+            numErrors++;
+        }
+        var year = $('#job-year').val();
+        if (year == null) {
+            $('#error-year').show();
             numErrors++;
         }
         var company = $('#job-company').val();
@@ -512,6 +607,7 @@
             "locationstyle": locationstyle,
             "type": type,
             "length": length,
+            "year": year,
             "company": company,
             "companyType": companyType,
             "description": description,
@@ -568,9 +664,29 @@
             $('#error-interview-final').show();
             numErrors++;
         }
+        var year = $('#interview-year').val();
+        if (year == null) {
+            $('#error-interview-year').show();
+            numErrors++;
+        }
+        var type = $('#interview-type').val();
+        if (type == null) {
+            $('#error-interview-type').show();
+            numErrors++;
+        }
+        var location = $('#interview-location').val();
+        if (location == null) {
+            $('#error-interview-location').show();
+            numErrors++;
+        }
         var duration = $('#interview-duration').val();
         if (duration == null) {
             $('#error-interview-duration').show();
+            numErrors++;
+        }
+        var num = $('#interview-num').val();
+        if (num == "" || !isInt(parseInt(num)) || parseInt(num) <= 0) {
+            $('#error-interview-num').show();
             numErrors++;
         }
         var how = $('#interview-how').val();
@@ -590,6 +706,11 @@
             $('#error-interview-enjoyment').show();
             numErrors++;
         }
+        var advanced = $('#interview-advance').val();
+        if (advanced == null) {
+            $('#error-interview-advance').show();
+            numErrors++;
+        }
         // Post if no errors
         if (numErrors > 0) {
             $('#addReviewModal').scrollTop(0);
@@ -599,12 +720,17 @@
             "company": company,
             "round": round,
             "final": final,
+            "year": year,
+            "type": type,
+            "location": location,
             "duration": duration,
+            "num": num,
             "how": how,
             "questions": questions,
             "tips": tips,
             "difficulty": difficulty,
-            "enjoyment": enjoyment
+            "enjoyment": enjoyment,
+            "advanced": advanced
         };
         if (request != null)
             request.abort();
@@ -639,6 +765,7 @@
         $('#job-locationstyle').val("");
         $('#job-type').val("");
         $('#job-length').val("");
+        $('#job-year').val("");
         $('#job-company').val("");
         $('#job-company-type').val("");
         $('#job-description').val("");
@@ -655,12 +782,17 @@
         $('#interview-company').val("");
         $('#interview-round').val("");
         $('#interview-final').val("");
+        $('#interview-year').val("");
+        $('#interview-type').val("");
+        $('#interview-location').val("");
         $('#interview-duration').val("");
+        $('#interview-num').val("");
         $('#interview-how').val("");
         $('#interview-questions').val("");
         $('#interview-tips').val("");
         $('#interview-difficulty').val("");
         $('#interview-enjoyment').val("");
+        $('#interview-advance').val("");
         // Show correct page
         $('#whatTitle').show();
         $('#addJobForm').hide();

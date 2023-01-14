@@ -191,7 +191,13 @@ def update_company(company:models.Companies):
                     'internship_culture': company.internship_culture,
                     'internship_career': company.internship_career,
                     'internship_difficulty': company.internship_difficulty,
-                    'internship_enjoyment': company.internship_enjoyment
+                    'internship_enjoyment': company.internship_enjoyment,
+                    'locations': company.locations,
+                    'fields': company.fields,
+                    'majors': company.majors,
+                    'interview_grades': company.interview_grades,
+                    'internship_grades': company.internship_grades,
+                    'advanced': company.advanced
                 }
             )
         session.commit()

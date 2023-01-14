@@ -13,12 +13,20 @@ class Interviews (Base):
     round = sqlalchemy.Column(sqlalchemy.Integer)
     # True if final round
     final_round = sqlalchemy.Column(sqlalchemy.Boolean)
+    # Type of interview (OA, Screening, Behavioral, Technical, other)
+    type = sqlalchemy.Column(sqlalchemy.String)
+    # Location type (in-person, video, phone, or unsupervised)
+    location_type = sqlalchemy.Column(sqlalchemy.String)
     # Duration of interview
     duration = sqlalchemy.Column(sqlalchemy.String)
     # Company Name
     company = sqlalchemy.Column(sqlalchemy.String)
+    # Number of interviewers
+    num_interviewers = sqlalchemy.Column(sqlalchemy.Integer)
     # Questions asked
     question_description = sqlalchemy.Column(sqlalchemy.String)
+    # Technologies required for interview
+    technologies = sqlalchemy.Column(sqlalchemy.String)
     # How user got interview
     how_interview = sqlalchemy.Column(sqlalchemy.String)
     # Tips for preparation
@@ -27,6 +35,8 @@ class Interviews (Base):
     difficulty = sqlalchemy.Column(sqlalchemy.Integer)
     # Enjoyment of interview process from 1 to 5
     enjoyment = sqlalchemy.Column(sqlalchemy.Integer)
+    # Advanced/got offer
+    advanced = sqlalchemy.Column(sqlalchemy.Boolean)
     # Upvoting users
     upvotes = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.String))
     # User's major
@@ -117,6 +127,18 @@ class Companies (Base):
     internship_difficulty = sqlalchemy.Column(sqlalchemy.Integer)
     # Internship enjoyment rating
     internship_enjoyment = sqlalchemy.Column(sqlalchemy.Integer)
+    # Set of locations added
+    locations = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.String))
+    # Set of fields added to company
+    fields = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.String))
+    # Set of majors
+    majors = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.String))
+    # Grade distribution for interviews
+    interview_grades = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.Integer))
+    # Grade distribution for internships
+    internship_grades = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.Integer))
+    # Number of interview people that advanced
+    advanced = sqlalchemy.Column(sqlalchemy.Integer)
 
 # Users Table
 class Users (Base):

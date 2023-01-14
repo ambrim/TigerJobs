@@ -30,7 +30,7 @@ def add_test_internship(session):
         upvotes = [],
         major = 'COS',
         certificates = 'SML, Finance',
-        grade = 'jr',
+        grade = 'so',
         date_created = '2022-01-10'
     )
     session.add(internship)
@@ -41,13 +41,18 @@ def add_test_interview(session):
         netid = 'amkumar',
         round = 1,
         final_round = False,
+        type='Technical',
+        location_type='Video',
         duration = '2 hours',
         company = 'Amazon',
+        num_interviewers= 1,
         question_description = 'Nothing',
+        technologies = 'Coding language of your choice',
         how_interview = 'Website',
         tips = 'Leetcode',
         difficulty = 2,
         enjoyment = 4,
+        advanced=True,
         upvotes = [],
         major = 'COS',
         certificates = 'SML, Finance',
@@ -70,7 +75,13 @@ def add_test_companies(session):
         internship_culture = 5,
         internship_career = 3,
         internship_difficulty = 4,
-        internship_enjoyment = 3
+        internship_enjoyment = 3,
+        locations=['Tampa, FL, USA'],
+        fields=['STEM Research'],
+        majors=['COS'],
+        interview_grades=[0, 0, 0, 0, 0],
+        internship_grades=[0, 1, 0, 0, 0],
+        advanced = 0
     )
     session.add(company)
     company = models.Companies(
@@ -85,7 +96,13 @@ def add_test_companies(session):
         internship_culture = 0,
         internship_career = 0,
         internship_difficulty = 0,
-        internship_enjoyment = 0
+        internship_enjoyment = 0,
+        locations=[],
+        fields=[],
+        majors=[],
+        interview_grades=[0, 0, 1, 0, 0],
+        internship_grades=[0, 0, 0, 0, 0],
+        advanced = 1
     )
     session.add(company)
 
