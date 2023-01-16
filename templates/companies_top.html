@@ -1,0 +1,25 @@
+<div class="container top-companies-card" >
+    <div class="center company-title-sm"><b>Top Reviewed Companies</b></div>  
+    <ol>
+        {% for comp in ordered_comp %}
+        <li>{{comp.name}}: {{num_interviews}} interviews and {{num_interships}} jobs </li>
+        {% endfor %}
+    </ol>  
+</div>
+
+<div class="container rec-companies-card" >
+    <div class="center company-title-sm"><b>Companies for {user.major} Majors</b></div>  
+    <ul>
+        
+    </ul>  
+</div>
+
+<script>
+function company_selected() {
+    var b = document.getElementById('name').value,
+        url = 'http:/localhost/10001/companies_result.html?name=' + encodeURIComponent(b);
+
+    document.location.href = url;
+}
+
+</script>

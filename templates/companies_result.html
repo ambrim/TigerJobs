@@ -2,25 +2,34 @@
     <div class="row">
         <div class="container company-card">
             <div class="row bottom-align">
-                <span class="col-4 bottom-align">
-                    <div class="company-title"><b>{{comp.name}}</b></div>
-                </span>
-                <span class="col-5 bottom-align">
-                    <div class="company-num-reviews"><b>21</b> total reviews</div>
-                </span>
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <p>
-                        <b>Location(s):</b> {comp.locations}<br>
-                        <b>Field(s):</b> {comp.fields}<br>
-                        <b>Major(s):</b> {comp.majors}<br>
-                        {if comp.tech != []} 
-                            <b>Tech:</b> {comp.tech}
+                <div class="col-6 bottom-align">
+                    <div class="company-title"><b>{{comp.name}}</b>   
+                        <span class="company-num-reviews"><b>
+                            {{comp.num_internships + comp.num_interviews}}</b> total review(s)
+                        </span>
+                    </div>
+                    <p class="align-bottom">
+                        <b>Location(s):</b> 
+                        {% for loc in comp.locations %}
+                            <span class="company-textbox-loc">{{loc}}</span> 
+                        {% endfor %}<br>
+                        <b>Field(s):</b> 
+                        {% for field in comp.fields %}
+                            <span class="company-textbox-field">{{field}}</span>
+                        {% endfor %}<br>
+                        <b>Major(s):</b> 
+                        {% for major in comp.majors %}
+                            <span class="company-textbox-major">{{major}}</span> 
+                        {% endfor %}<br>
+                        <!--
+                            {% if comp.tech != [] %} 
+                            <b>Tech:</b> {{comp.tech}}
+                            {% endif %}
+                        -->
                     </p>
                 </div>
                 <div class="col-3 center">
-                    <div class="pie animate" style="--p:60;--c:orange"> 60%</div>
+                    <div class="pie animate" style="--p:60;--c:orange"> {{comp.internship_enjoyment}}</div>
                     <br> <div class="center">enjoyed their job
                         <span class="hover-text">
                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
@@ -41,34 +50,19 @@
     <div class="row">
         <div class="col">
             <div class="container company-card" >
-                <div class="company-title-sm"><b>Jobs at {comp.name}</b></div>  
-                <div class="company-num-reviews"><b>{comp.num_interviews}</b> reviews</div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="container company-card" >
-                <div class="row">
-                    <div class="company-title-sm"><b>Interviews at {comp.name}</b></div>  
-                    <div class="company-num-reviews" style="margin-bottom:.3cm;"><b>{comp.num_interviews}</b> reviews</div>
+                <div class="company-title-sm"><b>Jobs at {{comp.name}}</b>   
+                    <span class="company-num-reviews"><b>
+                        {{comp.num_internships}} </b>review(s)
+                    </span>
                 </div>
                 <div class="row">
                     <p>
-                        Average Difficulty: <b>{comp.internship_difficulty}</b>/5 <br>
-                        Average Enjoyment: <b>{comp.internship_enjoyment}</b>/5 
+                        Average Difficulty: <b>{{comp.internship_difficulty}}</b>/5 <br>
+                        Average Enjoyment: <b>{{comp.internship_enjoyment}}</b>/5 
                     </p>
-                </div>    
-                <div class="row g-2">
-                    <div class="pie animate center" style="--p:80;--c:orange"> 80%</div>
-                    <br> 
-                    <div class="center">advanced to the next round
-                        <div class="tooltip">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div class="row gy-4 g-4">
-                    <div class="col ">
+                </div>  
+                <div class="row top-bottom">
+                    <div class="col">
                         Career Impact <br>
                         Culture <br>
                         Pay <br>
@@ -83,23 +77,83 @@
                         <div class="Stars" style="--rating:3.4;"></div>
                    </div>
                    <div class="col-2">
-                        {comp.internship}
+                        {{comp.internship_career}} <br>
+                        {{comp.internship_culture}} <br>
+                        {{comp.internship_pay}} <br>
+                        {{comp.internship_supervisor}} <br>
+                        {{comp.internship_balance}}
                    </div>
                 </div> 
+                <div class="row g-2 top-bottom">
+                    <div class="col">
+                        Freshmen: <br>
+                        Sophomores: <br>
+                        Juniors: <br>
+                        Seniors: <br>
+                        Graduate Students: 
+                    </div>
+                    <div class="col">
+                        {{comp.internship_grades[0]}} <br>
+                        {{comp.internship_grades[1]}} <br>
+                        {{comp.internship_grades[2]}} <br>
+                        {{comp.internship_grades[3]}} <br>
+                        {{comp.internship_grades[4]}} 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="container company-card" >
+                <div class="row">
+                    <div class="company-title-sm"><b>Interviews at {{comp.name}}</b>   
+                        <span class="company-num-reviews"><b>
+                            {{comp.num_interviews}} </b>review(s)
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <p>
+                        Average Difficulty: <b>{{comp.internship_difficulty}}</b>/5 <br>
+                        Average Enjoyment: <b>{{comp.internship_enjoyment}}</b>/5 
+                    </p>
+                </div>    
+                <div class="row g-2 top-bottom">
+                    <div class="col">
+                        <div class="pie animate center" style="--p:80;--c:orange"> 80%</div>
+                        <br> 
+                        <div class="center">found the interview difficult
+                            <div class="tooltip">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="pie animate center" style="--p:80;--c:orange"> 80%</div>
+                        <br> 
+                        <div class="center">advanced to the next round
+                            <div class="tooltip">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-2 top-bottom">
+                    <div class="col">
+                        Freshmen: <br>
+                        Sophomores: <br>
+                        Juniors: <br>
+                        Seniors: <br>
+                        Graduate Students: 
+                    </div>
+                    <div class="col">
+                        {{comp.interview_grades[0]}} <br>
+                        {{comp.interview_grades[1]}} <br>
+                        {{comp.interview_grades[2]}} <br>
+                        {{comp.interview_grades[3]}} <br>
+                        {{comp.interview_grades[4]}} 
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    window.onload = function () {
-    var url = document.location.href,
-        params = url.split('?')[1].split('&'),
-        data = {}, tmp;
-    for (var i = 0, l = params.length; i < l; i++) {
-         tmp = params[i].split('=');
-         data[tmp[0]] = tmp[1];
-    }
-    document.getElementById('here').innerHTML = data.name;
-}
-</script>

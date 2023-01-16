@@ -192,7 +192,9 @@
                          Job Type: {{job.type}} <br>
                          Job Field: {{job.company_type}} <br>
                          Length: {{job.length}} weeks <br>
-                         Salary: ${{job.salary}}/hr <br>
+                         {% if job.description != "" %}
+                              Salary: ${{job.salary}}/hr <br>
+                         {% endif %}
                          Date Posted: <i>{{job.date_created}}</i>
                     </div>
                </div> 
@@ -222,7 +224,7 @@
                     {% endif %}
                     in the {{job.major}} department 
                     {% if job.certificates != "" %} 
-                         with certificate(s) in {{job.certificates}} 
+                         {{job.certificates}}
                     {% endif %}
                </div>
           </div> 
