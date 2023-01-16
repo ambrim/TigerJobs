@@ -20,8 +20,24 @@
     <!-- Navbar -->
     {% include 'templates/navbar.html' %}
     <!-- Content -->
-    Companies go here
+    <div class="top-container-jobs">
+        <div class="row">
+            <div class="col-4">
+                {% include 'templates/companies_search.html' %}
+            </div>
+            <div class="col-8">
+                {% include 'templates/companies_result.html' %}
+            </div>
+        </div>
+    </div>
+
+    <!--
+    <div class="pie animate" style="--p:60;--c:orange"> 60%</div>
+    <div class="pie animate no-round" style="--p:80;--c:orange;"> 80%</div>
     <div class="Stars" style="--rating: 2.6;"></div>
+    -->
+    
+
 </body>
 
 </html>

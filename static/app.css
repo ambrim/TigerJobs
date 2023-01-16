@@ -266,16 +266,21 @@ h2 {
 }
 .filters-card {
     background-color: #ffffff;
-    padding: 10px 20px;
+    height:85vh;
+    padding: 15px 25px;
     border-radius: 20px;
     text-align: center;
     margin-right: 10px;
+    font-size: 15px;
     /* transition: transform 0.3s; */
 }
 /* .filters-card:hover {
     transform: scale(1.03);
     transition: transform 0.3s;
 } */
+.font-16px {
+    font-size: 16px;
+}
 .filters-input {
     width:100%;
     padding-left: 5px;
@@ -338,8 +343,12 @@ h2 {
     transform: scale(1.03);
     transition: transform 0.3s;
 }
+.bottom-align {
+    vertical-align: bottom;
+}
 .center {
     text-align: center;
+    align-items: center;
 }
 form.nosubmit {
     border: 1px solid #555;
@@ -450,8 +459,8 @@ input.nosubmit {
 }
 :root {
     --star-size: 20px;
-    --star-color: #fff;
-    --star-background: #fddb5b;
+    --star-color: rgba(210, 235, 255, 0.81);
+    --star-background: #ffc800;
 }
 .Stars {
     --percent: calc(var(--rating) / 5 * 100%);
@@ -460,6 +469,8 @@ input.nosubmit {
     font-family: Times;
     line-height: 1;
 }
+
+/* Companies page */
 .Stars::before {
     content: '★★★★★';
     letter-spacing: 3px;
@@ -467,15 +478,110 @@ input.nosubmit {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-/* Multiselect dropdown */
-.vscomp-ele {
-    max-width: none;
+@property --p{
+    syntax: '<number>';
+    inherits: true;
+    initial-value: 0;
 }
-.vscomp-option-text {
-    overflow: visible;
-    max-width: none;
+
+.pie {
+    --p:20;
+    --b:15px;
+    --c:darkred;
+    --w:100px;
+
+    width:var(--w);
+    aspect-ratio:1;
+    position:relative;
+    display:inline-grid;
+    margin:5px;
+    place-content:center;
+    font-size:25px;
+    font-weight:bold;
+    font-family:sans-serif;
+    align-content: center;
+    align-items: center;
 }
-/* Tooltip */
+.pie:before,
+.pie:after {
+    content:"";
+    position:absolute;
+    border-radius:50%;
+}
+.pie:before {
+    inset:0;
+    background:
+        radial-gradient(farthest-side,var(--c) 98%,#0000) top/var(--b) var(--b) no-repeat,
+        conic-gradient(var(--c) calc(var(--p)*1%),#0000 0);
+    -webkit-mask:radial-gradient(farthest-side,#0000 calc(99% - var(--b)),#000 calc(100% - var(--b)));
+            mask:radial-gradient(farthest-side,#0000 calc(99% - var(--b)),#000 calc(100% - var(--b)));
+}
+.pie:after {
+    inset:calc(50% - var(--b)/2);
+    background:var(--c);
+    transform:rotate(calc(var(--p)*3.6deg)) translateY(calc(50% - var(--w)/2));
+}
+.animate {
+    animation:p 1s .5s both;
+}
+@keyframes p {
+from{--p:0}
+}
+.top-companies-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px 15px 3px 5px ;
+    text-align: left;
+    min-width: fit-content;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    transition: transform 0.3s;
+}
+.top-companies-card:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s;
+}
+.rec-companies-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 10px 15px 3px 5px ;
+    text-align: left;
+    min-width: fit-content;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    transition: transform 0.3s;
+}
+.rec-companies-card:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s;
+}
+.company-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px 20px 15px 20px;
+    text-align: left;
+    min-width: fit-content;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    transition: transform 0.3s;
+}
+.company-card:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s;
+}
+.company-title {
+    font-weight: 600;
+    font-size: 1.5rem
+}
+.company-num-reviews {
+    font-size: 1.2rem
+}
+.company-title-sm {
+    font-size: 1.3rem
+}
 .tooltip-text {
     visibility: hidden;
     position: absolute;
@@ -486,6 +592,8 @@ input.nosubmit {
     background-color: #192733;
     border-radius: 10px;
     padding: 10px 15px 10px 15px;
+    margin-bottom: 10px;
+    display:inline-block;
 }
 .tooltip-text::before {
     content: "";
@@ -495,32 +603,9 @@ input.nosubmit {
     padding: 5px;
     z-index: 1;
 }
+
 .hover-text:hover .tooltip-text {
     visibility: visible;
-}
-#top {
-    top: -40px;
-    left: -50%;
-}
-#top::before {
-    top: 80%;
-    left: 45%;
-}
-#bottom {
-    top: 25px;
-    left: -50%;
-}
-#bottom::before {
-    top: -5%;
-    left: 45%;
-}
-#left {
-    top: -8px;
-    right: 120%;
-}
-#left::before {
-    top: 35%;
-    left: 94%;
 }
 #right {
     top: -8px;
@@ -532,5 +617,6 @@ input.nosubmit {
 }
 .hover-text {
     position: relative;
-    display: inline-block;
+    display: inline;
+    text-align: center;
 }
