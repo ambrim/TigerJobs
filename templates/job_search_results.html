@@ -1,5 +1,5 @@
-<div>
-{% if job_search_res[0] == None %} 
+<div id="job-search-results">
+{% if job_search_res | length == 0 %} 
 <p id="job-search-results-message" class="no-results" >
      <img src="/static/assets/job.png"
           padding=20px

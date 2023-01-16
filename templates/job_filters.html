@@ -88,32 +88,32 @@
         <div class="col-6 left-container">
             <b>Class Year</b>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="class-fr">
-                <label class="form-check-label" for="class-fr">
+                <input class="form-check-input" type="checkbox" value="" id="class-1">
+                <label class="form-check-label" for="class-1">
                     Freshman
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="class-so">
-                <label class="form-check-label" for="class-so">
+                <input class="form-check-input" type="checkbox" value="" id="class-2">
+                <label class="form-check-label" for="class-2">
                     Sophomore
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="class-jr">
-                <label class="form-check-label" for="class-jr">
+                <input class="form-check-input" type="checkbox" value="" id="class-3">
+                <label class="form-check-label" for="class-3">
                     Junior
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="class-sr">
-                <label class="form-check-label" for="class-sr">
+                <input class="form-check-input" type="checkbox" value="" id="class-4">
+                <label class="form-check-label" for="class-4">
                     Senior
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="class-grad">
-                <label class="form-check-label" for="class-grad">
+                <input class="form-check-input" type="checkbox" value="" id="class-5">
+                <label class="form-check-label" for="class-5">
                     Graduate
                 </label>
             </div>
@@ -121,20 +121,20 @@
         <div class="col-6 left-container">
             <b>Location Style</b>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="location-inperson">
-                <label class="form-check-label" for="location-inperson">
+                <input class="form-check-input" type="checkbox" value="" id="location-1">
+                <label class="form-check-label" for="location-1">
                     In-person
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="location-hybrid">
-                <label class="form-check-label" for="location-hybrid">
+                <input class="form-check-input" type="checkbox" value="" id="location-2">
+                <label class="form-check-label" for="location-2">
                     Hybrid
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="location-virtual">
-                <label class="form-check-label" for="location-virtual">
+                <input class="form-check-input" type="checkbox" value="" id="location-3">
+                <label class="form-check-label" for="location-3">
                     Virtual
                 </label>
             </div>
@@ -254,11 +254,80 @@
     <br>
     <div class="row">
         <div class="col-12 center-container">
-            <button class="profile-btn-submit">Update Filters</button>
+            <button class="profile-btn-submit" onclick="getFilteredData()">Update Filters</button>
         </div>
     </div>
 </div>
 <script> 
+    function getFilteredData() {
+        // Get query
+        var query = $('#job-search-bar').val()
+        // Get all difficulty scores
+        var difficulty = []
+        for (let i = 1; i <= 5; i++) {
+            var difficultyId = "#difficulty-" + i;
+            if ($(difficultyId).is(':checked')) difficulty.push(i);
+        }
+        // if (difficulty.length == 0) difficulty = [1, 2, 3, 4, 5];
+        // Get all enjoyment scores
+        var enjoyment = []
+        for (let i = 1; i <= 5; i++) {
+            var enjoymentId = "#enjoyment-" + i;
+            if ($(enjoymentId).is(':checked')) enjoyment.push(i);
+        }
+        // Get all class years
+        var class_options = ['fr', 'so', 'jr', 'sr', 'grad']
+        var classes = []
+        for (let i = 1; i <= 5; i++) {
+            var classId = "#class-" + i;
+            if ($(classId).is(':checked')) classes.push(class_options[i - 1]);
+        }
+        // Get all location styles
+        var locationstyle_options = ['In-person', 'Hybrid', 'Virtual']
+        var locationstyles = []
+        for (let i = 1; i <= 3; i++) {
+            var locationId = "#location-" + i;
+            if ($(locationId).is(':checked')) locationstyles.push(locationstyle_options[i - 1]);
+        }
+        // Get all job types
+        var jobtype_options = ['Internship: Industry - Private Sector', 
+            'Internship: Industry - Public Sector', 'Research - Princeton sponsored',
+            'Research - Non-Princeton sponsored', 'Co-op', 'Part-time', 'Full-time/New grad']
+        var jobtypes = []
+        for (let i = 1; i <= 7; i++) {
+            var jobtypeId = "#jobtype-" + i;
+            if ($(jobtypeId).is(':checked')) jobtypes.push(jobtype_options[i - 1]);
+        }
+        // Locations (TO DO)
+        // Majors
+        var majors = $('#dropdown-majors').val();
+        // Certificates (TO DO)
+        // Job Fields
+        var fields = $('#dropdown-fields').val();
+        // Send JSON event
+        var json_event = {
+            "query": query,
+            "difficulty": difficulty,
+            "enjoyment": enjoyment,
+            "classes": classes,
+            "locationstyle": locationstyles,
+            "jobtype": jobtypes,
+            "majors": majors,
+            "fields": fields
+        };
+        if(request != null)
+            request.abort();
+        request = $.post("/jobs/filter", {
+            dataType: 'json',
+            contentType: 'application/json',
+            event_data: JSON.stringify(json_event)
+        }).done(function (data) {
+            $('#job-search-results').html(data);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert("Error!")
+        });
+    }
+
     function setup() {
 
         VirtualSelect.init({

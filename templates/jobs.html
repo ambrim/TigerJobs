@@ -23,7 +23,7 @@
     <!-- Navbar -->
     {% include 'templates/navbar.html' %}
     <!-- Content -->
-    <div class="top-container-jobs">
+    <div id="job-content" class="top-container-jobs">
         <div class="row">
             {% include 'templates/job_filters.html' %}
             <div class="col-6 container-scroll-jobs">
@@ -62,6 +62,7 @@
     </div>
 
     <script>
+    let request = null;
     function hideRatings() {
         $('#difficult').hide();
         $('#enjoy').hide();

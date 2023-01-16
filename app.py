@@ -36,8 +36,7 @@ def netID():
 @app.route('/jobs', methods=['GET'])
 def jobs():
     netid = auth.authenticate()
-    query = flask.request.args.get("query")
-    res = database.search_for_internship(query)
+    res = database.get_all_internships()
     major_codes = list(database.majors.keys())
     major_names = list(database.majors.values())
     html = flask.render_template('templates/jobs.html', 
@@ -45,6 +44,29 @@ def jobs():
                 job_search_res = res,
                 major_codes=major_codes,
                 major_names=major_names
+            )
+    response = flask.make_response(html)
+    return response
+
+# Jobs main page
+@app.route('/jobs/filter', methods=['POST'])
+def job_filtered():
+    _ = auth.authenticate()
+    # Get form data
+    data = json.loads(flask.request.form.to_dict()['event_data'])
+    filters = [
+        data['query'],
+        data['difficulty'],
+        data['enjoyment'],
+        data['classes'],
+        data['locationstyle'],
+        data['jobtype'],
+        data['majors'],
+        data['fields']
+    ]
+    res = database.get_filtered_internships(filters)
+    html = flask.render_template('templates/job_search_results.html', 
+                job_search_res = res,
             )
     response = flask.make_response(html)
     return response
@@ -65,7 +87,10 @@ def interviews():
 @app.route('/companies', methods=['GET'])
 def companies():
     netid = auth.authenticate()
-    html = flask.render_template('templates/companies.html', netid=netid)
+    comp = database.get_company_by_name('mitre')
+    html = flask.render_template('templates/companies.html', 
+            netid=netid,
+            comp=comp)
     response = flask.make_response(html)
     return response
 #----------------------------------------------------------------------

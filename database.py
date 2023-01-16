@@ -94,7 +94,63 @@ def get_all_internships() -> List[models.Internships]:
         internships = session.query(models.Internships).all()
     return internships
 
-##### HAVE TO ADD FILTER QUERIES TOO #####
+# Get internships by filter
+'''
+    Filters list is as follows:
+    [
+        Query, Difficulty List, Enjoyment List, Class Year,
+        Location Style, Job Type, Locations, Majors, Certificates,
+        Job Fields
+    ]
+'''
+def get_filtered_internships(filters) -> List[models.Internships]:
+    internships = []
+    with sqlalchemy.orm.Session(engine) as session:
+        internships = session.query(models.Internships).filter(
+            # Filter by query in title, description, technology, or company
+            sqlalchemy.or_(
+                models.Internships.title.ilike('%{}%'.format(filters[0])),
+                models.Internships.company.ilike('%{}%'.format(filters[0])),
+                models.Internships.technologies.ilike('%{}%'.format(filters[0])),
+                models.Internships.description.ilike('%{}%'.format(filters[0])),
+            ),
+            # Filter by difficulty rating
+            sqlalchemy.or_(
+                models.Internships.difficulty.in_(filters[1]),
+                len(filters[1]) == 0
+            ),
+            # Filter by enjoyment rating
+            sqlalchemy.or_(
+                models.Internships.enjoyment.in_(filters[2]),
+                len(filters[2]) == 0
+            ),
+            # Filter by class year
+            sqlalchemy.or_(
+                models.Internships.grade.in_(filters[3]),
+                len(filters[3]) == 0
+            ),
+            # Filter by location style
+            sqlalchemy.or_(
+                models.Internships.virtual.in_(filters[4]),
+                len(filters[4]) == 0
+            ),
+            # Filter by job type
+            sqlalchemy.or_(
+                models.Internships.type.in_(filters[5]),
+                len(filters[5]) == 0
+            ),
+            # Filter by major
+            sqlalchemy.or_(
+                models.Internships.major.in_(filters[6]),
+                len(filters[6]) == 0
+            ),
+            # Filter by job field
+            sqlalchemy.or_(
+                models.Internships.company_type.in_(filters[7]),
+                len(filters[7]) == 0
+            )
+        ).all()
+    return internships
 
 # Search for internship (Using get_all currently)
 MAX_QUERY_LENGTH = 200 # not used currently
@@ -144,8 +200,6 @@ def get_all_company_names():
     for company in companies:
         company_names.append(company.name)
     return company_names
-
-##### HAVE TO ADD FILTER QUERIES TOO #####
 
 # Add company to database
 def add_company(company:models.Companies):
