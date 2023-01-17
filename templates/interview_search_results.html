@@ -1,0 +1,239 @@
+<div id="interview-search-results">
+{% if interview_search_res | length == 0 %} 
+<p id="interview-search-results-message" class="no-results" >
+     <img src="/static/assets/interview.png"
+          padding=20px
+          width=70%
+          height=auto
+          alt="No matches Tigerjobs"
+          class="d-inline-block align-text-center mx-2" />
+     <br>
+     <br>
+     Oops, no results yet! Check your spelling, try different keywords, or adjust filters.
+ </p>
+{% else %} 
+{% for i in job_search_res %}
+<div class="container-flush">
+    <div class="search-results-card">
+          <div class="row">
+               <div class="col-sm-auto">
+                    <div class="card-title"> <b>{{i.title}}</b>, {{i.company}}</div>
+                    <!--href link to company page-->
+               </div>
+               <div class="col d-flex justify-content-end">
+                    <div type="button" class="card-upvotes">
+                         <svg id="upvote" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M17 11l-5-5-5 5M17 18l-5-5-5 5"/></svg>  
+                    </div>
+                    <span class="card-upvote-text">
+                         {{i.upvotes | length}} 
+                    </span>
+               </div>
+          </div>
+          <div class="row">
+               <div class="col">
+                    <div class="card-content">
+                         Difficulty: <b>{{i.difficulty}}</b> &#160
+                         Enjoyment: <b>{{i.enjoyment}}</b> <br>
+                         Category Ratings: 
+                         <div class="row">
+                              <div class="col card-categories">
+                                   Career Impact <br>
+                                   Culture <br>
+                                   Pay <br>
+                                   Supervisor <br>
+                                   Work/Life Balance
+                              </div>
+                              <div class="col card-categories">
+                                   <!--Career Impact-->
+                                   {% if i.career_impact == 1 %}
+                                        <img src="/static/assets/1star (1).png"
+                                        height="15"
+                                        width="auto"alt="1 star"/>
+                                   {% elif i.career_impact == 2 %}
+                                        <img src="/static/assets/2stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="2 stars"/>
+                                   {% elif i.career_impact == 3 %}
+                                        <img src="/static/assets/3stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="3 stars"/>
+                                   {% elif i.career_impact == 4 %}
+                                        <img src="/static/assets/4stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="4 stars"/>
+                                   {% elif i.career_impact == 5 %}
+                                        <img src="/static/assets/5stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="5 stars"/>
+                                   {% endif %} 
+                                   <br>
+
+                                   <!--Culture-->
+                                   {% if i.culture == 1 %}
+                                        <img src="/static/assets/1star (1).png"
+                                        height="15"
+                                        width="auto"
+                                        alt="1 star"/>
+                                   {% elif i.culture == 2 %}
+                                        <img src="/static/assets/2stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="2 stars"/>
+                                   {% elif i.culture == 3 %}
+                                        <img src="/static/assets/3stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="3 stars"/>
+                                   {% elif i.culture == 4 %}
+                                        <img src="/static/assets/4stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="4 stars"/>
+                                   {% elif i.culture == 5 %}
+                                        <img src="/static/assets/5stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="5 stars"/>
+                                   {% endif %} 
+                                   <br>
+
+                                   <!--Pay-->
+                                   {% if i.pay == 1 %}
+                                        <img src="/static/assets/1star (1).png"
+                                        height="15"
+                                        width="auto"
+                                        alt="1 star"/>
+                                   {% elif i.pay == 2 %}
+                                        <img src="/static/assets/2stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="2 stars"/>
+                                   {% elif i.pay == 3 %}
+                                        <img src="/static/assets/3stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="3 stars"/>
+                                   {% elif i.pay == 4 %}
+                                        <img src="/static/assets/4stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="4 stars"/>
+                                   {% elif i.pay == 5 %}
+                                        <img src="/static/assets/5stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="5 stars"/>
+                                   {% endif %} 
+                                   <br>
+
+                                   <!--Supervisor-->
+                                   {% if i.supervisor == 1 %}
+                                        <img src="/static/assets/1star (1).png"
+                                        height="15"
+                                        width="auto"
+                                        alt="1 star"/>
+                                   {% elif i.supervisor == 2 %}
+                                        <img src="/static/assets/2stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="2 stars"/>
+                                   {% elif i.supervisor == 3 %}
+                                        <img src="/static/assets/3stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="3 stars"/>
+                                   {% elif i.supervisor == 4 %}
+                                        <img src="/static/assets/4stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="4 stars"/>
+                                   {% elif i.supervisor == 5 %}
+                                        <img src="/static/assets/5stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="5 stars"/>
+                                   {% endif %} 
+                                   <br>
+
+                                   <!--Balance-->
+                                   {% if i.balance == 1 %}
+                                        <img src="/static/assets/1star (1).png"
+                                        height="15"
+                                        width="auto"
+                                        alt="1 star"/>
+                                   {% elif i.balance == 2 %}
+                                        <img src="/static/assets/2stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="2 stars"/>
+                                   {% elif i.balance == 3 %}
+                                        <img src="/static/assets/3stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="3 stars"/>
+                                   {% elif i.balance == 4 %}
+                                        <img src="/static/assets/4stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="4 stars"/>
+                                   {% elif i.balance == 5 %}
+                                        <img src="/static/assets/5stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="5 stars"/>
+                                   {% endif %} 
+                              </div>
+                         </div>
+                    </div>
+               </div> 
+               <div class="col">
+                    <div class="card-content">
+                         Location: {{i.location}} ({{i.virtual}}) <br>
+                         Job Type: {{i.type}} <br>
+                         Job Field: {{i.company_type}} <br>
+                         Length: {{i.length}} weeks <br>
+                         {% if i.description != "" %}
+                              Salary: ${{i.salary}}/hr <br>
+                         {% endif %}
+                         Date Posted: <i>{{i.date_created}}</i>
+                    </div>
+               </div> 
+          </div>
+          <div class="row">
+               <div class="card-content">
+                    {% if i.description != "" %}
+                         Description: {{i.description}}
+                    {% endif %}
+               </div>
+          </div>  
+          <div class="row">
+               <div class="card-content">
+                    {% if i.technologies != "" %} 
+                         Technologies Used: {{i.technologies}}
+                    {% endif %}
+               </div>
+          </div>  
+          <div class="row">
+               <div class="card-content">
+                    Reviewer Info:
+                    {% if i.grade == "jr" %} Junior
+                    {% elif i.grade == "sr" %} Senior
+                    {% elif i.grade == "so" %} Sophomore
+                    {% elif i.grade == "fr" %} Freshman
+                    {% else %} Grad Student
+                    {% endif %}
+                    in the {{i.major}} department 
+                    {% if i.certificates != "" %} 
+                         {{i.certificates}}
+                    {% endif %}
+               </div>
+          </div> 
+             
+    </div>
+</div>
+{% endfor %} {% endif %} 
+</div>

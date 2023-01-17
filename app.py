@@ -77,7 +77,11 @@ def job_filtered():
 @app.route('/interviews', methods=['GET'])
 def interviews():
     netid = auth.authenticate()
-    html = flask.render_template('templates/interviews.html', netid=netid)
+    res = database.get_all_internships()
+    html = flask.render_template('templates/jobs.html', 
+                netid=netid,
+                interview_search_res = res,
+            )
     response = flask.make_response(html)
     return response
 #----------------------------------------------------------------------
