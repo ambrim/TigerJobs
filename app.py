@@ -167,7 +167,7 @@ def profile():
     interviews, internships = database.get_reviews_by_user(netid)
     major_codes = list(database.majors.keys())
     major_names = list(database.majors.values())
-    user_certificates = user.certificates.split(",")
+    user_certificates = user.certificates.split(", ")
     company_names = database.get_all_company_names()
     html = flask.render_template('templates/profile.html', 
                 netid=netid,
@@ -198,7 +198,8 @@ def profile_update():
     database.update_user(user)
     major_codes = list(database.majors.keys())
     major_names = list(database.majors.values())
-    user_certificates = user.certificates.split(",")
+    user_certificates = user.certificates.split(", ")
+    print(user_certificates)
     html = flask.render_template('templates/profileform.html', 
                 netid=netid,
                 user=user,

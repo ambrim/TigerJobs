@@ -92,9 +92,9 @@
             for (let i = 0; i < certs.length; i++) {
                 var inner = certs[i].innerHTML;
                 var cert = inner.substring(0, inner.length - 85);
-                profile_certificates += cert + ",";
+                profile_certificates += cert + ", ";
             }
-            profile_certificates = profile_certificates.substring(0, profile_certificates.length - 1);
+            profile_certificates = profile_certificates.substring(0, profile_certificates.length - 2);
             var profile_major = $('#profile-major').val();
             var profile_year = $('#profile-year').val();
             var json_event = {
