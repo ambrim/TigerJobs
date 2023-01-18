@@ -194,15 +194,54 @@ def get_filtered_internships(filters) -> List[models.Internships]:
         ).all()
     return internships
 
-# Search for internship (Using get_all currently)
-MAX_QUERY_LENGTH = 200 # not used currently
-def search_for_internship(query):
-    if query is None or not isinstance(query, str):
-        return None, ""
-    res = []
+def get_filtered_interviews(filters) -> List[models.Interviews]:
+    interviews = []
     with sqlalchemy.orm.Session(engine) as session:
-        res = session.query(models.Internships).all()
-    return res
+        interviews = session.query(models.Interviews).filter(
+            # Filter by query in title, description, technology, or company
+            sqlalchemy.or_(
+                models.Interviews.title.ilike('%{}%'.format(filters[0])),
+                models.Interviews.company.ilike('%{}%'.format(filters[0])),
+                models.Interviews.technologies.ilike('%{}%'.format(filters[0])),
+                models.Interviews.description.ilike('%{}%'.format(filters[0])),
+            ),
+            # Filter by difficulty rating
+            sqlalchemy.or_(
+                models.Interviews.difficulty.in_(filters[1]),
+                len(filters[1]) == 0
+            ),
+            # Filter by enjoyment rating
+            sqlalchemy.or_(
+                models.Interviews.enjoyment.in_(filters[2]),
+                len(filters[2]) == 0
+            ),
+            # Filter by class year
+            sqlalchemy.or_(
+                models.Interviews.grade.in_(filters[3]),
+                len(filters[3]) == 0
+            ),
+            # Filter by location style
+            sqlalchemy.or_(
+                models.Interviews.virtual.in_(filters[4]),
+                len(filters[4]) == 0
+            ),
+            # Filter by job type
+            sqlalchemy.or_(
+                models.Interviews.type.in_(filters[5]),
+                len(filters[5]) == 0
+            ),
+            # Filter by major
+            sqlalchemy.or_(
+                models.Interviews.major.in_(filters[6]),
+                len(filters[6]) == 0
+            ),
+            # Filter by job field
+            sqlalchemy.or_(
+                models.Interviews.company_type.in_(filters[7]),
+                len(filters[7]) == 0
+            )
+        ).all()
+    return interviews
 
 # Add internship review to database
 def add_internship(internship:models.Internships):

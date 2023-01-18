@@ -87,8 +87,34 @@ def job_filtered():
 def interviews():
     netid = auth.authenticate()
     res = database.get_all_internships()
-    html = flask.render_template('templates/jobs.html', 
+    major_codes = list(database.majors.keys())
+    major_names = list(database.majors.values())
+    html = flask.render_template('templates/interviews.html', 
                 netid=netid,
+                interview_search_res = res,
+                major_codes=major_codes,
+                major_names=major_names
+            )
+    response = flask.make_response(html)
+    return response
+
+@app.route('/interviews/filter', methods=['POST'])
+def interview_filtered():
+    _ = auth.authenticate()
+    # Get form data
+    data = json.loads(flask.request.form.to_dict()['event_data'])
+    filters = [
+        data['query'],
+        data['difficulty'],
+        data['enjoyment'],
+        data['classes'],
+        data['locationstyle'],
+        data['jobtype'],
+        data['majors'],
+        data['fields']
+    ]
+    res = database.get_filtered_interviews(filters)
+    html = flask.render_template('templates/job_search_results.html', 
                 interview_search_res = res,
             )
     response = flask.make_response(html)
