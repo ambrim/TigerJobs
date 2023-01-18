@@ -55,7 +55,7 @@ def add_test_interview(session):
         advanced=True,
         upvotes = [],
         major = 'COS',
-        certificates = 'SML, Finance',
+        certificates = 'Statistics and Machine Learning, Finance',
         grade = 'jr',
         date_created = '2022-01-10'
     )

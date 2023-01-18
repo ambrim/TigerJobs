@@ -39,11 +39,15 @@ def jobs():
     res = database.get_all_internships()
     major_codes = list(database.majors.keys())
     major_names = list(database.majors.values())
+    certificates = list(database.certificates)
+    locations = database.get_all_internship_locations()
     html = flask.render_template('templates/jobs.html', 
                 netid=netid,
                 job_search_res = res,
                 major_codes=major_codes,
-                major_names=major_names
+                major_names=major_names,
+                certificates=certificates,
+                locations=locations
             )
     response = flask.make_response(html)
     return response
@@ -61,8 +65,13 @@ def job_filtered():
         data['classes'],
         data['locationstyle'],
         data['jobtype'],
+        data['locations'],
         data['majors'],
-        data['fields']
+        data['certificates'],
+        data['fields'],
+        data['recencySort'],
+        data['difficultySort'],
+        data['enjoymentSort']
     ]
     res = database.get_filtered_internships(filters)
     html = flask.render_template('templates/job_search_results.html', 
@@ -463,7 +472,7 @@ def delete_job():
 
 # Delete job review
 @app.route('/profile/delete/interview', methods=['POST'])
-def delete_inteview():
+def delete_interview():
     netid = auth.authenticate()
     # Get interview id for review to delete
     id = flask.request.args.get('id')

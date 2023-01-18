@@ -91,8 +91,23 @@ def delete_interview(id):
 def get_all_internships() -> List[models.Internships]:
     internships = []
     with sqlalchemy.orm.Session(engine) as session:
-        internships = session.query(models.Internships).all()
+        internships = session.query(models.Internships).order_by(
+            models.Internships.date_created.desc(),
+            sqlalchemy.func.cardinality(models.Internships.upvotes).desc(),
+            models.Internships.difficulty.desc(),
+            models.Internships.enjoyment.desc()
+        ).all()
     return internships
+
+# Get all internship location options
+def get_all_internship_locations():
+    locations = []
+    with sqlalchemy.orm.Session(engine) as session:
+        internships = session.query(models.Internships).all()
+    for internship in internships:
+        if internship.location not in locations:
+            locations.append(internship.location)
+    return locations
 
 # Get internships by filter
 '''
@@ -100,11 +115,26 @@ def get_all_internships() -> List[models.Internships]:
     [
         Query, Difficulty List, Enjoyment List, Class Year,
         Location Style, Job Type, Locations, Majors, Certificates,
-        Job Fields
+        Job Fields, Sort By Recency, Sort By Difficulty, Sort By Enjoyment
     ]
 '''
 def get_filtered_internships(filters) -> List[models.Internships]:
     internships = []
+    clauses = [models.Internships.certificates.contains(elem) for elem in filters[8]]
+    # Create sort by clauses
+    sort_by_clauses = []
+    if filters[10]:
+        sort_by_clauses.append(models.Internships.date_created.desc())
+    else:
+        sort_by_clauses.append(models.Internships.date_created)
+    if filters[11]:
+        sort_by_clauses.append(models.Internships.difficulty.desc())
+    else:
+        sort_by_clauses.append(models.Internships.difficulty)
+    if filters[12]:
+        sort_by_clauses.append(models.Internships.enjoyment.desc())
+    else:
+        sort_by_clauses.append(models.Internships.enjoyment)
     with sqlalchemy.orm.Session(engine) as session:
         internships = session.query(models.Internships).filter(
             # Filter by query in title, description, technology, or company
@@ -139,16 +169,28 @@ def get_filtered_internships(filters) -> List[models.Internships]:
                 models.Internships.type.in_(filters[5]),
                 len(filters[5]) == 0
             ),
+            # Filter by location
+            sqlalchemy.or_(
+                models.Internships.location.in_(filters[6]),
+                len(filters[6]) == 0
+            ),
             # Filter by major
             sqlalchemy.or_(
-                models.Internships.major.in_(filters[6]),
-                len(filters[6]) == 0
+                models.Internships.major.in_(filters[7]),
+                len(filters[7]) == 0
+            ),
+            # Filter by certificates
+            sqlalchemy.or_(
+                *clauses,
+                len(filters[8]) == 0
             ),
             # Filter by job field
             sqlalchemy.or_(
-                models.Internships.company_type.in_(filters[7]),
-                len(filters[7]) == 0
-            )
+                models.Internships.company_type.in_(filters[9]),
+                len(filters[9]) == 0
+            ),
+        ).order_by(
+            *sort_by_clauses
         ).all()
     return internships
 

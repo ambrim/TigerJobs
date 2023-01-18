@@ -1,9 +1,9 @@
 <small id="job-search-help" class="form-text text-muted">
-    Enter a company, job title, or keyword...
+    Enter a company, job title, technology, or keyword...
 </small>
 <div class="row">
     <div class="col g-0">
-        <form class="nosubmit">
+        <form id="job-search-form" class="nosubmit">
             <input  id="job-search-bar"
                     class="nosubmit form-control form-control-lg" 
                     type="text"
@@ -17,48 +17,55 @@
         </form>
     </div>
     <div class="col-md-auto g-0">
-        <span type="button" class="submit"> Search
+        <span type="button" class="submit" onclick=getFilteredData()> Search
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
         </span>
     </div>
 </div>
 <div class="sort-bar">
     <i>Sort By:</i>
-    <span onclick="changeSortDate()" type="button" id="sortDate">
-        {% if sortDate == new %}
-            Most Recent, 
-        {% elif sortDate == old %}
-            Oldest, 
-        {% endif %}
-    </span>
-    <span type="button" id="sortUpvote">
-        {% if sortUpvote == most %}
-            Most upvoted 
-        {% elif sortUpvote == least %}
-            Least Upvoted
-        {% endif %}
-    </span>
-    <span type="button" id="sortDifficult">
-        {% if sortDifficult == high %}
-            Highest Difficulty
-        {% elif sortDifficult == low %}
-            Lowest Difficulty
-        {% endif %}
-    </span>
-    <span type="button" id="sortEnjoy">
-        {% if sortEnjoy == high %}
-            Highest Enjoyment
-        {% elif sortEnjoy == low %}
-            Lowest Enjoyment
-        {% endif %}
-    </span>
+    <span ><button id="sortDate" class="sort-btn" onclick="changeSortDate()">Most Recent</button></span>
+    <span><button id="sortUpvoted" class="sort-btn" onclick="changeSortUpvote()">Most Upvoted</button></span>
+    <span><button id="sortDifficulty" class="sort-btn" onclick="changeSortDifficulty()">Highest Difficulty</button></span>
+    <span><button id="sortEnjoyment" class="sort-btn" onclick="changeSortEnjoyment()">Highest Enjoyment</button></span>
 </div>
 
 <script>
     function changeSortDate()
     {
-        var elem = document.getElementById("sortDate");
-        if (elem.innerHTML=="Oldest, ") elem.innerHTML = "Most Recent, ";
-        else elem.innerHTML = "Oldest, ";
+        var sortDate = $('#sortDate').text();
+        if (sortDate == "Most Recent") {
+            $('#sortDate').text("Least Recent")
+        }
+        else {
+            $('#sortDate').text("Most Recent")
+        }
+    }
+    function changeSortUpvote() {
+        var sortUpvote = $('#sortUpvoted').text();
+        if (sortUpvote == "Most Upvoted") {
+            $('#sortUpvoted').text("Least Upvoted")
+        }
+        else {
+            $('#sortUpvoted').text("Most Upvoted")
+        }
+    }
+    function changeSortDifficulty() {
+        var sortDifficulty = $('#sortDifficulty').text();
+        if (sortDifficulty == "Highest Difficulty") {
+            $('#sortDifficulty').text("Lowest Difficulty")
+        }
+        else {
+            $('#sortDifficulty').text("Highest Difficulty")
+        }
+    }
+    function changeSortEnjoyment() {
+        var sortEnjoyment = $('#sortEnjoyment').text();
+        if (sortEnjoyment == "Highest Enjoyment") {
+            $('#sortEnjoyment').text("Lowest Enjoyment")
+        }
+        else {
+            $('#sortEnjoyment').text("Highest Enjoyment")
+        }
     }
 </script>
