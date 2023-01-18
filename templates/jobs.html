@@ -63,6 +63,8 @@
 
     <script>
     let request = null;
+    let currentSort = 'recency';
+    let currentSortDirection = true;
     function hideRatings() {
         $('#difficult').hide();
         $('#enjoy').hide();
@@ -131,19 +133,6 @@
         var certificates = $('#dropdown-certificates').val();
         // Job Fields
         var fields = $('#dropdown-fields').val();
-        // Sort by fields
-        // Recency sort
-        var sortDate = $('#sortDate').text();
-        if (sortDate == "Most Recent") sortDate = true;
-        else sortDate = false;
-        // Difficulty sort
-        var sortDifficulty = $('#sortDifficulty').text();
-        if (sortDifficulty == "Highest Difficulty") sortDifficulty = true;
-        else sortDifficulty = false;
-        // Enjoyment sort
-        var sortEnjoyment = $('#sortEnjoyment').text();
-        if (sortEnjoyment == "Highest Enjoyment") sortEnjoyment = true;
-        else sortEnjoyment = false;
         // Send JSON event
         var json_event = {
             "query": query,
@@ -156,9 +145,8 @@
             "majors": majors,
             "certificates": certificates,
             "fields": fields,
-            "recencySort":sortDate,
-            "difficultySort": sortDifficulty,
-            "enjoymentSort": sortEnjoyment
+            "sortType": currentSort,
+            "sortDirection": currentSortDirection
         };
         if (request != null)
             request.abort();
@@ -168,6 +156,27 @@
             event_data: JSON.stringify(json_event)
         }).done(function (data) {
             $('#job-search-results').html(data);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert("Error!")
+        });
+    }
+    function upvoteReview(id) {
+        if (request != null)
+            request.abort();
+        let url = "/jobs/upvote?id=" + id;
+        request = $.post(url, {
+        }).done(function (data) {
+            let upvoteIconId = "#upvote-" + id;
+            let elemId = "#upvote-count-" + id;
+            if (data[0] == "False") {
+                $(upvoteIconId).css("stroke", "black");
+                $(elemId).removeClass("card-upvote-selected");
+            }
+            else if (data[0] == "True") {
+                $(upvoteIconId).css("stroke", "#2058DC");
+                $(elemId).addClass("card-upvote-selected");
+            }
+            $(elemId).text(data[1])
         }).fail(function (jqXHR, textStatus, errorThrown) {
             alert("Error!")
         });

@@ -21,12 +21,24 @@
                     <!--href link to company page-->
                </div>
                <div class="col d-flex justify-content-end">
-                    <div type="button" class="card-upvotes">
-                         <svg id="upvote" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M17 11l-5-5-5 5M17 18l-5-5-5 5"/></svg>  
+                    {% if netid in job.upvotes %}
+                    <div type="button" class="card-upvotes" onclick="upvoteReview({{job.id}})">
+                         <svg id="upvote-{{job.id}}" class="upvote-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                              stroke="#2058DC" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M17 11l-5-5-5 5M17 18l-5-5-5 5" />
+                         </svg>
                     </div>
-                    <span class="card-upvote-text">
+                    <span class="card-upvote-text card-upvote-selected" id="upvote-count-{{job.id}}">
+                         {{job.upvotes | length}}
+                    </span>
+                    {% else %}
+                    <div type="button" class="card-upvotes" onclick="upvoteReview({{job.id}})">
+                         <svg id="upvote-{{job.id}}" class="upvote-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M17 11l-5-5-5 5M17 18l-5-5-5 5"/></svg>  
+                    </div>
+                    <span class="card-upvote-text" id="upvote-count-{{job.id}}">
                          {{job.upvotes | length}} 
                     </span>
+                    {% endif %}
                </div>
           </div>
           <div class="row">

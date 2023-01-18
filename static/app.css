@@ -417,8 +417,11 @@ input.nosubmit {
     font-size: 14px;
     color: white;
     text-align: left;
-    background-color: #4269e2;
+    background-color: #aaa;
     border: none
+}
+.sort-btn-selected {
+    background-color: #4269e2;
 }
 .no-results {
     font-size: 20px;
@@ -462,9 +465,12 @@ input.nosubmit {
     transform: translateY(-3px);
     transition: transform 0.3s;
 }
-#upvote:hover {
+.upvote-icon:hover {
     stroke: #2058DC;
-  }
+}
+.card-upvote-selected {
+    color: #2058DC;
+}
 .card-content {
     font-size: 0.9rem;
     text-align: left;

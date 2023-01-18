@@ -55,7 +55,7 @@ def jobs():
 # Jobs main page
 @app.route('/jobs/filter', methods=['POST'])
 def job_filtered():
-    _ = auth.authenticate()
+    netid = auth.authenticate()
     # Get form data
     data = json.loads(flask.request.form.to_dict()['event_data'])
     filters = [
@@ -69,16 +69,33 @@ def job_filtered():
         data['majors'],
         data['certificates'],
         data['fields'],
-        data['recencySort'],
-        data['difficultySort'],
-        data['enjoymentSort']
+        data['sortType'],
+        data['sortDirection']
     ]
     res = database.get_filtered_internships(filters)
     html = flask.render_template('templates/job_search_results.html', 
+                netid = netid,
                 job_search_res = res,
             )
     response = flask.make_response(html)
     return response
+# Jobs main page
+@app.route('/jobs/upvote', methods=['POST'])
+def upvote_job():
+    netid = auth.authenticate()
+    # Get form data
+    id = flask.request.args.get('id')
+    # Variable to say whether adding or removing
+    adding = True
+    old_review = database.get_internship(id)
+    old_upvotes = old_review.upvotes
+    if netid in old_upvotes:
+        old_upvotes.remove(netid)
+        adding = False
+    else:
+        old_upvotes.append(netid)
+    database.upvote_internship(id, old_upvotes)
+    return [str(adding), str(len(old_upvotes))]
 #----------------------------------------------------------------------
 # Interviews Routes
 #----------------------------------------------------------------------

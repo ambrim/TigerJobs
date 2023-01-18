@@ -115,7 +115,7 @@ def get_all_internship_locations():
     [
         Query, Difficulty List, Enjoyment List, Class Year,
         Location Style, Job Type, Locations, Majors, Certificates,
-        Job Fields, Sort By Recency, Sort By Difficulty, Sort By Enjoyment
+        Job Fields, Sort By Type, Sort By Direction
     ]
 '''
 def get_filtered_internships(filters) -> List[models.Internships]:
@@ -123,17 +123,21 @@ def get_filtered_internships(filters) -> List[models.Internships]:
     clauses = [models.Internships.certificates.contains(elem) for elem in filters[8]]
     # Create sort by clauses
     sort_by_clauses = []
-    if filters[10]:
+    if filters[10] == "recency" and filters[11]:
         sort_by_clauses.append(models.Internships.date_created.desc())
-    else:
+    elif filters[10] == "recency" and not filters[11]:
         sort_by_clauses.append(models.Internships.date_created)
-    if filters[11]:
+    if filters[10] == "upvotes" and filters[11]:
+        sort_by_clauses.append(sqlalchemy.func.cardinality(models.Internships.upvotes).desc())
+    elif filters[10] == "upvotes" and not filters[11]:
+        sort_by_clauses.append(sqlalchemy.func.cardinality(models.Internships.upvotes))
+    if filters[10] == "difficulty" and filters[11]:
         sort_by_clauses.append(models.Internships.difficulty.desc())
-    else:
+    elif filters[10] == "difficulty" and not filters[11]:
         sort_by_clauses.append(models.Internships.difficulty)
-    if filters[12]:
+    if filters[10] == "enjoyment" and filters[11]:
         sort_by_clauses.append(models.Internships.enjoyment.desc())
-    else:
+    elif filters[10] == "enjoyment" and not filters[11]:
         sort_by_clauses.append(models.Internships.enjoyment)
     with sqlalchemy.orm.Session(engine) as session:
         internships = session.query(models.Internships).filter(
@@ -280,6 +284,19 @@ def get_internship(id) -> models.Internships:
     with sqlalchemy.orm.Session(engine) as session:
         internship = session.query(models.Internships).filter(
             models.Internships.id == id).first()
+    return internship
+# Change internship upvotes
+def upvote_internship(id, new_val):
+    # Make sure to only get one
+    internship = None
+    with sqlalchemy.orm.Session(engine) as session:
+        internship = session.query(models.Internships).filter(
+            models.Internships.id == id).update(
+                {
+                    "upvotes": new_val
+                }
+            )
+        session.commit()
     return internship
 # Delete an internship review
 def delete_internship(id):
