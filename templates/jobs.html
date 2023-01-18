@@ -157,28 +157,40 @@
         }).done(function (data) {
             $('#job-search-results').html(data);
         }).fail(function (jqXHR, textStatus, errorThrown) {
-            alert("Error!")
         });
     }
     function upvoteReview(id) {
+        let elemId = "#upvote-count-" + id;
+        let upvoteIconId = "#upvote-" + id;
+        if ($(elemId).hasClass("card-upvote-selected")) {
+            $(upvoteIconId).css("stroke", "black");
+            $(elemId).removeClass("card-upvote-selected");
+            let num = $(elemId).text();
+            $(elemId).text(num - 1);
+        }
+        else {
+            $(upvoteIconId).css("stroke", "#2058DC");
+            $(elemId).addClass("card-upvote-selected");
+            let num = parseInt($(elemId).text());
+            $(elemId).text(num + 1);
+        }
         if (request != null)
             request.abort();
         let url = "/jobs/upvote?id=" + id;
         request = $.post(url, {
         }).done(function (data) {
-            let upvoteIconId = "#upvote-" + id;
-            let elemId = "#upvote-count-" + id;
-            if (data[0] == "False") {
-                $(upvoteIconId).css("stroke", "black");
-                $(elemId).removeClass("card-upvote-selected");
-            }
-            else if (data[0] == "True") {
-                $(upvoteIconId).css("stroke", "#2058DC");
-                $(elemId).addClass("card-upvote-selected");
-            }
-            $(elemId).text(data[1])
+            // let upvoteIconId = "#upvote-" + id;
+            // let elemId = "#upvote-count-" + id;
+            // if (data[0] == "False") {
+            //     $(upvoteIconId).css("stroke", "black");
+            //     $(elemId).removeClass("card-upvote-selected");
+            // }
+            // else if (data[0] == "True") {
+            //     $(upvoteIconId).css("stroke", "#2058DC");
+            //     $(elemId).addClass("card-upvote-selected");
+            // }
+            // $(elemId).text(data[1])
         }).fail(function (jqXHR, textStatus, errorThrown) {
-            alert("Error!")
         });
     }
     function setup() {
