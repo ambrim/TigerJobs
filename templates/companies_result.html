@@ -57,8 +57,8 @@
                 </div>
                 <div class="row">
                     <p>
-                        Average Difficulty: <b>{{comp.internship_difficulty}}</b>/5 <br>
-                        Average Enjoyment: <b>{{comp.internship_enjoyment}}</b>/5 
+                        Average Difficulty: <b>{{comp.internship_difficulty / comp.num_internships}}</b>/5 <br>
+                        Average Enjoyment: <b>{{comp.internship_enjoyment / comp.num_internships}}</b>/5 
                     </p>
                 </div>  
                 <div class="row top-bottom">
@@ -70,18 +70,18 @@
                         Work/Life Balance
                    </div>
                    <div class="col">
-                        <div class="Stars" style="--rating:3.4;"></div>
-                        <div class="Stars" style="--rating:3.4;"></div>
-                        <div class="Stars" style="--rating:3.4;"></div>
-                        <div class="Stars" style="--rating:3.4;"></div>
-                        <div class="Stars" style="--rating:3.4;"></div>
+                        <div class="Stars" style="--rating:{{comp.internship_career / comp.num_internships}};"></div>
+                        <div class="Stars" style="--rating:{{comp.internship_culture / comp.num_internships}};"></div>
+                        <div class="Stars" style="--rating:{{comp.internship_pay / comp.num_internships}};"></div>
+                        <div class="Stars" style="--rating:{{comp.internship_supervisor / comp.num_internships}};"></div>
+                        <div class="Stars" style="--rating:{{comp.internship_balance / comp.num_internships}};"></div>
                    </div>
                    <div class="col-2">
-                        {{comp.internship_career}} <br>
-                        {{comp.internship_culture}} <br>
-                        {{comp.internship_pay}} <br>
-                        {{comp.internship_supervisor}} <br>
-                        {{comp.internship_balance}}
+                        {{comp.internship_career / comp.num_internships}} <br>
+                        {{comp.internship_culture / comp.num_internships}} <br>
+                        {{comp.internship_pay / comp.num_internships}} <br>
+                        {{comp.internship_supervisor / comp.num_internships}} <br>
+                        {{comp.internship_balance / comp.num_internships}}
                    </div>
                 </div> 
                 <div class="row g-2 top-bottom">
@@ -113,8 +113,8 @@
                 </div>
                 <div class="row">
                     <p>
-                        Average Difficulty: <b>{{comp.internship_difficulty}}</b>/5 <br>
-                        Average Enjoyment: <b>{{comp.internship_enjoyment}}</b>/5 
+                        Average Difficulty: <b>{{comp.internship_difficulty / comp.num_interviews}}</b>/5 <br>
+                        Average Enjoyment: <b>{{comp.internship_enjoyment / comp.num_interviews}}</b>/5 
                     </p>
                 </div>    
                 <div class="row g-2 top-bottom">
@@ -128,7 +128,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="pie animate center" style="--p:80;--c:orange"> 80%</div>
+                        <div class="pie animate center" style="--p:{{ (comp.advanced / comp.num_interviews * 100) | int}};--c:orange"> {{ (comp.advanced / comp.num_interviews * 100) | int}}%</div>
                         <br> 
                         <div class="center">advanced to the next round
                             <div class="tooltip">

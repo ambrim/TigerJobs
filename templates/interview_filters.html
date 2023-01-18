@@ -182,12 +182,12 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12 left-container">
-            <b>Interview Outcome</b>
+        <div class="col left-container">
+            <b>Outcome</b>
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="interviewoutcome-1">
                 <label class="form-check-label" for="interviewoutcome1">
-                    Advanced to next round / job offer
+                    Advanced
                 </label>
             </div>
             <div class="form-check">
@@ -197,10 +197,25 @@
                 </label>
             </div>
         </div>
+        <div class="col left-container">
+            <b>Round</b>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="interviewoutcome-1">
+                <label class="form-check-label" for="interviewfinal1">
+                    Final
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="interviewoutcome-2">
+                <label class="form-check-label" for="interviewfinal-2">
+                    Preliminary
+                </label>
+            </div>
+        </div>
     </div>
     <div class="row">
         <div class="col-12 left-container">
-            <b>Interview Duration</b>
+            <b>Duration</b>
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="interviewduration-1">
                 <label class="form-check-label" for="interviewduration-1">
@@ -245,13 +260,13 @@
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="interviewtype-8">
-                <label class="form-check-label" for="interviewtype-8">
+                <label class="form-check-label" for="interviewduration-8">
                     Full day
                 </label>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="interviewtype-9">
-                <label class="form-check-label" for="interviewtype-9">
+                <label class="form-check-label" for="interviewduration-9">
                     Multiple Days
                 </label>
             </div>
@@ -259,7 +274,7 @@
     </div>
     <div class="row">
         <div class="col-12 left-container">
-            <b>Interview obtained through...</b>
+            <b>Interview obtained by:</b>
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="howinterview-1">
                 <label class="form-check-label" for="howinterview-1">
@@ -329,8 +344,15 @@
     <div class="row">
         <div class="col-12 left-container">
             <b>Certificates</b>
-            <div class="filters-input-div">
-                <input id="filter-certificates" class="filters-input" type="text" placeholder="Enter a certificate...">
+            <div>
+                <select id="dropdown-certificates" multiple name="native-select" placeholder="Select certificates" data-search="false"
+                    data-silent-initial-value-set="true">
+                    {% for certificate in certificates %}
+                    <option value={{certificate}}>
+                        {{certificate}}
+                    </option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
     </div>
@@ -338,7 +360,7 @@
         <div class="col-12 left-container">
             <b>Job Fields</b>
             <div>
-                <select id="dropdown-fields" multiple name="native-select" placeholder="Select job fields" data-search="false"
+                <select id="dropdown-fields" multiple name="native-select" placeholder="Select interview fields" data-search="false"
                     data-silent-initial-value-set="true">
                     <option value="Pharmaceuticals">Pharmaceuticals</option>
                     <option value="Biotech">Biotech</option>
@@ -401,23 +423,44 @@
         // Get all location types
         var locationtype_options = ['In-person', 'Video Call', 'Phone', 'Unsupervised']
         var locationtypes = []
-        for (let i = 1; i <= 3; i++) {
+        for (let i = 1; i <= 4; i++) {
             var locationId = "#location-" + i;
             if ($(locationId).is(':checked')) locationstyles.push(locationstyle_options[i - 1]);
         }
         // Get all interview types
         var interviewtype_options = ['Online Assessment (OA)', 'Screening/Phone', 'Technical', 'Behavioral', 'Case']
         var interviewtypes = []
-        for (let i = 1; i <= 7; i++) {
+        for (let i = 1; i <= 5; i++) {
             var interviewtypeId = "#interviewtype-" + i;
             if ($(interviewtypeId).is(':checked')) interviewtypes.push(interviewtypes_options[i - 1]);
         }
+        // Advanced: T or F
+        var interviewoutcome_options = [true, false]
+        var interviewoutcomes = []
+        for (let i = 1; i <= 2; i++) {
+            var interviewoutcomeId = "#interviewoutcome-" + i;
+            if ($(interviewoutcomeId).is(':checked')) interviewoutcomes.push(interviewoutcome_options[i - 1]);
+        }
+        // Final round: T or F
+        var interviewfinal_options = [true, false]
+        var interviewfinals = []
+        for (let i = 1; i <= 2; i++) {
+            var interviewfinalId = "#interviewfinal-" + i;
+            if ($(interviewfinalId).is(':checked')) interviewfinals.push(interviewfinal_options[i - 1]);
+        }
         // Get all interview durations
-        var interviewduration_options = ['Online Assessment (OA)', 'Screening/Phone', 'Technical', 'Behavioral', 'Case']
+        var interviewduration_options = ['Under 30 minutes', '30-45 minutes', '1 hour', '2 hours', '3 hours', '4 hours', '4+ hours but under a day', 'Full Day', 'Multiple Days']
         var interviewdurations = []
-        for (let i = 1; i <= 7; i++) {
+        for (let i = 1; i <= 9; i++) {
             var interviewdurationId = "#interviewduration-" + i;
-            if ($(interviewdurationId).is(':checked')) interviewduration.push(interviewduration_options[i - 1]);
+            if ($(interviewdurationId).is(':checked')) interviewdurations.push(interviewduration_options[i - 1]);
+        }
+        // Get all how-interviews
+        var howinterview_options = ['Application on website', 'Application on RippleMatch/Handshake/etc', 'Handing in resume/Networking at job fair', 'Attending a webinar', 'Attending a selective small group program', 'Reaching out to a company employee', 'Working there previously', 'Personal connection']
+        var howinterviews = []
+        for (let i = 1; i <= 8; i++) {
+            var howinterviewId = "#howinterview-" + i;
+            if ($(howinterviewId).is(':checked')) howinterviews.push(howinterview_options[i - 1]);
         }
         // Locations (TO DO)
         // Majors

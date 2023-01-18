@@ -220,25 +220,50 @@ def get_filtered_interviews(filters) -> List[models.Interviews]:
                 models.Interviews.grade.in_(filters[3]),
                 len(filters[3]) == 0
             ),
-            # Filter by location style
+            # Filter by location type
             sqlalchemy.or_(
-                models.Interviews.virtual.in_(filters[4]),
+                models.Interviews.location_type.in_(filters[4]),
                 len(filters[4]) == 0
             ),
-            # Filter by job type
+            # Filter by interview type
             sqlalchemy.or_(
                 models.Interviews.type.in_(filters[5]),
                 len(filters[5]) == 0
             ),
+             # Filter by interview outcome
+            sqlalchemy.or_(
+                models.Interviews.advanced.in_(filters[6]),
+                len(filters[6]) == 0
+            ),
+            # Filter by final round
+            sqlalchemy.or_(
+                models.Interviews.final_round.in_(filters[7]),
+                len(filters[7]) == 0
+            ),
+             # Filter by interview duration
+            sqlalchemy.or_(
+                models.Interviews.duration.in_(filters[8]),
+                len(filters[8]) == 0
+            ),
+             # Filter by how-interview 
+            sqlalchemy.or_(
+                models.Interviews.how_interview.in_(filters[9]),
+                len(filters[9]) == 0
+            ),
             # Filter by major
             sqlalchemy.or_(
-                models.Interviews.major.in_(filters[6]),
-                len(filters[6]) == 0
+                models.Interviews.major.in_(filters[10]),
+                len(filters[10]) == 0
+            ),
+            # Filter by certifcates
+            sqlalchemy.or_(
+                models.Interviews.major.in_(filters[11]),
+                len(filters[11]) == 0
             ),
             # Filter by job field
             sqlalchemy.or_(
-                models.Interviews.company_type.in_(filters[7]),
-                len(filters[7]) == 0
+                models.Interviews.company_type.in_(filters[12]),
+                len(filters[12]) == 0
             )
         ).all()
     return interviews

@@ -89,11 +89,13 @@ def interviews():
     res = database.get_all_internships()
     major_codes = list(database.majors.keys())
     major_names = list(database.majors.values())
+    # certificates = list(database.certificates)
     html = flask.render_template('templates/interviews.html', 
                 netid=netid,
                 interview_search_res = res,
                 major_codes=major_codes,
                 major_names=major_names
+                # certificates=certificates
             )
     response = flask.make_response(html)
     return response
@@ -108,9 +110,14 @@ def interview_filtered():
         data['difficulty'],
         data['enjoyment'],
         data['classes'],
-        data['locationstyle'],
-        data['jobtype'],
+        data['locationtypes'],
+        data['interviewtypes'],
+        data['interviewoutcomes'],
+        data['interviewfinals'],
+        data['interviewdurations'],
+        data['howinterviews'],
         data['majors'],
+        data['certificates'],
         data['fields']
     ]
     res = database.get_filtered_interviews(filters)
