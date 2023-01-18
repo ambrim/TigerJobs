@@ -86,7 +86,7 @@ def job_filtered():
 @app.route('/interviews', methods=['GET'])
 def interviews():
     netid = auth.authenticate()
-    res = database.get_all_internships()
+    res = database.get_all_interviews()
     major_codes = list(database.majors.keys())
     major_names = list(database.majors.values())
     # certificates = list(database.certificates)
