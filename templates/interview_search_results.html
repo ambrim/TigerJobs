@@ -12,7 +12,7 @@
      Oops, no results yet! Check your spelling, try different keywords, or adjust filters.
  </p>
 {% else %} 
-{% for i in job_search_res %}
+{% for i in interview_search_res %}
 <div class="container-flush">
     <div class="search-results-card">
           <div class="row">
@@ -34,6 +34,7 @@
                     <div class="card-content">
                          Difficulty: <b>{{i.difficulty}}</b> &#160
                          Enjoyment: <b>{{i.enjoyment}}</b> <br>
+                         Round: {{i.round}} {% if i.final_round == true %}(Final) {% endif %} <br>
                          Interview obtained by: {{i.how_interview}} <br>
                          Job Field: {{i.company_type}} <br>
                     </div>
@@ -41,7 +42,6 @@
                <div class="col">
                     <div class="card-content">
                          Location: {{i.location_type}} <br>
-                         Round: {{i.round}} ({% if i.final_round == true %} Final {% endif %}) <br>
                          Duration: {{i.duration}} <br>
                          Number of interviewers: {{i.num_interviewers}}<br>
                          <b>Advanced?</b>
@@ -49,7 +49,7 @@
                               Yes
                          {% else %}
                               No
-                         {% endif %}
+                         {% endif %} <br>
                          Date Posted: <i>{{i.date_created}}</i>
                     </div>
                </div> 
@@ -63,7 +63,7 @@
           </div>  
           <div class="row">
                <div class="card-content">
-                    {% if i.technologies != "" %} 
+                    {% if i.technologies != None %} 
                          Technologies Used: {{i.technologies}}
                     {% endif %}
                </div>
@@ -71,7 +71,7 @@
           <div class="row">
                <div class="card-content">
                     {% if i.tips != "" %}
-                         Description: {{i.tips}}
+                         Tips: {{i.tips}}
                     {% endif %}
                </div>
           </div>  
