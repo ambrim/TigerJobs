@@ -22,18 +22,20 @@
         </span>
     </div>
 </div>
-<div class="row">
-    <div class="sort-bar col-sm-8">
-        <i>Sort By:</i>
-        <span><button id="sortDate" class="sort-btn sort-btn-selected" onclick="changeSortDate()">Recency</button></span>
-        <span><button id="sortUpvoted" class="sort-btn" onclick="changeSortUpvote()">Upvotes</button></span>
-        <span><button id="sortDifficulty" class="sort-btn" onclick="changeSortDifficulty()">Difficulty</button></span>
-        <span><button id="sortEnjoyment" class="sort-btn" onclick="changeSortEnjoyment()">Enjoyment</button></span>
-        <span></span>
-    </div>
-    <div class="sort-bar col-sm-4">
-        <i>Direction:</i>
-        <span><button id="sortDirection" class="sort-btn sort-btn-selected" onclick="changeSortDirection()">Highest to Lowest</button></span>
+<div class="row top-buffer">
+    <div>
+        <span class="sort-bar col-sm-8">
+            <i>Sort:</i>
+            <span><button id="sortDate" class="sort-btn sort-btn-selected" onclick="changeSortDate()">Recency</button></span>
+            <span><button id="sortUpvoted" class="sort-btn" onclick="changeSortUpvote()">Upvotes</button></span>
+            <span><button id="sortDifficulty" class="sort-btn" onclick="changeSortDifficulty()">Difficulty</button></span>
+            <span><button id="sortEnjoyment" class="sort-btn" onclick="changeSortEnjoyment()">Enjoyment</button></span>
+            <span></span>
+        </span>
+        <span class="sort-bar col-sm-4">
+            <i>By:</i>
+            <span><button id="sortDirection" class="sort-btn sort-btn-selected" onclick="changeSortDirection()">Highest to Lowest</button></span>
+        </span>
     </div>
 </div>
 <script>
