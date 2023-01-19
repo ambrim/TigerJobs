@@ -18,6 +18,7 @@ def add_test_internship(session):
         type = 'Internship: Industry - Public Sector',
         length = 10,
         company = 'MITRE',
+        company_id = 1,
         company_type = 'STEM Research',
         salary = 25,
         supervisor = 1,
@@ -31,7 +32,7 @@ def add_test_internship(session):
         major = 'COS',
         certificates = 'SML, Finance',
         grade = 'so',
-        date_created = '2022-01-10'
+        date_created = '2023-01-10'
     )
     session.add(internship)
 
@@ -41,10 +42,13 @@ def add_test_interview(session):
         netid = 'amkumar',
         round = 1,
         final_round = False,
+        job_position = 'Software Development Engineer Intern',
+        job_field = 'Software Engineering',
         type='Technical',
         location_type='Video',
         duration = '2 hours',
         company = 'Amazon',
+        company_id = 2,
         num_interviewers= 1,
         question_description = 'Nothing',
         technologies = 'Coding language of your choice',
@@ -57,7 +61,7 @@ def add_test_interview(session):
         major = 'COS',
         certificates = 'Statistics and Machine Learning, Finance',
         grade = 'jr',
-        date_created = '2022-01-10'
+        date_created = '2023-01-10'
     )
     session.add(interview)
 
@@ -81,7 +85,11 @@ def add_test_companies(session):
         majors=['COS'],
         interview_grades=[0, 0, 0, 0, 0],
         internship_grades=[0, 1, 0, 0, 0],
-        advanced = 0
+        advanced = 0,
+        enjoyed_interview = 0,
+        enjoyed_internship = 1,
+        difficult_interview = 0,
+        difficult_internship = 1
     )
     session.add(company)
     company = models.Companies(
@@ -102,7 +110,11 @@ def add_test_companies(session):
         majors=[],
         interview_grades=[0, 0, 1, 0, 0],
         internship_grades=[0, 0, 0, 0, 0],
-        advanced = 1
+        advanced = 1,
+        enjoyed_interview = 1,
+        enjoyed_internship = 0,
+        difficult_interview = 0,
+        difficult_internship = 0
     )
     session.add(company)
 

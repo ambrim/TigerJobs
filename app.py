@@ -150,7 +150,7 @@ def interview_filtered():
 @app.route('/companies', methods=['GET'])
 def companies():
     netid = auth.authenticate()
-    comp = database.get_company_by_name('mitre')
+    comp = database.get_company_by_name('MITRE')
     html = flask.render_template('templates/companies.html', 
             netid=netid,
             comp=comp)
@@ -223,61 +223,13 @@ def add_job():
     data = json.loads(flask.request.form.to_dict()['event_data'])
     # Get current date
     today = datetime.today().strftime('%Y-%m-%d')
-    # Check data['salary'] to be nonempty
-    if data['salary'] == '':
-        # Create new internship review to add
-        internship = models.Internships(
-            netid = netid,
-            title = data['title'],
-            location = data['location'],
-            virtual = data['locationstyle'],
-            description = data['description'],
-            technologies = data['technologies'],
-            type = data['type'],
-            length = int(data['length']),
-            company = data['company'],
-            company_type = data['companyType'],
-            supervisor = int(data['supervisor']),
-            pay = int(data['pay']),
-            balance = int(data['balance']),
-            culture = int(data['culture']),
-            career_impact = int(data['career']),
-            difficulty = int(data['difficulty']),
-            enjoyment = int(data['enjoyment']),
-            upvotes = [],
-            major = user.major,
-            certificates = user.certificates,
-            grade = data['year'],
-            date_created = today
-        )
-    # Check data['salary'] to be nonempty
-    else:
-        # Create new internship review to add
-        internship = models.Internships(
-            netid = netid,
-            title = data['title'],
-            location = data['location'],
-            virtual = data['locationstyle'],
-            description = data['description'],
-            technologies = data['technologies'],
-            type = data['type'],
-            length = int(data['length']),
-            company = data['company'],
-            company_type = data['companyType'],
-            salary = int(data['salary']),
-            supervisor = int(data['supervisor']),
-            pay = int(data['pay']),
-            balance = int(data['balance']),
-            culture = int(data['culture']),
-            career_impact = int(data['career']),
-            difficulty = int(data['difficulty']),
-            enjoyment = int(data['enjoyment']),
-            upvotes = [],
-            major = user.major,
-            certificates = user.certificates,
-            grade = data['year'],
-            date_created = today
-        )
+    # Calculate whether users enjoyed or found job difficult
+    current_enjoyment = 0
+    if int(data['enjoyment']) >= 3:
+        current_enjoyment = 1
+    current_difficulty = 0
+    if int(data['difficulty']) >= 3:
+        current_difficulty = 1
     # Either update company or add company to database
     company = database.get_company_by_name(data['company'])
     if company is None:
@@ -304,7 +256,11 @@ def add_job():
             majors=current_majors,
             interview_grades = [0, 0, 0, 0, 0],
             internship_grades = current_grades,
-            advanced = 0
+            advanced = 0,
+            enjoyed_interview = 0,
+            enjoyed_internship = current_enjoyment,
+            difficult_interview = 0,
+            difficult_internship = current_difficulty
         )
         database.add_company(new_company)
     else:
@@ -342,9 +298,73 @@ def add_job():
             majors=current_majors,
             interview_grades = company.interview_grades,
             internship_grades = current_grades,
-            advanced = company.advanced
+            advanced = company.advanced,
+            enjoyed_interview = company.enjoyed_interview,
+            enjoyed_internship = company.enjoyed_internship + current_enjoyment,
+            difficult_interview = company.difficult_interview,
+            difficult_internship = company.difficult_internship + current_difficulty
         )
         database.update_company(new_company)
+    # Get company to get company ID
+    company = database.get_company_by_name(data['company'])
+    # Add new internship review
+    # Check data['salary'] to be nonempty
+    if data['salary'] == '':
+        # Create new internship review to add
+        internship = models.Internships(
+            netid = netid,
+            title = data['title'],
+            location = data['location'],
+            virtual = data['locationstyle'],
+            description = data['description'],
+            technologies = data['technologies'],
+            type = data['type'],
+            length = int(data['length']),
+            company = data['company'],
+            company_id = company.id,
+            company_type = data['companyType'],
+            supervisor = int(data['supervisor']),
+            pay = int(data['pay']),
+            balance = int(data['balance']),
+            culture = int(data['culture']),
+            career_impact = int(data['career']),
+            difficulty = int(data['difficulty']),
+            enjoyment = int(data['enjoyment']),
+            upvotes = [],
+            major = user.major,
+            certificates = user.certificates,
+            grade = data['year'],
+            date_created = today
+        )
+    # Check data['salary'] to be nonempty
+    else:
+        # Create new internship review to add
+        internship = models.Internships(
+            netid = netid,
+            title = data['title'],
+            location = data['location'],
+            virtual = data['locationstyle'],
+            description = data['description'],
+            technologies = data['technologies'],
+            type = data['type'],
+            length = int(data['length']),
+            company = data['company'],
+            company_id = company.id,
+            company_type = data['companyType'],
+            salary = int(data['salary']),
+            supervisor = int(data['supervisor']),
+            pay = int(data['pay']),
+            balance = int(data['balance']),
+            culture = int(data['culture']),
+            career_impact = int(data['career']),
+            difficulty = int(data['difficulty']),
+            enjoyment = int(data['enjoyment']),
+            upvotes = [],
+            major = user.major,
+            certificates = user.certificates,
+            grade = data['year'],
+            date_created = today
+        )
     database.add_internship(internship)
     # Rerender profile reviews template
     interviews, internships = database.get_reviews_by_user(netid)
@@ -380,28 +400,13 @@ def add_interview():
         data['advanced'] = False
     # Get current date
     today = datetime.today().strftime('%Y-%m-%d')
-    # Create new interview review to add
-    interview = models.Interviews(
-        netid = netid,
-        round = int(data['round']),
-        final_round = data['final'],
-        type=data['type'],
-        location_type=data['location'],
-        duration = data['duration'],
-        company = data['company'],
-        num_interviewers = data['num'],
-        question_description = data['questions'],
-        how_interview = data['how'],
-        tips = data['tips'],
-        difficulty = int(data['difficulty']),
-        enjoyment = int(data['enjoyment']),
-        advanced = data['advanced'],
-        upvotes = [],
-        major = user.major,
-        certificates = user.certificates,
-        grade = data['year'],
-        date_created = today
-    )
+    # Calculate whether users enjoyed or found job difficult
+    current_enjoyment = 0
+    if int(data['enjoyment']) >= 3:
+        current_enjoyment = 1
+    current_difficulty = 0
+    if int(data['difficulty']) >= 3:
+        current_difficulty = 1
     # Either update company or add company to database
     company = database.get_company_by_name(data['company'])
     if company is None:
@@ -428,7 +433,11 @@ def add_interview():
             majors=[],
             interview_grades = current_grades,
             internship_grades = [0, 0, 0, 0, 0],
-            advanced = current_advanced
+            advanced = current_advanced,
+            enjoyed_interview = current_enjoyment,
+            enjoyed_internship = 0,
+            difficult_interview = current_difficulty,
+            difficult_internship = 0
         )
         database.add_company(new_company)
     else:
@@ -437,7 +446,6 @@ def add_interview():
         current_advanced = company.advanced
         if data['advanced']:
             current_advanced += 1
-        print(current_advanced)
         new_company = models.Companies(
             id = company.id,
             name = data['company'],
@@ -457,9 +465,41 @@ def add_interview():
             majors= company.majors,
             interview_grades = current_grades,
             internship_grades = company.internship_grades,
-            advanced = current_advanced
+            advanced = current_advanced,
+            enjoyed_interview = company.enjoyed_interview + current_enjoyment,
+            enjoyed_internship = company.enjoyed_internship,
+            difficult_interview = company.difficult_interview + current_difficulty,
+            difficult_internship = company.difficult_internship
         )
         database.update_company(new_company)
+    # Get company to get company ID
+    company = database.get_company_by_name(data['company'])
+    # Create new interview review to add
+    interview = models.Interviews(
+        netid = netid,
+        round = int(data['round']),
+        final_round = data['final'],
+        job_position = data['job_position'],
+        job_field = data['job_type'],
+        type=data['type'],
+        location_type=data['location'],
+        duration = data['duration'],
+        company = data['company'],
+        company_id = company.id,
+        num_interviewers = data['num'],
+        question_description = data['questions'],
+        technologies = data['technologies'],
+        how_interview = data['how'],
+        tips = data['tips'],
+        difficulty = int(data['difficulty']),
+        enjoyment = int(data['enjoyment']),
+        advanced = data['advanced'],
+        upvotes = [],
+        major = user.major,
+        certificates = user.certificates,
+        grade = data['year'],
+        date_created = today
+    )
     database.add_interview(interview)
     # Rerender profile reviews template
     interviews, internships = database.get_reviews_by_user(netid)
@@ -486,6 +526,12 @@ def delete_job():
     company = database.get_company_by_name(internship.company)
     new_internship_grades = company.internship_grades
     new_internship_grades[grades_global.index(internship.grade)] -= 1
+    new_enjoyment = 0
+    if internship.enjoyment >= 3:
+        new_enjoyment = 1
+    new_difficulty = 0
+    if internship.difficulty >= 3:
+        new_difficulty = 1
     # Update company
     new_company = models.Companies(
         id = company.id,
@@ -506,7 +552,11 @@ def delete_job():
         majors = company.majors,
         interview_grades = company.interview_grades,
         internship_grades = new_internship_grades,
-        advanced = company.advanced
+        advanced = company.advanced,
+        enjoyed_interview = company.enjoyed_interview,
+        enjoyed_internship = max(company.enjoyed_internship - new_enjoyment, 0),
+        difficult_interview = company.difficult_interview,
+        difficult_internship = max(company.difficult_internship - new_difficulty, 0)
     )
     database.update_company(new_company)
     # Delete job review
@@ -539,6 +589,12 @@ def delete_interview():
     advanced_count = company.advanced
     if interview.advanced:
         advanced_count -= 1
+    new_enjoyment = 0
+    if interview.enjoyment >= 3:
+        new_enjoyment = 1
+    new_difficulty = 0
+    if interview.difficulty >= 3:
+        new_difficulty = 1
     # Update company
     new_company = models.Companies(
         id = company.id,
@@ -559,7 +615,11 @@ def delete_interview():
         majors = company.majors,
         interview_grades = new_interview_grades,
         internship_grades = company.internship_grades,
-        advanced = advanced_count
+        advanced = advanced_count,
+        enjoyed_interview = max(company.enjoyed_interview - new_enjoyment, 0),
+        enjoyed_internship = company.enjoyed_internship,
+        difficult_interview = max(company.difficult_interview - new_difficulty, 0),
+        difficult_internship = company.difficult_internship
     )
     database.update_company(new_company)
     # Delete interview review

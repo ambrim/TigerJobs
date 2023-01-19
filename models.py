@@ -13,6 +13,10 @@ class Interviews (Base):
     round = sqlalchemy.Column(sqlalchemy.Integer)
     # True if final round
     final_round = sqlalchemy.Column(sqlalchemy.Boolean)
+    # Job Position
+    job_position = sqlalchemy.Column(sqlalchemy.String)
+    # Job Field
+    job_field = sqlalchemy.Column(sqlalchemy.String)
     # Type of interview (OA, Screening, Behavioral, Technical, other)
     type = sqlalchemy.Column(sqlalchemy.String)
     # Location type (in-person, video, phone, or unsupervised)
@@ -21,6 +25,8 @@ class Interviews (Base):
     duration = sqlalchemy.Column(sqlalchemy.String)
     # Company Name
     company = sqlalchemy.Column(sqlalchemy.String)
+    # Company ID
+    company_id = sqlalchemy.Column(sqlalchemy.Integer)
     # Number of interviewers
     num_interviewers = sqlalchemy.Column(sqlalchemy.Integer)
     # Questions asked
@@ -70,6 +76,8 @@ class Internships (Base):
     length = sqlalchemy.Column(sqlalchemy.Integer)
     # Company Name
     company = sqlalchemy.Column(sqlalchemy.String)
+    # Company ID
+    company_id = sqlalchemy.Column(sqlalchemy.Integer)
     # Type of company
     company_type = sqlalchemy.Column(sqlalchemy.String)
     # Internship salary per hour
@@ -139,6 +147,14 @@ class Companies (Base):
     internship_grades = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.Integer))
     # Number of interview people that advanced
     advanced = sqlalchemy.Column(sqlalchemy.Integer)
+    # Number of people that enjoyed interview
+    enjoyed_interview = sqlalchemy.Column(sqlalchemy.Integer)
+    # Number of people that enjoyed job
+    enjoyed_internship = sqlalchemy.Column(sqlalchemy.Integer)
+    # Number of people that found interview difficult
+    difficult_interview = sqlalchemy.Column(sqlalchemy.Integer)
+    # Number of people that found job difficult
+    difficult_internship = sqlalchemy.Column(sqlalchemy.Integer)
 
 # Users Table
 class Users (Base):

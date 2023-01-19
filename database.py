@@ -374,7 +374,11 @@ def update_company(company:models.Companies):
                     'majors': company.majors,
                     'interview_grades': company.interview_grades,
                     'internship_grades': company.internship_grades,
-                    'advanced': company.advanced
+                    'advanced': company.advanced,
+                    'enjoyed_interview': company.enjoyed_interview,
+                    'enjoyed_internship': company.enjoyed_internship,
+                    'difficult_interview': company.difficult_interview,
+                    'difficult_internship': company.difficult_internship
                 }
             )
         session.commit()
