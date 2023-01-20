@@ -52,7 +52,7 @@ def add_test_interview(session):
         num_interviewers= 1,
         question_description = 'Nothing',
         technologies = 'Coding language of your choice',
-        how_interview = 'Website',
+        how_interview = 'Application on website',
         tips = 'Leetcode',
         difficulty = 2,
         enjoyment = 4,

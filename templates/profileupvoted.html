@@ -157,7 +157,7 @@
                     <div><b>Date Created:&nbsp;</b>{{i.date_created}}</div>
                     <br>
                     <div class="center-container">
-                        <button class="profile-btn-reset" onclick="deleteInterview({{i.id}})"><b>Remove Upvote</b></button>
+                        <button class="profile-btn-reset" onclick="removeUpvoteInterview({{i.id}})"><b>Remove Upvote</b></button>
                     </div>
                 </div>
             </div>
@@ -183,5 +183,15 @@
     function removeUpvoteInterview(id) {
         if (request != null)
             request.abort();
+        url = "profile/interviews/upvote?id=" + id;
+        request = $.post(url, {})
+            .done(function (data) {
+                $('#modalSuccessBody').html("Upvote successfully removed!")
+                $('#modalSuccess').modal('show');
+                $('#upvoted-reviews').html(data);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                $('#modalErrorBody').html("There was an error with our servers in removing your upvote! Try again!")
+                $('#modalError').modal('show');
+            });
     }
 </script>

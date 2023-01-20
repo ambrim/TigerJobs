@@ -60,19 +60,54 @@ certificates = [
 def get_all_interviews() -> List[models.Interviews]:
     interviews = []
     with sqlalchemy.orm.Session(engine) as session:
-        interviews = session.query(models.Interviews).all()
+        interviews = session.query(models.Interviews).order_by(
+            models.Interviews.date_created.desc(),
+            sqlalchemy.func.cardinality(models.Interviews.upvotes).desc(),
+            models.Interviews.difficulty.desc(),
+            models.Interviews.enjoyment.desc()
+        ).all()
     return interviews
 
+# Get interviews by filter
+'''
+    Filters list is as follows:
+    [
+        Query, Difficulty List, Enjoyment List, Class Year,
+        Location Types, Interview Type, Interview Outcomes,
+        Interview Final, Interview Durations, How Interviews,
+        Majors, Certificates, Job Fields, Sort By Type, Sort By Direction
+    ]
+'''
 def get_filtered_interviews(filters) -> List[models.Interviews]:
     interviews = []
+    clauses = [models.Interviews.certificates.contains(elem) for elem in filters[11]]
+    # Create sort by clauses
+    sort_by_clauses = []
+    if filters[13] == "recency" and filters[14]:
+        sort_by_clauses.append(models.Interviews.date_created.desc())
+    elif filters[13] == "recency" and not filters[14]:
+        sort_by_clauses.append(models.Interviews.date_created)
+    if filters[13] == "upvotes" and filters[14]:
+        sort_by_clauses.append(sqlalchemy.func.cardinality(models.Interviews.upvotes).desc())
+    elif filters[13] == "upvotes" and not filters[14]:
+        sort_by_clauses.append(sqlalchemy.func.cardinality(models.Interviews.upvotes))
+    if filters[13] == "difficulty" and filters[14]:
+        sort_by_clauses.append(models.Interviews.difficulty.desc())
+    elif filters[13] == "difficulty" and not filters[14]:
+        sort_by_clauses.append(models.Interviews.difficulty)
+    if filters[13] == "enjoyment" and filters[14]:
+        sort_by_clauses.append(models.Interviews.enjoyment.desc())
+    elif filters[13] == "enjoyment" and not filters[14]:
+        sort_by_clauses.append(models.Interviews.enjoyment)
     with sqlalchemy.orm.Session(engine) as session:
         interviews = session.query(models.Interviews).filter(
             # Filter by query in title, description, technology, or company
             sqlalchemy.or_(
-                models.Interviews.title.ilike('%{}%'.format(filters[0])),
+                models.Interviews.job_position.ilike('%{}%'.format(filters[0])),
                 models.Interviews.company.ilike('%{}%'.format(filters[0])),
                 models.Interviews.technologies.ilike('%{}%'.format(filters[0])),
-                models.Interviews.description.ilike('%{}%'.format(filters[0])),
+                models.Interviews.question_description.ilike('%{}%'.format(filters[0])),
+                models.Interviews.tips.ilike('%{}%'.format(filters[0]))
             ),
             # Filter by difficulty rating
             sqlalchemy.or_(
@@ -126,14 +161,16 @@ def get_filtered_interviews(filters) -> List[models.Interviews]:
             ),
             # Filter by certifcates
             sqlalchemy.or_(
-                models.Interviews.major.in_(filters[11]),
+                *clauses,
                 len(filters[11]) == 0
             ),
             # Filter by job field
             sqlalchemy.or_(
-                models.Interviews.company_type.in_(filters[12]),
+                models.Interviews.job_field.in_(filters[12]),
                 len(filters[12]) == 0
             )
+        ).order_by(
+            *sort_by_clauses
         ).all()
     return interviews
 

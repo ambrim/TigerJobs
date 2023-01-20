@@ -136,10 +136,12 @@ def interview_filtered():
         data['howinterviews'],
         data['majors'],
         data['certificates'],
-        data['fields']
+        data['fields'],
+        data['sortType'],
+        data['sortDirection']
     ]
     res = database.get_filtered_interviews(filters)
-    html = flask.render_template('templates/job_search_results.html', 
+    html = flask.render_template('templates/interview_search_results.html', 
                 interview_search_res = res,
             )
     response = flask.make_response(html)

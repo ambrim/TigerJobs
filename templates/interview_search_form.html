@@ -1,4 +1,4 @@
-<small id="job-search-help" class="form-text text-muted">
+<small id="interview-search-help" class="form-text text-muted">
     Enter a company, position title, or keyword...
 </small>
 <div class="row">
@@ -17,7 +17,7 @@
         </form>
     </div>
     <div class="col-md-auto g-0">
-        <span type="button" class="submit" onclick=getFilteredData()> Search
+        <span type="button" class="submit" onclick=getFilteredInterviewData()> Search
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
         </span>
     </div>
@@ -26,61 +26,61 @@
     <div>
         <span class="sort-bar col-sm-8">
             <i>Sort:</i>
-            <span><button id="sortDate" class="sort-btn sort-btn-selected" onclick="changeSortDate()">Recency</button></span>
-            <span><button id="sortUpvoted" class="sort-btn" onclick="changeSortUpvote()">Upvotes</button></span>
-            <span><button id="sortDifficulty" class="sort-btn" onclick="changeSortDifficulty()">Difficulty</button></span>
-            <span><button id="sortEnjoyment" class="sort-btn" onclick="changeSortEnjoyment()">Enjoyment</button></span>
+            <span><button id="interviewsortDate" class="sort-btn sort-btn-selected" onclick="changeSortDate()">Recency</button></span>
+            <span><button id="interviewsortUpvoted" class="sort-btn" onclick="changeSortUpvote()">Upvotes</button></span>
+            <span><button id="interviewsortDifficulty" class="sort-btn" onclick="changeSortDifficulty()">Difficulty</button></span>
+            <span><button id="interviewsortEnjoyment" class="sort-btn" onclick="changeSortEnjoyment()">Enjoyment</button></span>
             <span></span>
         </span>
         <span class="sort-bar col-sm-4">
             <i>By:</i>
-            <span><button id="sortDirection" class="sort-btn sort-btn-selected" onclick="changeSortDirection()">Highest to Lowest</button></span>
+            <span><button id="interviewsortDirection" class="sort-btn sort-btn-selected" onclick="changeSortDirection()">Highest to Lowest</button></span>
         </span>
     </div>
 </div>
 <script>
     function changeSortDate()
     {
-        currentSort = "recency";
-        $("#sortDate").addClass("sort-btn-selected");
-        $("#sortUpvoted").removeClass("sort-btn-selected");
-        $("#sortDifficulty").removeClass("sort-btn-selected");
-        $("#sortEnjoyment").removeClass("sort-btn-selected");
-        getFilteredData();
+        currentInterviewSort = "recency";
+        $("#interviewsortDate").addClass("sort-btn-selected");
+        $("#interviewsortUpvoted").removeClass("sort-btn-selected");
+        $("#interviewsortDifficulty").removeClass("sort-btn-selected");
+        $("#interviewsortEnjoyment").removeClass("sort-btn-selected");
+        getFilteredInterviewData();
     }
     function changeSortUpvote() {
-        currentSort = "upvotes";
-        $("#sortDate").removeClass("sort-btn-selected");
-        $("#sortUpvoted").addClass("sort-btn-selected");
-        $("#sortDifficulty").removeClass("sort-btn-selected");
-        $("#sortEnjoyment").removeClass("sort-btn-selected");
-        getFilteredData();
+        currentInterviewSort = "upvotes";
+        $("#interviewsortDate").removeClass("sort-btn-selected");
+        $("#interviewsortUpvoted").addClass("sort-btn-selected");
+        $("#interviewsortDifficulty").removeClass("sort-btn-selected");
+        $("#interviewsortEnjoyment").removeClass("sort-btn-selected");
+        getFilteredInterviewData();
     }
     function changeSortDifficulty() {
-        currentSort = "difficulty";
-        $("#sortDate").removeClass("sort-btn-selected");
-        $("#sortUpvoted").removeClass("sort-btn-selected");
-        $("#sortDifficulty").addClass("sort-btn-selected");
-        $("#sortEnjoyment").removeClass("sort-btn-selected");
-        getFilteredData();
+        currentInterviewSort = "difficulty";
+        $("#interviewsortDate").removeClass("sort-btn-selected");
+        $("#interviewsortUpvoted").removeClass("sort-btn-selected");
+        $("#interviewsortDifficulty").addClass("sort-btn-selected");
+        $("#interviewsortEnjoyment").removeClass("sort-btn-selected");
+        getFilteredInterviewData();
     }
     function changeSortEnjoyment() {
-        currentSort = "enjoyment";
-        $("#sortDate").removeClass("sort-btn-selected");
-        $("#sortUpvoted").removeClass("sort-btn-selected");
-        $("#sortDifficulty").removeClass("sort-btn-selected");
-        $("#sortEnjoyment").addClass("sort-btn-selected");
-        getFilteredData();
+        currentInterviewSort = "enjoyment";
+        $("#interviewsortDate").removeClass("sort-btn-selected");
+        $("#interviewsortUpvoted").removeClass("sort-btn-selected");
+        $("#interviewsortDifficulty").removeClass("sort-btn-selected");
+        $("#interviewsortEnjoyment").addClass("sort-btn-selected");
+        getFilteredInterviewData();
     }
     function changeSortDirection() {
-        var sortDirection = $('#sortDirection').text();
+        var sortDirection = $('#interviewsortDirection').text();
         if (sortDirection == "Highest to Lowest") {
-            $('#sortDirection').text("Lowest to Highest")
+            $('#interviewsortDirection').text("Lowest to Highest")
         }
         else {
-            $('#sortDirection').text("Highest to Lowest")
+            $('#interviewsortDirection').text("Highest to Lowest")
         }
-        currentSortDirection = !currentSortDirection;
-        getFilteredData();
+        currentInterviewSortDirection = !currentInterviewSortDirection;
+        getFilteredInterviewData();
     }
 </script>

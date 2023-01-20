@@ -11,6 +11,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+    <!-- Multiselect dropdown -->
+    <link rel="stylesheet" href="../static/virtual-select-master/dist/virtual-select.min.css" />
+    <script src="../static/virtual-select-master/dist/virtual-select.min.js"></script>
     <!-- CSS stylesheet  -->
     <link rel="stylesheet" type="text/css" href="../static/app.css">
     <style type="text/css"></style>
@@ -60,6 +63,8 @@
 
     <script>
     let request = null;
+    let currentInterviewSort = 'recency';
+    let currentInterviewSortDirection = true;
     function hideRatings() {
         $('#difficult').hide();
         $('#enjoy').hide();
@@ -75,42 +80,42 @@
         $('#eye-slash').show();
         $('#eye').hide();
     }
-    function getFilteredData() {
+    function getFilteredInterviewData() {
         // Get query
         var query = $('#interview-search-bar').val()
         // Get all difficulty scores
         var difficulty = []
         for (let i = 1; i <= 5; i++) {
-            var difficultyId = "#difficulty-" + i;
+            var difficultyId = "#interviewdifficulty-" + i;
             if ($(difficultyId).is(':checked')) difficulty.push(i);
         }
         // if (difficulty.length == 0) difficulty = [1, 2, 3, 4, 5];
         // Get all enjoyment scores
         var enjoyment = []
         for (let i = 1; i <= 5; i++) {
-            var enjoymentId = "#enjoyment-" + i;
+            var enjoymentId = "#interviewenjoyment-" + i;
             if ($(enjoymentId).is(':checked')) enjoyment.push(i);
         }
         // Get all class years
         var class_options = ['fr', 'so', 'jr', 'sr', 'grad']
         var classes = []
         for (let i = 1; i <= 5; i++) {
-            var classId = "#class-" + i;
+            var classId = "#interviewclass-" + i;
             if ($(classId).is(':checked')) classes.push(class_options[i - 1]);
         }
         // Get all location types
-        var locationtype_options = ['In-person', 'Video Call', 'Phone', 'Unsupervised']
+        var locationtype_options = ['In-person', 'Video call', 'Phone', 'Unsupervised']
         var locationtypes = []
         for (let i = 1; i <= 4; i++) {
-            var locationId = "#location-" + i;
-            if ($(locationId).is(':checked')) locationstyles.push(locationstyle_options[i - 1]);
+            var locationId = "#interviewlocation-" + i;
+            if ($(locationId).is(':checked')) locationtypes.push(locationtype_options[i - 1]);
         }
         // Get all interview types
         var interviewtype_options = ['Online Assessment (OA)', 'Screening/Phone', 'Technical', 'Behavioral', 'Case']
         var interviewtypes = []
         for (let i = 1; i <= 5; i++) {
             var interviewtypeId = "#interviewtype-" + i;
-            if ($(interviewtypeId).is(':checked')) interviewtypes.push(interviewtypes_options[i - 1]);
+            if ($(interviewtypeId).is(':checked')) interviewtypes.push(interviewtype_options[i - 1]);
         }
         // Advanced: T or F
         var interviewoutcome_options = [true, false]
@@ -140,20 +145,12 @@
             var howinterviewId = "#howinterview-" + i;
             if ($(howinterviewId).is(':checked')) howinterviews.push(howinterview_options[i - 1]);
         }
-        // Locations 
-        var locations = []
-        var location_buttons = $('#chosen-locations')[0].children;
-        for (let i = 0; i < location_buttons.length; i++) {
-            var inner = location_buttons[i].innerHTML;
-            var loc = inner.substring(0, inner.length - 85);
-            locations.push(loc)
-        }
         // Majors
-        var majors = $('#dropdown-majors').val();
+        var majors = $('#interviewdropdown-majors').val();
         // Certificates 
-        var certificates = $('#dropdown-certificates').val();
+        var certificates = $('#interviewdropdown-certificates').val();
         // Job Fields
-        var fields = $('#dropdown-fields').val();
+        var fields = $('#interviewdropdown-fields').val();
         // Send JSON event
         var json_event = {
             "query": query,
@@ -168,7 +165,9 @@
             "howinterviews": howinterviews,
             "majors": majors,
             "certificates": certificates,
-            "fields": fields
+            "fields": fields,
+            "sortType": currentInterviewSort,
+            "sortDirection": currentInterviewSortDirection
         };
         if (request != null)
             request.abort();
@@ -226,32 +225,6 @@
         })
     }
     $('document').ready(setup);
-    // function setup() {
-
-    //     VirtualSelect.init({
-    //         ele: '#dropdown-fields',
-    //         multiple: 'true',
-    //         search: true,
-    //         searchGroup: false, // Include group title for searching
-    //         searchByStartsWith: false, // Search options by startsWith() method,
-    //         optionsCount: 5,
-    //         hasOptionDescription: false,
-    //         disableSelectAll: false,
-    //         additionalClasses: 'filters-major',
-    //     });
-    //     VirtualSelect.init({
-    //         ele: '#dropdown-majors',
-    //         multiple: 'true',
-    //         search: true,
-    //         searchGroup: false, // Include group title for searching
-    //         searchByStartsWith: false, // Search options by startsWith() method,
-    //         optionsCount: 5,
-    //         hasOptionDescription: false,
-    //         disableSelectAll: false,
-    //         additionalClasses: 'filters-major',
-    //     });
-    // }
-    // $('document').ready(setup);
     </script> 
 
 </body>
