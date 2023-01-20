@@ -20,7 +20,7 @@
     <!-- Navbar -->
     {% include 'templates/navbar.html' %}
     <!-- Content -->
-    <div id="job-content" class="top-container-jobs">
+    <div id="interview-content" class="top-container-jobs">
         <div class="row">
             {% include 'templates/interview_filters.html' %}
             <div class="col-6 container-scroll-jobs">
@@ -75,6 +75,183 @@
         $('#eye-slash').show();
         $('#eye').hide();
     }
+    function getFilteredData() {
+        // Get query
+        var query = $('#interview-search-bar').val()
+        // Get all difficulty scores
+        var difficulty = []
+        for (let i = 1; i <= 5; i++) {
+            var difficultyId = "#difficulty-" + i;
+            if ($(difficultyId).is(':checked')) difficulty.push(i);
+        }
+        // if (difficulty.length == 0) difficulty = [1, 2, 3, 4, 5];
+        // Get all enjoyment scores
+        var enjoyment = []
+        for (let i = 1; i <= 5; i++) {
+            var enjoymentId = "#enjoyment-" + i;
+            if ($(enjoymentId).is(':checked')) enjoyment.push(i);
+        }
+        // Get all class years
+        var class_options = ['fr', 'so', 'jr', 'sr', 'grad']
+        var classes = []
+        for (let i = 1; i <= 5; i++) {
+            var classId = "#class-" + i;
+            if ($(classId).is(':checked')) classes.push(class_options[i - 1]);
+        }
+        // Get all location types
+        var locationtype_options = ['In-person', 'Video Call', 'Phone', 'Unsupervised']
+        var locationtypes = []
+        for (let i = 1; i <= 4; i++) {
+            var locationId = "#location-" + i;
+            if ($(locationId).is(':checked')) locationstyles.push(locationstyle_options[i - 1]);
+        }
+        // Get all interview types
+        var interviewtype_options = ['Online Assessment (OA)', 'Screening/Phone', 'Technical', 'Behavioral', 'Case']
+        var interviewtypes = []
+        for (let i = 1; i <= 5; i++) {
+            var interviewtypeId = "#interviewtype-" + i;
+            if ($(interviewtypeId).is(':checked')) interviewtypes.push(interviewtypes_options[i - 1]);
+        }
+        // Advanced: T or F
+        var interviewoutcome_options = [true, false]
+        var interviewoutcomes = []
+        for (let i = 1; i <= 2; i++) {
+            var interviewoutcomeId = "#interviewoutcome-" + i;
+            if ($(interviewoutcomeId).is(':checked')) interviewoutcomes.push(interviewoutcome_options[i - 1]);
+        }
+        // Final round: T or F
+        var interviewfinal_options = [true, false]
+        var interviewfinals = []
+        for (let i = 1; i <= 2; i++) {
+            var interviewfinalId = "#interviewfinal-" + i;
+            if ($(interviewfinalId).is(':checked')) interviewfinals.push(interviewfinal_options[i - 1]);
+        }
+        // Get all interview durations
+        var interviewduration_options = ['Under 30 minutes', '30-45 minutes', '1 hour', '2 hours', '3 hours', '4 hours', '4+ hours but under a day', 'Full Day', 'Multiple Days']
+        var interviewdurations = []
+        for (let i = 1; i <= 9; i++) {
+            var interviewdurationId = "#interviewduration-" + i;
+            if ($(interviewdurationId).is(':checked')) interviewdurations.push(interviewduration_options[i - 1]);
+        }
+        // Get all how-interviews
+        var howinterview_options = ['Application on website', 'Application on RippleMatch/Handshake/etc', 'Handing in resume/Networking at job fair', 'Attending a webinar', 'Attending a selective small group program', 'Reaching out to a company employee', 'Working there previously', 'Personal connection']
+        var howinterviews = []
+        for (let i = 1; i <= 8; i++) {
+            var howinterviewId = "#howinterview-" + i;
+            if ($(howinterviewId).is(':checked')) howinterviews.push(howinterview_options[i - 1]);
+        }
+        // Locations 
+        var locations = []
+        var location_buttons = $('#chosen-locations')[0].children;
+        for (let i = 0; i < location_buttons.length; i++) {
+            var inner = location_buttons[i].innerHTML;
+            var loc = inner.substring(0, inner.length - 85);
+            locations.push(loc)
+        }
+        // Majors
+        var majors = $('#dropdown-majors').val();
+        // Certificates 
+        var certificates = $('#dropdown-certificates').val();
+        // Job Fields
+        var fields = $('#dropdown-fields').val();
+        // Send JSON event
+        var json_event = {
+            "query": query,
+            "difficulty": difficulty,
+            "enjoyment": enjoyment,
+            "classes": classes,
+            "locationtypes": locationtypes,
+            "interviewtypes": interviewtypes,
+            "interviewoutcomes": interviewoutcomes,
+            "interviewfinals": interviewfinals,
+            "interviewdurations": interviewdurations,
+            "howinterviews": howinterviews,
+            "majors": majors,
+            "certificates": certificates,
+            "fields": fields
+        };
+        if (request != null)
+            request.abort();
+        request = $.post("/interviews/filter", {
+            dataType: 'json',
+            contentType: 'application/json',
+            event_data: JSON.stringify(json_event)
+        }).done(function (data) {
+            $('#interview-search-results').html(data);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+        });
+    }
+    function upvoteReview(id) {
+        let elemId = "#upvote-count-" + id;
+        let upvoteIconId = "#upvote-" + id;
+        if ($(elemId).hasClass("card-upvote-selected")) {
+            $(upvoteIconId).css("stroke", "black");
+            $(elemId).removeClass("card-upvote-selected");
+            let num = $(elemId).text();
+            $(elemId).text(num - 1);
+        }
+        else {
+            $(upvoteIconId).css("stroke", "#2058DC");
+            $(elemId).addClass("card-upvote-selected");
+            let num = parseInt($(elemId).text());
+            $(elemId).text(num + 1);
+        }
+        if (request != null)
+            request.abort();
+        let url = "/interviews/upvote?id=" + id;
+        request = $.post(url, {
+        }).done(function (data) {
+            // let upvoteIconId = "#upvote-" + id;
+            // let elemId = "#upvote-count-" + id;
+            // if (data[0] == "False") {
+            //     $(upvoteIconId).css("stroke", "black");
+            //     $(elemId).removeClass("card-upvote-selected");
+            // }
+            // else if (data[0] == "True") {
+            //     $(upvoteIconId).css("stroke", "#2058DC");
+            //     $(elemId).addClass("card-upvote-selected");
+            // }
+            // $(elemId).text(data[1])
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+        });
+    }
+    function setup() {
+        // Don't submit form on enter
+        $("form").keypress(function (e) {
+            if (e.keyCode == 13) {
+                e.preventDefault();
+                getFilteredData();
+                return false;
+            }
+        })
+    }
+    $('document').ready(setup);
+    // function setup() {
+
+    //     VirtualSelect.init({
+    //         ele: '#dropdown-fields',
+    //         multiple: 'true',
+    //         search: true,
+    //         searchGroup: false, // Include group title for searching
+    //         searchByStartsWith: false, // Search options by startsWith() method,
+    //         optionsCount: 5,
+    //         hasOptionDescription: false,
+    //         disableSelectAll: false,
+    //         additionalClasses: 'filters-major',
+    //     });
+    //     VirtualSelect.init({
+    //         ele: '#dropdown-majors',
+    //         multiple: 'true',
+    //         search: true,
+    //         searchGroup: false, // Include group title for searching
+    //         searchByStartsWith: false, // Search options by startsWith() method,
+    //         optionsCount: 5,
+    //         hasOptionDescription: false,
+    //         disableSelectAll: false,
+    //         additionalClasses: 'filters-major',
+    //     });
+    // }
+    // $('document').ready(setup);
     </script> 
 
 </body>

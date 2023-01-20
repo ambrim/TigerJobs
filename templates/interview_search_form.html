@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col g-0">
         <form class="nosubmit">
-            <input  id="job-search-bar"
+            <input  id="interview-search-bar"
                     class="nosubmit form-control form-control-lg" 
                     type="text"
                     name="query"
@@ -17,48 +17,70 @@
         </form>
     </div>
     <div class="col-md-auto g-0">
-        <span type="button" class="submit"> Search
+        <span type="button" class="submit" onclick=getFilteredData()> Search
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
         </span>
     </div>
 </div>
-<div class="sort-bar">
-    <i>Sort By:</i>
-    <span onclick="changeSortDate()" type="button" id="sortDate">
-        {% if sortDate == new %}
-            Most Recent, 
-        {% elif sortDate == old %}
-            Oldest, 
-        {% endif %}
-    </span>
-    <span type="button" id="sortUpvote">
-        {% if sortUpvote == most %}
-            Most upvoted 
-        {% elif sortUpvote == least %}
-            Least Upvoted
-        {% endif %}
-    </span>
-    <span type="button" id="sortDifficult">
-        {% if sortDifficult == high %}
-            Highest Difficulty
-        {% elif sortDifficult == low %}
-            Lowest Difficulty
-        {% endif %}
-    </span>
-    <span type="button" id="sortEnjoy">
-        {% if sortEnjoy == high %}
-            Highest Enjoyment
-        {% elif sortEnjoy == low %}
-            Lowest Enjoyment
-        {% endif %}
-    </span>
+<div class="row top-buffer">
+    <div>
+        <span class="sort-bar col-sm-8">
+            <i>Sort:</i>
+            <span><button id="sortDate" class="sort-btn sort-btn-selected" onclick="changeSortDate()">Recency</button></span>
+            <span><button id="sortUpvoted" class="sort-btn" onclick="changeSortUpvote()">Upvotes</button></span>
+            <span><button id="sortDifficulty" class="sort-btn" onclick="changeSortDifficulty()">Difficulty</button></span>
+            <span><button id="sortEnjoyment" class="sort-btn" onclick="changeSortEnjoyment()">Enjoyment</button></span>
+            <span></span>
+        </span>
+        <span class="sort-bar col-sm-4">
+            <i>By:</i>
+            <span><button id="sortDirection" class="sort-btn sort-btn-selected" onclick="changeSortDirection()">Highest to Lowest</button></span>
+        </span>
+    </div>
 </div>
-
 <script>
     function changeSortDate()
     {
-        var elem = document.getElementById("sortDate");
-        if (elem.innerHTML=="Oldest, ") elem.innerHTML = "Most Recent, ";
-        else elem.innerHTML = "Oldest, ";
+        currentSort = "recency";
+        $("#sortDate").addClass("sort-btn-selected");
+        $("#sortUpvoted").removeClass("sort-btn-selected");
+        $("#sortDifficulty").removeClass("sort-btn-selected");
+        $("#sortEnjoyment").removeClass("sort-btn-selected");
+        getFilteredData();
+    }
+    function changeSortUpvote() {
+        currentSort = "upvotes";
+        $("#sortDate").removeClass("sort-btn-selected");
+        $("#sortUpvoted").addClass("sort-btn-selected");
+        $("#sortDifficulty").removeClass("sort-btn-selected");
+        $("#sortEnjoyment").removeClass("sort-btn-selected");
+        getFilteredData();
+    }
+    function changeSortDifficulty() {
+        currentSort = "difficulty";
+        $("#sortDate").removeClass("sort-btn-selected");
+        $("#sortUpvoted").removeClass("sort-btn-selected");
+        $("#sortDifficulty").addClass("sort-btn-selected");
+        $("#sortEnjoyment").removeClass("sort-btn-selected");
+        getFilteredData();
+    }
+    function changeSortEnjoyment() {
+        currentSort = "enjoyment";
+        $("#sortDate").removeClass("sort-btn-selected");
+        $("#sortUpvoted").removeClass("sort-btn-selected");
+        $("#sortDifficulty").removeClass("sort-btn-selected");
+        $("#sortEnjoyment").addClass("sort-btn-selected");
+        getFilteredData();
+    }
+    function changeSortDirection() {
+        var sortDirection = $('#sortDirection').text();
+        if (sortDirection == "Highest to Lowest") {
+            $('#sortDirection').text("Lowest to Highest")
+        }
+        else {
+            $('#sortDirection').text("Highest to Lowest")
+        }
+        currentSortDirection = !currentSortDirection;
+        getFilteredData();
     }
 </script>

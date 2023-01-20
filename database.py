@@ -63,13 +63,86 @@ def get_all_interviews() -> List[models.Interviews]:
         interviews = session.query(models.Interviews).all()
     return interviews
 
-##### HAVE TO ADD FILTER QUERIES TOO #####
+def get_filtered_interviews(filters) -> List[models.Interviews]:
+    interviews = []
+    with sqlalchemy.orm.Session(engine) as session:
+        interviews = session.query(models.Interviews).filter(
+            # Filter by query in title, description, technology, or company
+            sqlalchemy.or_(
+                models.Interviews.title.ilike('%{}%'.format(filters[0])),
+                models.Interviews.company.ilike('%{}%'.format(filters[0])),
+                models.Interviews.technologies.ilike('%{}%'.format(filters[0])),
+                models.Interviews.description.ilike('%{}%'.format(filters[0])),
+            ),
+            # Filter by difficulty rating
+            sqlalchemy.or_(
+                models.Interviews.difficulty.in_(filters[1]),
+                len(filters[1]) == 0
+            ),
+            # Filter by enjoyment rating
+            sqlalchemy.or_(
+                models.Interviews.enjoyment.in_(filters[2]),
+                len(filters[2]) == 0
+            ),
+            # Filter by class year
+            sqlalchemy.or_(
+                models.Interviews.grade.in_(filters[3]),
+                len(filters[3]) == 0
+            ),
+            # Filter by location type
+            sqlalchemy.or_(
+                models.Interviews.location_type.in_(filters[4]),
+                len(filters[4]) == 0
+            ),
+            # Filter by interview type
+            sqlalchemy.or_(
+                models.Interviews.type.in_(filters[5]),
+                len(filters[5]) == 0
+            ),
+             # Filter by interview outcome
+            sqlalchemy.or_(
+                models.Interviews.advanced.in_(filters[6]),
+                len(filters[6]) == 0
+            ),
+            # Filter by final round
+            sqlalchemy.or_(
+                models.Interviews.final_round.in_(filters[7]),
+                len(filters[7]) == 0
+            ),
+             # Filter by interview duration
+            sqlalchemy.or_(
+                models.Interviews.duration.in_(filters[8]),
+                len(filters[8]) == 0
+            ),
+             # Filter by how-interview 
+            sqlalchemy.or_(
+                models.Interviews.how_interview.in_(filters[9]),
+                len(filters[9]) == 0
+            ),
+            # Filter by major
+            sqlalchemy.or_(
+                models.Interviews.major.in_(filters[10]),
+                len(filters[10]) == 0
+            ),
+            # Filter by certifcates
+            sqlalchemy.or_(
+                models.Interviews.major.in_(filters[11]),
+                len(filters[11]) == 0
+            ),
+            # Filter by job field
+            sqlalchemy.or_(
+                models.Interviews.company_type.in_(filters[12]),
+                len(filters[12]) == 0
+            )
+        ).all()
+    return interviews
 
 # Add interview review to database
 def add_interview(interview:models.Interviews):
     with sqlalchemy.orm.Session(engine) as session:
         session.add(interview)
         session.commit()
+
 # Get interview review from id
 def get_interview(id) -> models.Interviews:
     # Make sure to only get one
@@ -78,12 +151,29 @@ def get_interview(id) -> models.Interviews:
         interview = session.query(models.Interviews).filter(
             models.Interviews.id == id).first()
     return interview
+
+# Change interview upvotes
+def upvote_interview(id, new_val):
+    # Make sure to only get one
+    interview = None
+    with sqlalchemy.orm.Session(engine) as session:
+        interview = session.query(models.Interviews).filter(
+            models.Interviews.id == id).update(
+                {
+                    "upvotes": new_val
+                }
+            )
+        session.commit()
+    return interview
+
 # Delete an interview review
 def delete_interview(id):
     with sqlalchemy.orm.Session(engine) as session:
         session.query(models.Interviews).filter(
             models.Interviews.id == id).delete()
         session.commit()
+
+
 #----------------------------------------------------------------------
 # Internship Review Queries
 #----------------------------------------------------------------------
@@ -197,80 +287,6 @@ def get_filtered_internships(filters) -> List[models.Internships]:
             *sort_by_clauses
         ).all()
     return internships
-
-def get_filtered_interviews(filters) -> List[models.Interviews]:
-    interviews = []
-    with sqlalchemy.orm.Session(engine) as session:
-        interviews = session.query(models.Interviews).filter(
-            # Filter by query in title, description, technology, or company
-            sqlalchemy.or_(
-                models.Interviews.title.ilike('%{}%'.format(filters[0])),
-                models.Interviews.company.ilike('%{}%'.format(filters[0])),
-                models.Interviews.technologies.ilike('%{}%'.format(filters[0])),
-                models.Interviews.description.ilike('%{}%'.format(filters[0])),
-            ),
-            # Filter by difficulty rating
-            sqlalchemy.or_(
-                models.Interviews.difficulty.in_(filters[1]),
-                len(filters[1]) == 0
-            ),
-            # Filter by enjoyment rating
-            sqlalchemy.or_(
-                models.Interviews.enjoyment.in_(filters[2]),
-                len(filters[2]) == 0
-            ),
-            # Filter by class year
-            sqlalchemy.or_(
-                models.Interviews.grade.in_(filters[3]),
-                len(filters[3]) == 0
-            ),
-            # Filter by location type
-            sqlalchemy.or_(
-                models.Interviews.location_type.in_(filters[4]),
-                len(filters[4]) == 0
-            ),
-            # Filter by interview type
-            sqlalchemy.or_(
-                models.Interviews.type.in_(filters[5]),
-                len(filters[5]) == 0
-            ),
-             # Filter by interview outcome
-            sqlalchemy.or_(
-                models.Interviews.advanced.in_(filters[6]),
-                len(filters[6]) == 0
-            ),
-            # Filter by final round
-            sqlalchemy.or_(
-                models.Interviews.final_round.in_(filters[7]),
-                len(filters[7]) == 0
-            ),
-             # Filter by interview duration
-            sqlalchemy.or_(
-                models.Interviews.duration.in_(filters[8]),
-                len(filters[8]) == 0
-            ),
-             # Filter by how-interview 
-            sqlalchemy.or_(
-                models.Interviews.how_interview.in_(filters[9]),
-                len(filters[9]) == 0
-            ),
-            # Filter by major
-            sqlalchemy.or_(
-                models.Interviews.major.in_(filters[10]),
-                len(filters[10]) == 0
-            ),
-            # Filter by certifcates
-            sqlalchemy.or_(
-                models.Interviews.major.in_(filters[11]),
-                len(filters[11]) == 0
-            ),
-            # Filter by job field
-            sqlalchemy.or_(
-                models.Interviews.company_type.in_(filters[12]),
-                len(filters[12]) == 0
-            )
-        ).all()
-    return interviews
 
 # Add internship review to database
 def add_internship(internship:models.Internships):

@@ -79,6 +79,7 @@ def job_filtered():
             )
     response = flask.make_response(html)
     return response
+
 # Jobs main page
 @app.route('/jobs/upvote', methods=['POST'])
 def upvote_job():
@@ -106,13 +107,13 @@ def interviews():
     res = database.get_all_interviews()
     major_codes = list(database.majors.keys())
     major_names = list(database.majors.values())
-    # certificates = list(database.certificates)
+    certificates = list(database.certificates)
     html = flask.render_template('templates/interviews.html', 
                 netid=netid,
                 interview_search_res = res,
                 major_codes=major_codes,
-                major_names=major_names
-                # certificates=certificates
+                major_names=major_names,
+                certificates=certificates
             )
     response = flask.make_response(html)
     return response
@@ -143,6 +144,23 @@ def interview_filtered():
             )
     response = flask.make_response(html)
     return response
+
+@app.route('/interviews/upvote', methods=['POST'])
+def upvote_interview():
+    netid = auth.authenticate()
+    # Get form data
+    id = flask.request.args.get('id')
+    # Variable to say whether adding or removing
+    adding = True
+    old_review = database.get_interview(id)
+    old_upvotes = old_review.upvotes
+    if netid in old_upvotes:
+        old_upvotes.remove(netid)
+        adding = False
+    else:
+        old_upvotes.append(netid)
+    database.upvote_interview(id, old_upvotes)
+    return [str(adding), str(len(old_upvotes))]
 #----------------------------------------------------------------------
 # Companies Routes
 #----------------------------------------------------------------------
@@ -573,7 +591,7 @@ def delete_job():
     response = flask.make_response(html)
     return response
 
-# Delete job review
+# Delete interview review
 @app.route('/profile/delete/interview', methods=['POST'])
 def delete_interview():
     netid = auth.authenticate()
@@ -648,6 +666,27 @@ def upvote_job_profile():
     if netid in old_upvotes:
         old_upvotes.remove(netid)
     database.upvote_internship(id, old_upvotes)
+    upvote_interviews, upvote_internships = database.get_upvoted_reviews_by_user(netid)
+    html = flask.render_template('templates/profileupvoted.html', 
+                netid=netid,
+                upvote_interviews=upvote_interviews,
+                upvote_internships=upvote_internships,
+            )
+    response = flask.make_response(html)
+    return response
+
+# Remove interview upvote on profile page
+# Jobs main page
+@app.route('/profile/interviews/upvote', methods=['POST'])
+def upvote_interview_profile():
+    netid = auth.authenticate()
+    # Get form data
+    id = flask.request.args.get('id')
+    old_review = database.get_interview(id)
+    old_upvotes = old_review.upvotes
+    if netid in old_upvotes:
+        old_upvotes.remove(netid)
+    database.upvote_interview(id, old_upvotes)
     upvote_interviews, upvote_internships = database.get_upvoted_reviews_by_user(netid)
     html = flask.render_template('templates/profileupvoted.html', 
                 netid=netid,
