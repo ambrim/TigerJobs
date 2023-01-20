@@ -162,6 +162,11 @@ h2 {
     border-radius: 50px;
     margin-bottom: 30px;
 }
+.center-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .add-review-btn:hover {
     color: white;
     background-color: #2058DC;
@@ -169,7 +174,8 @@ h2 {
 }
 .blurb-bg {
     background-color: white;
-    padding: 50px;
+    padding: 30px;
+    margin: 10px;
     border-radius: 20px;
     transition: transform 0.3s;
 }

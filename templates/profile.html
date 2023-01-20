@@ -27,8 +27,9 @@
                     <div>
                         <h2>Welcome, {{netid}}.</h2>
                         <p>
-                            Fill in your personal info here! This will be added to any review you write
-                            to give more info on your background.
+                            Fill in your personal info here! Your responses will be added to any review you submit, 
+                            but your netid will stay private. You may update your background as you see fit.
+                            
                         </p>
                     </div>
                     {% include 'templates/profileform.html' %}
@@ -37,7 +38,7 @@
                 <div class="blurb-bg">
                     <h2>Your stats</h2>
                     <p>
-                        Here is a summary of your contributions to TigerJobs so far.
+                        Here is a summary of your contributions to TigerJobs so far :)
                     </p>
                     <p><b>Total <span class="lightblue">job reviews</span>:</b>&nbsp;{{internships|length}}</p>
                     <p><b>Total <span class="yellow">interview reviews</span>:</b>&nbsp;{{interviews|length}}</p>
@@ -51,7 +52,7 @@
                 <div class="blurb-bg">
                     <h2>Add a review!</h2>
                     <p>
-                        Here you can add a job or interview review
+                        Add a job or interview review
                         to help your fellow Princeton students. Make sure
                         you've filled out your personal info before you submit
                         a review.
@@ -65,7 +66,7 @@
                 <div class="blurb-bg">
                     <h2>Your reviews</h2>
                     <p>
-                        Here is a list of all the reviews you've posted
+                        Here is a list of all the reviews you've posted :)
                     </p>
                     {% include 'templates/profilereviews.html' %}
                 </div>
@@ -73,7 +74,7 @@
                 <div class="blurb-bg">
                     <h2>Upvoted reviews</h2>
                     <p>
-                        Here is a list of all the reviews you've upvoted
+                        Here is a list of all the reviews you've upvoted :)
                     </p>
                     {% include 'templates/profileupvoted.html' %}
                 </div>

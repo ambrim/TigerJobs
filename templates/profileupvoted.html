@@ -4,93 +4,97 @@
         <br>
         {% for i in upvote_internships %}
         <div class="accordion-item">
-            <h2 class="accordion-header" id="upvoted-internships-header-{{i.id}}">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#upvoted-internships-{{i.id}}" aria-expanded="false" aria-controls="collapseOne">
-                    {{i.title}},&nbsp;<b>{{i.company}}</b>
-                </button>
-            </h2>
-            <div id="upvoted-internships-{{i.id}}" class="accordion-collapse collapse"
-                aria-labelledby="upvoted-internships-header-{{i.id}}">
-                <div class="accordion-body">
-                    <div class="row">
-                        <div class="col-sm">
-                            <div><b>Location:&nbsp;</b>{{i.location}}</div>
-                        </div>
-                        <div class="col-sm">
-                            <div><b>Location Style:&nbsp;</b>{{i.virtual}}</div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm">
-                            <div><b>Length:&nbsp;</b>{{i.length}} months</div>
+                <h2 class="accordion-header" id="upvoted-internships-header-{{i.id}}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#upvoted-internships-{{i.id}}"
+                        aria-expanded="false" aria-controls="collapseOne">
+                        {{i.title}},&nbsp; <b>{{i.company}}</b>
+                    </button>
+                </h2>
+                <div id="upvoted-internships-{{i.id}}" class="accordion-collapse collapse" aria-labelledby="upvoted-internships-header-{{i.id}}">
+                    <div class="accordion-body">
+                        <div class="row">
                             <div class="col-sm">
-                                <div><b>Number of Upvotes:&nbsp;</b>{{i.upvotes | length}}</div>
+                                <div><b>Location:&nbsp;</b>{{i.location}}</div>
+                            </div>
+                            <div class="col-sm">
+                                <div><b>Location Style:&nbsp;</b>{{i.virtual}}</div>
                             </div>
                         </div>
-                        <div class="col-sm">
-                            <div><b>Job Type:&nbsp;</b>{{i.type}}</div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <div><b>Job Field:&nbsp;</b>{{i.company_type}}</div>
+                                <div class="col-sm">
+                                    <div><b>Number of Upvotes:&nbsp;</b>{{i.upvotes | length}}</div>
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <div><b>Job Type:&nbsp;</b>{{i.type}}</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm">
-                            <div><b>Job Field:&nbsp;</b>{{i.company_type}}</div>
+                        <div class="row">
+                            <div class="col-sm">
+                                {% if i.salary != None %}
+                                <div class="col-sm">
+                                    <div><b>Salary:&nbsp;</b>${{i.salary}}/hr</div>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-sm">
+                                <div><b>Length:&nbsp;</b>{{i.length}} months</div>
+                            </div>
                         </div>
-                        <div class="col-sm">
-                            <div><b>Technologies:&nbsp;</b>{{i.technologies}}</div>
+                        <div><b>Technologies:&nbsp;</b>
+                            {% if i.technologies == "" %}
+                            N/A
+                            {% else %}
+                            {{i.technologies}}
+                            {% endif %} 
                         </div>
-                    </div>
-                    <div class="row">
-                        {% if i.salary != None %}
-                        <div class="col-sm">
-                            <div><b>Salary:&nbsp;</b>${{i.salary}} per hour</div>
+                        <div>
+                            <b>Description:&nbsp;</b>
+                            {% if i.description == "" %}
+                                N/A
+                            {% else %}
+                                {{i.description}}
+                            {% endif %} 
                         </div>
-                        {% endif %}
-                    </div>
-                    <div>
-                        <div><b>Description:&nbsp;</b>{{i.description}}</div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-sm">
-                            <div><b>Supervisor Rating:&nbsp;</b>{{i.supervisor}} / 5</div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm">
+                                <div><b>Supervisor Rating:&nbsp;</b>{{i.supervisor}} / 5</div>
+                            </div>
+                            <div class="col-sm">
+                                <div><b>Pay Rating:&nbsp;</b>{{i.pay}} / 5</div>
+                            </div>
                         </div>
-                        <div class="col-sm">
-                            <div><b>Pay Rating:&nbsp;</b>{{i.pay}} / 5</div>
+                        <div class="row">
+                            <div class="col-sm">
+                                <div><b>Balance Rating:&nbsp;</b>{{i.balance}} / 5</div>
+                            </div>
+                            <div class="col-sm">
+                                <div><b>Culture Rating:&nbsp;</b>{{i.culture}} / 5</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm">
-                            <div><b>Balance Rating:&nbsp;</b>{{i.balance}} / 5</div>
+                        <div class="row">
+                                <div><b>Career Impact Rating:&nbsp;</b>{{i.career_impact}} / 5</div>
                         </div>
-                        <div class="col-sm">
-                            <div><b>Culture Rating:&nbsp;</b>{{i.culture}} / 5</div>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm">
+                                <div><b>Difficulty Rating:&nbsp;</b>{{i.difficulty}} / 5</div>
+                            </div>
+                            <div class="col-sm">
+                                <div><b>Enjoyment Rating:&nbsp;</b>{{i.enjoyment}} / 5</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm">
-                            <div><b>Career Impact Rating:&nbsp;</b>{{i.career_impact}} / 5</div>
+                        <div><b>Date Created:&nbsp;</b>{{i.date_created}}</div>
+                        <br>
+                        <div class="center-container">
+                            <button class="profile-btn-reset" onclick="deleteJob({{i.id}})"><b>Remove Upvote</b></button>
                         </div>
-                        <div class="col-sm">
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-sm">
-                            <div><b>Difficulty Rating:&nbsp;</b>{{i.difficulty}} / 5</div>
-                        </div>
-                        <div class="col-sm">
-                            <div><b>Enjoyment Rating:&nbsp;</b>{{i.enjoyment}} / 5</div>
-                        </div>
-                    </div>
-                    <div><b>Date Created:&nbsp;</b>{{i.date_created}}</div>
-                    <br>
-                    <div class="center-container">
-                        <button class="profile-btn-reset" onclick="removeUpvoteJob({{i.id}})"><b>Remove Upvote From Review</b></button>
                     </div>
                 </div>
             </div>
-        </div>
         {% endfor %}
     </div>
     <br>
@@ -100,30 +104,47 @@
         {% for i in upvote_interviews %}
         <div class="accordion-item">
             <h2 class="accordion-header" id="upvoted-interviews-header-{{i.id}}">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#upvoted-interviews-{{i.id}}" aria-expanded="false" aria-controls="collapseTwo">
-                    {% if i.final %}<b>{{i.company}}</b>, Round {{i.round}} (Final){% endif %}
-                    {% if not i.final %}<b>{{i.company}}</b>, Round {{i.round}}{% endif %}
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#upvoted-interviews-{{i.id}}"
+                    aria-expanded="false" aria-controls="collapseTwo">
+                    {% if i.final %} {{i.job_position}},&nbsp;<b>{{i.company}}</b>: Round {{i.round}} (Final){% endif %}
+                    {% if not i.final %} {{i.job_position}},&nbsp;<b>{{i.company}}</b>: Round {{i.round}}{% endif %}
                 </button>
             </h2>
             <div id="upvoted-interviews-{{i.id}}" class="accordion-collapse collapse" aria-labelledby="upvoted-interviews-header-{{i.id}}">
                 <div class="accordion-body">
                     <div class="row">
                         <div class="col-sm">
-                            <div><b>Duration:&nbsp;</b>{{i.duration}}</div>
+                            <b>Job Field:&nbsp;</b>{{i.job_field}} <br>
+                            <b>Interview reached through:&nbsp;</b>{{i.how_interview}}<br>
+                            <b>Number of upvotes:&nbsp;</b>{{i.upvotes | length}}
+                            
                         </div>
                         <div class="col-sm">
-                            <div><b>How you got interview:&nbsp;</b>{{i.how_interview}}</div>
+                            <b>Location Type:&nbsp;</b>{{i.location_type}}<br>
+                            <b>Category:&nbsp;</b>{{i.type}}<br>
+                            <b>Duration:&nbsp;</b>{{i.duration}} <br>
+                            <b>Number of interviewers:&nbsp;</b>{{i.num_interviewers}}
+                        </div>
+                    </div>
+                    <br>
+                    <div>
+                        <b>Technologies Used:&nbsp;</b>
+                        <div>
+                        {% if i.technologies == "" %}
+                        N/A
+                        {% else %}
+                        {{i.technologies}}
+                        {% endif %} 
                         </div>
                     </div>
                     <div>
-                        <div><b>Questions Asked:&nbsp;</b>{{i.question_description}}</div>
+                        <div><b>Description of Questions:&nbsp;</b>{{i.question_description}}</div>
                     </div>
                     <div>
                         <div><b>Tips for interview:&nbsp;</b>{{i.tips}}</div>
                     </div>
                     <div>
-                        <div><b>Number of upvotes:&nbsp;</b>{{i.upvotes | length}}</div>
+                    <br>
                     </div>
                     <div class="row">
                         <div class="col-sm">
@@ -133,11 +154,10 @@
                             <div><b>Enjoyment Rating:&nbsp;</b>{{i.enjoyment}} / 5</div>
                         </div>
                     </div>
-                    <br>
                     <div><b>Date Created:&nbsp;</b>{{i.date_created}}</div>
                     <br>
                     <div class="center-container">
-                        <button class="profile-btn-reset" onclick="removeUpvoteInterview({{i.id}})"><b>Remove Upvote From Review</b></button>
+                        <button class="profile-btn-reset" onclick="deleteInterview({{i.id}})"><b>Remove Upvote</b></button>
                     </div>
                 </div>
             </div>

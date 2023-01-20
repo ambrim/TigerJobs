@@ -1,0 +1,233 @@
+<!--{% for r in comp.reviews%}-->
+<div class="container-flush">
+    <div class="search-results-card">
+          <div class="row">
+               <div class="col d-flex">
+                    <div class="card-title"> <b>{{job.title}}</b>, {{job.company}}</div>
+                    <!--href link to company page-->
+               </div>
+               <div class="col-sm-auto justify-content-end">
+                    {% if netid in job.upvotes %}
+                    <span type="button" class="card-upvotes" onclick="upvoteReview({{job.id}})">
+                         <svg id="upvote-{{job.id}}" class="upvote-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                              stroke="#2058DC" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M17 11l-5-5-5 5M17 18l-5-5-5 5" />
+                         </svg>
+                    </span>
+                    <span class="card-upvote-text card-upvote-selected" id="upvote-count-{{job.id}}">
+                         {{job.upvotes | length}}
+                    </span>
+                    {% else %}
+                    <span type="button" class="card-upvotes" onclick="upvoteReview({{job.id}})">
+                         <svg id="upvote-{{job.id}}" class="upvote-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M17 11l-5-5-5 5M17 18l-5-5-5 5"/></svg>  
+                    </span>
+                    <span class="card-upvote-text" id="upvote-count-{{job.id}}">
+                         {{job.upvotes | length}} 
+                    </span>
+                    {% endif %}
+               </div>
+          </div>
+          <div class="row">
+               <div class="col">
+                    <div class="card-content">
+                         Difficulty: <b>{{job.difficulty}}</b> &#160
+                         Enjoyment: <b>{{job.enjoyment}}</b> <br>
+                         Category Ratings: 
+                         <div class="row">
+                              <div class="col card-categories">
+                                   Career Impact <br>
+                                   Culture <br>
+                                   Pay <br>
+                                   Supervisor <br>
+                                   Work/Life Balance
+                              </div>
+                              <div class="col card-categories">
+                                   <!--Career Impact-->
+                                   {% if job.career_impact == 1 %}
+                                        <img src="/static/assets/1star (1).png"
+                                        height="15"
+                                        width="auto"alt="5 stars"/>
+                                   {% elif job.career_impact == 2 %}
+                                        <img src="/static/assets/2stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="5 stars"/>
+                                   {% elif job.career_impact == 3 %}
+                                        <img src="/static/assets/3stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="No matches Tigerjobs"alt="5 stars"/>
+                                   {% elif job.career_impact == 4 %}
+                                        <img src="/static/assets/4stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="No matches Tigerjobs"alt="5 stars"/>
+                                   {% elif job.career_impact == 5 %}
+                                        <img src="/static/assets/5stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="5 stars"/>
+                                   {% endif %} 
+                                   <br>
+
+                                   <!--Culture-->
+                                   {% if job.culture == 1 %}
+                                        <img src="/static/assets/1star (1).png"
+                                        height="15"
+                                        width="auto"alt="5 stars"/>
+                                   {% elif job.culture == 2 %}
+                                        <img src="/static/assets/2stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="5 stars"/>
+                                   {% elif job.culture == 3 %}
+                                        <img src="/static/assets/3stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="No matches Tigerjobs"alt="5 stars"/>
+                                   {% elif job.culture == 4 %}
+                                        <img src="/static/assets/4stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="No matches Tigerjobs"alt="5 stars"/>
+                                   {% elif job.culture == 5 %}
+                                        <img src="/static/assets/5stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="5 stars"/>
+                                   {% endif %} 
+                                   <br>
+
+                                   <!--Pay-->
+                                   {% if job.pay == 1 %}
+                                        <img src="/static/assets/1star (1).png"
+                                        height="15"
+                                        width="auto"alt="5 stars"/>
+                                   {% elif job.pay == 2 %}
+                                        <img src="/static/assets/2stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="5 stars"/>
+                                   {% elif job.pay == 3 %}
+                                        <img src="/static/assets/3stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="No matches Tigerjobs"alt="5 stars"/>
+                                   {% elif job.pay == 4 %}
+                                        <img src="/static/assets/4stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="No matches Tigerjobs"alt="5 stars"/>
+                                   {% elif job.pay == 5 %}
+                                        <img src="/static/assets/5stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="5 stars"/>
+                                   {% endif %} 
+                                   <br>
+
+                                   <!--Supervisor-->
+                                   {% if job.supervisor == 1 %}
+                                        <img src="/static/assets/1star (1).png"
+                                        height="15"
+                                        width="auto"alt="5 stars"/>
+                                   {% elif job.supervisor == 2 %}
+                                        <img src="/static/assets/2stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="5 stars"/>
+                                   {% elif job.supervisor == 3 %}
+                                        <img src="/static/assets/3stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="No matches Tigerjobs"alt="5 stars"/>
+                                   {% elif job.supervisor == 4 %}
+                                        <img src="/static/assets/4stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="No matches Tigerjobs"alt="5 stars"/>
+                                   {% elif job.supervisor == 5 %}
+                                        <img src="/static/assets/5stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="5 stars"/>
+                                   {% endif %} 
+                                   <br>
+
+                                   <!--Balance-->
+                                   {% if job.balance == 1 %}
+                                        <img src="/static/assets/1star (1).png"
+                                        height="15"
+                                        width="auto"alt="5 stars"/>
+                                   {% elif job.balance == 2 %}
+                                        <img src="/static/assets/2stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="5 stars"/>
+                                   {% elif job.balance == 3 %}
+                                        <img src="/static/assets/3stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="No matches Tigerjobs"alt="5 stars"/>
+                                   {% elif job.balance == 4 %}
+                                        <img src="/static/assets/4stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="No matches Tigerjobs"alt="5 stars"/>
+                                   {% elif job.balance == 5 %}
+                                        <img src="/static/assets/5stars (1).png" 
+                                        height="15"
+                                        width="auto"
+                                        alt="5 stars"/>
+                                   {% endif %} 
+                              </div>
+                         </div>
+                    </div>
+               </div> 
+               <div class="col">
+                    <div class="card-content">
+                         Location: {{job.location}} ({{job.virtual}}) <br>
+                         Job Type: {{job.type}} <br>
+                         Job Field: {{job.company_type}} <br>
+                         Length: {{job.length}} weeks <br>
+                         {% if job.description != "" %}
+                              Salary: ${{job.salary}}/hr <br>
+                         {% endif %}
+                         Date Posted: <i>{{job.date_created}}</i>
+                    </div>
+               </div> 
+          </div>
+          <div class="row">
+               <div class="card-content">
+                    {% if job.description != "" %}
+                         Description: {{job.description}}
+                    {% endif %}
+               </div>
+          </div>  
+          <div class="row">
+               <div class="card-content">
+                    {% if job.technologies != "" %} 
+                         Technologies Used: {{job.technologies}}
+                    {% endif %}
+               </div>
+          </div>  
+          <div class="row">
+               <div class="card-content">
+                    Reviewer Info:
+                    {% if job.grade == "jr" %} Junior
+                    {% elif job.grade == "sr" %} Senior
+                    {% elif job.grade == "so" %} Sophomore
+                    {% elif job.grade == "fr" %} Freshman
+                    {% else %} Grad Student
+                    {% endif %}
+                    in the {{job.major}} department 
+                    {% if job.certificates != "" %} 
+                         {{job.certificates}}
+                    {% endif %}
+               </div>
+          </div> 
+             
+    </div>
+</div>
+{% endfor %} 
+</div>
