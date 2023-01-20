@@ -36,24 +36,27 @@
     </nav>
     <!-- Content -->
     <div class="top-container center-container">
-        <h1><b>TigerJobs</b></h1>
-        <p class="landing-desc">
-            A place for <span class="yellow">Princeton students</span> to leave reviews and find what they need
-            to land their next <span class="blue">internship, job, or career</span>.
-        </p>
+        <h1 class="color-animate"><b>TigerJobs</b></h1>
+        <div class="landing-desc left-container">
+            A place for <span class="yellow"><b>Princeton students</b></span> to leave reviews and find what they need
+            to land their next <span class='console-container'><b><span id='text'></span></b>
+            <span class='console-underscore' id='console'>&#95;</span>
+            </span>
+        </div>
+        <br>
         <a href="/login"><button type="button" class="landing-btn"><b>Get Started!</b></button></a>
         <div class="container">
             <div class="row">
                 <div class="col-lg">
                     <img class="landing-img" src='/static/assets/landing.jpg'>
                 </div>
-                <div class="col-lg">
-                    <h2>The best advice is from those who come before us.</h2>
-                    <p class="landing-list">
-                        1. Anonymously post your own reviews of past experiences
-                        with employers and/or interviews.
+                <div class="col-lg center-container">
+                    <h3><i>The best advice is an experience shared.</i></h3>
+                    <br>
+                    <p class="landing-list left-container">
+                        1. Post anonymous reviews of your past job and interview experiences.
                     </p>
-                    <p class="landing-list">
+                    <p class="landing-list left-container">
                         2. Read what other students have to say about theirs.
                     </p>
                 </div>
@@ -61,5 +64,56 @@
         </div>
     </div>
 </body>
-
 </html>
+
+<script>
+// function([string1, string2],target id,[color1,color2])    
+consoleText(['interview.', 'internship.', 'job.', 'career.'], 'text',['#4269e2','#FAB305','#4269e2', '#FAB305']);
+
+function consoleText(words, id, colors) {
+  if (colors === undefined) colors = ['#fff'];
+  var visible = true;
+  var con = document.getElementById('console');
+  var letterCount = 1;
+  var x = 1;
+  var waiting = false;
+  var target = document.getElementById(id)
+  target.setAttribute('style', 'color:' + colors[0])
+  window.setInterval(function() {
+
+    if (letterCount === 0 && waiting === false) {
+      waiting = true;
+      target.innerHTML = words[0].substring(0, letterCount)
+      window.setTimeout(function() {
+        var usedColor = colors.shift();
+        colors.push(usedColor);
+        var usedWord = words.shift();
+        words.push(usedWord);
+        x = 1;
+        target.setAttribute('style', 'color:' + colors[0])
+        letterCount += x;
+        waiting = false;
+      }, 1000)
+    } else if (letterCount === words[0].length + 1 && waiting === false) {
+      waiting = true;
+      window.setTimeout(function() {
+        x = -1;
+        letterCount += x;
+        waiting = false;
+      }, 1000)
+    } else if (waiting === false) {
+      target.innerHTML = words[0].substring(0, letterCount)
+      letterCount += x;
+    }
+      }, 120)
+    window.setInterval(function() {
+        if (visible === true) {
+        con.className = 'console-underscore hidden'
+        visible = false;
+        } else {
+        con.className = 'console-underscore'
+        visible = true;
+        }
+      }, 400)
+}
+</script>

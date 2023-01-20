@@ -13,8 +13,49 @@
     font-size: 20px;
 }
 
+nav ul li a,
+nav ul li a:after,
+nav ul li a:before {
+    transition: all .5s;
+}
+nav ul li a:hover {
+    color: #FAB305 ;
+}
+
+/* stroke */
+nav.stroke ul li a,
+nav.fill ul li a {
+  position: relative;
+}
+nav.stroke ul li a:after,
+nav.fill ul li a:after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 0%;
+  content: '.';
+  color: transparent;
+  background: #FAB305 ;
+  height: 1px;
+}
+nav.stroke ul li a:hover:after {
+  width: 80%;
+}
+nav.fill ul li a {
+  transition: all 2s;
+}
+nav.fill ul li a:hover:after {
+  z-index: -10;
+  animation: fill 1s forwards;
+  -webkit-animation: fill 1s forwards;
+  -moz-animation: fill 1s forwards;
+  opacity: 1;
+}
+
 .small-logo {
-    height: 30px;
+    height: 40px;
 }
 
 /* Containers */
@@ -109,6 +150,19 @@ h2 {
     background-color: #e9e9e9;
 }
 
+.console-container {
+    font-size: 2rem;
+    color: white;
+    margin-left: 3px;
+}
+.console-underscore {
+    display:inline-block;
+    position:relative;
+    top:-0.14em;
+    left:-1px;
+    color: #4269e2;
+ }
+
 .autocomplete-active {
     /*when navigating through the items using the arrow keys:*/
     background-color: #2058DC !important;
@@ -118,10 +172,10 @@ h2 {
 /* Landing page */
 .landing-btn {
     color: #2058DC;
-    font-size: 30px;
+    font-size: 28px;
     background-color: white;
     border: 1px solid #2058DC;
-    padding: 20px 40px;
+    padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -145,6 +199,31 @@ h2 {
 }
 .landing-list {
     font-size: 20px;
+}
+
+.color-animate {
+  background-image: linear-gradient(
+    -225deg,
+    #2058DC 0%,
+    #2058DC 29%,
+    #FAB305 57%,
+    #FAB305 100%
+  );
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 200% auto;
+  color: #fff;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 3s ease-in-out;
+  display: inline-block;
+}
+
+@keyframes textclip {
+  from {
+    background-position: 200% center;
+  }
 }
 
 /* Profile page */
