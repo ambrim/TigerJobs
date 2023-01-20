@@ -1,11 +1,167 @@
 <div id="upvoted-reviews">
-    <!-- <div><b>Upvoted Job Reviews</b></div>
-    {% for i in user.internship_upvotes %}
-        <div>{{i}}</div>
-    {% endfor %}
+    <div class="accordion" id="upvoted-job-reviews">
+        <div><b>Upvoted Job Reviews</b></div>
+        <br>
+        {% for i in upvote_internships %}
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="upvoted-internships-header-{{i.id}}">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#upvoted-internships-{{i.id}}" aria-expanded="false" aria-controls="collapseOne">
+                    {{i.title}},&nbsp;<b>{{i.company}}</b>
+                </button>
+            </h2>
+            <div id="upvoted-internships-{{i.id}}" class="accordion-collapse collapse"
+                aria-labelledby="upvoted-internships-header-{{i.id}}">
+                <div class="accordion-body">
+                    <div class="row">
+                        <div class="col-sm">
+                            <div><b>Location:&nbsp;</b>{{i.location}}</div>
+                        </div>
+                        <div class="col-sm">
+                            <div><b>Location Style:&nbsp;</b>{{i.virtual}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <div><b>Length:&nbsp;</b>{{i.length}} months</div>
+                            <div class="col-sm">
+                                <div><b>Number of Upvotes:&nbsp;</b>{{i.upvotes | length}}</div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <div><b>Job Type:&nbsp;</b>{{i.type}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <div><b>Job Field:&nbsp;</b>{{i.company_type}}</div>
+                        </div>
+                        <div class="col-sm">
+                            <div><b>Technologies:&nbsp;</b>{{i.technologies}}</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% if i.salary != None %}
+                        <div class="col-sm">
+                            <div><b>Salary:&nbsp;</b>${{i.salary}} per hour</div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <div><b>Description:&nbsp;</b>{{i.description}}</div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm">
+                            <div><b>Supervisor Rating:&nbsp;</b>{{i.supervisor}} / 5</div>
+                        </div>
+                        <div class="col-sm">
+                            <div><b>Pay Rating:&nbsp;</b>{{i.pay}} / 5</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <div><b>Balance Rating:&nbsp;</b>{{i.balance}} / 5</div>
+                        </div>
+                        <div class="col-sm">
+                            <div><b>Culture Rating:&nbsp;</b>{{i.culture}} / 5</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <div><b>Career Impact Rating:&nbsp;</b>{{i.career_impact}} / 5</div>
+                        </div>
+                        <div class="col-sm">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm">
+                            <div><b>Difficulty Rating:&nbsp;</b>{{i.difficulty}} / 5</div>
+                        </div>
+                        <div class="col-sm">
+                            <div><b>Enjoyment Rating:&nbsp;</b>{{i.enjoyment}} / 5</div>
+                        </div>
+                    </div>
+                    <div><b>Date Created:&nbsp;</b>{{i.date_created}}</div>
+                    <br>
+                    <div class="center-container">
+                        <button class="profile-btn-reset" onclick="removeUpvoteJob({{i.id}})"><b>Remove Upvote From Review</b></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
     <br>
-    <div><b>Upvoted Interview Reviews</b></div>
-    {% for i in user.interview_upvotes %}
-        <div>{{i}}</div>
-    {% endfor %} -->
+    <div class="accordion" id="upvoted-interview-reviews">
+        <div><b>Upvoted Interview Reviews</b></div>
+        <br>
+        {% for i in upvote_interviews %}
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="upvoted-interviews-header-{{i.id}}">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#upvoted-interviews-{{i.id}}" aria-expanded="false" aria-controls="collapseTwo">
+                    {% if i.final %}<b>{{i.company}}</b>, Round {{i.round}} (Final){% endif %}
+                    {% if not i.final %}<b>{{i.company}}</b>, Round {{i.round}}{% endif %}
+                </button>
+            </h2>
+            <div id="upvoted-interviews-{{i.id}}" class="accordion-collapse collapse" aria-labelledby="upvoted-interviews-header-{{i.id}}">
+                <div class="accordion-body">
+                    <div class="row">
+                        <div class="col-sm">
+                            <div><b>Duration:&nbsp;</b>{{i.duration}}</div>
+                        </div>
+                        <div class="col-sm">
+                            <div><b>How you got interview:&nbsp;</b>{{i.how_interview}}</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div><b>Questions Asked:&nbsp;</b>{{i.question_description}}</div>
+                    </div>
+                    <div>
+                        <div><b>Tips for interview:&nbsp;</b>{{i.tips}}</div>
+                    </div>
+                    <div>
+                        <div><b>Number of upvotes:&nbsp;</b>{{i.upvotes | length}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <div><b>Difficulty Rating:&nbsp;</b>{{i.difficulty}} / 5</div>
+                        </div>
+                        <div class="col-sm">
+                            <div><b>Enjoyment Rating:&nbsp;</b>{{i.enjoyment}} / 5</div>
+                        </div>
+                    </div>
+                    <br>
+                    <div><b>Date Created:&nbsp;</b>{{i.date_created}}</div>
+                    <br>
+                    <div class="center-container">
+                        <button class="profile-btn-reset" onclick="removeUpvoteInterview({{i.id}})"><b>Remove Upvote From Review</b></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
+<script>
+    function removeUpvoteJob(id) {
+        if (request != null)
+            request.abort();
+        url = "profile/jobs/upvote?id=" + id;
+        request = $.post(url, {})
+            .done(function (data) {
+                $('#modalSuccessBody').html("Upvote successfully removed!")
+                $('#modalSuccess').modal('show');
+                $('#upvoted-reviews').html(data);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                $('#modalErrorBody').html("There was an error with our servers in removing your upvote! Try again!")
+                $('#modalError').modal('show');
+            });
+    }
+    function removeUpvoteInterview(id) {
+        if (request != null)
+            request.abort();
+    }
+</script>

@@ -165,6 +165,7 @@ def profile():
     netid = auth.authenticate()
     user = database.get_user(netid)
     interviews, internships = database.get_reviews_by_user(netid)
+    upvote_interviews, upvote_internships = database.get_upvoted_reviews_by_user(netid)
     major_codes = list(database.majors.keys())
     major_names = list(database.majors.values())
     user_certificates = user.certificates.split(", ")
@@ -174,6 +175,8 @@ def profile():
                 user=user,
                 interviews=interviews,
                 internships=internships,
+                upvote_interviews=upvote_interviews,
+                upvote_internships=upvote_internships,
                 major_codes=major_codes,
                 major_names=major_names,
                 user_certificates=user_certificates,
@@ -199,7 +202,6 @@ def profile_update():
     major_codes = list(database.majors.keys())
     major_names = list(database.majors.values())
     user_certificates = user.certificates.split(", ")
-    print(user_certificates)
     html = flask.render_template('templates/profileform.html', 
                 netid=netid,
                 user=user,
@@ -634,3 +636,23 @@ def delete_interview():
     response = flask.make_response(html)
     return response
 
+# Remove job upvote on profile page
+# Jobs main page
+@app.route('/profile/jobs/upvote', methods=['POST'])
+def upvote_job_profile():
+    netid = auth.authenticate()
+    # Get form data
+    id = flask.request.args.get('id')
+    old_review = database.get_internship(id)
+    old_upvotes = old_review.upvotes
+    if netid in old_upvotes:
+        old_upvotes.remove(netid)
+    database.upvote_internship(id, old_upvotes)
+    upvote_interviews, upvote_internships = database.get_upvoted_reviews_by_user(netid)
+    html = flask.render_template('templates/profileupvoted.html', 
+                netid=netid,
+                upvote_interviews=upvote_interviews,
+                upvote_internships=upvote_internships,
+            )
+    response = flask.make_response(html)
+    return response

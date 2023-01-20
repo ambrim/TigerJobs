@@ -1,5 +1,6 @@
 import sqlalchemy.ext.declarative
 import sqlalchemy
+from sqlalchemy.dialects.postgresql import ARRAY
 
 Base = sqlalchemy.ext.declarative.declarative_base()
 # MIGHT WANT TO MOVE UPVOTING INTO REVIEWS THEMSELVES NOT IN USER
@@ -44,7 +45,7 @@ class Interviews (Base):
     # Advanced/got offer
     advanced = sqlalchemy.Column(sqlalchemy.Boolean)
     # Upvoting users
-    upvotes = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.String))
+    upvotes = sqlalchemy.Column(ARRAY(sqlalchemy.String))
     # User's major
     major = sqlalchemy.Column(sqlalchemy.String)
     # User's certificates
@@ -97,7 +98,7 @@ class Internships (Base):
     # Enjoyment of internship (1 to 5)
     enjoyment = sqlalchemy.Column(sqlalchemy.Integer)
     # Upvoting users
-    upvotes = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.String))
+    upvotes = sqlalchemy.Column(ARRAY(sqlalchemy.String))
     # User's major
     major = sqlalchemy.Column(sqlalchemy.String)
     # User's certificates
