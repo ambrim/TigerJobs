@@ -540,6 +540,10 @@ input.nosubmit {
 .card-company {
     font-size: 1.15rem
 }
+.card-companylink {
+    color: black;
+    text-decoration: none;
+}
 .card-subtitle {
     font-size: 1rem;
 }

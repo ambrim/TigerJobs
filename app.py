@@ -176,6 +176,16 @@ def companies():
             comp=comp)
     response = flask.make_response(html)
     return response
+# Companies specific page
+@app.route('/companies/<id>', methods=['GET'])
+def company_page(id):
+    netid = auth.authenticate()
+    comp = database.get_company(id)
+    html = flask.render_template('templates/companies.html', 
+            netid=netid,
+            comp=comp)
+    response = flask.make_response(html)
+    return response
 #----------------------------------------------------------------------
 # Profile Routes
 #----------------------------------------------------------------------
@@ -185,6 +195,12 @@ def profile():
     netid = auth.authenticate()
     user = database.get_user(netid)
     interviews, internships = database.get_reviews_by_user(netid)
+    my_interview_upvotes = 0
+    my_internship_upvotes = 0
+    for interview in interviews:
+        my_interview_upvotes += len(interview.upvotes)
+    for internship in internships:
+        my_internship_upvotes += len(internship.upvotes)
     upvote_interviews, upvote_internships = database.get_upvoted_reviews_by_user(netid)
     major_codes = list(database.majors.keys())
     major_names = list(database.majors.values())
@@ -200,7 +216,9 @@ def profile():
                 major_codes=major_codes,
                 major_names=major_names,
                 user_certificates=user_certificates,
-                company_names=company_names
+                company_names=company_names,
+                my_internship_upvotes=my_internship_upvotes,
+                my_interview_upvotes=my_interview_upvotes
             )
     response = flask.make_response(html)
     return response
