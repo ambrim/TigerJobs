@@ -484,6 +484,20 @@ def get_reviews_by_user(netid):
         ).all()
     return (interviews, internships)
 
+# Get all reviews by company
+def get_reviews_by_company(id):
+    interviews = []
+    with sqlalchemy.orm.Session(engine) as session:
+        interviews = session.query(models.Interviews).filter(
+            models.Interviews.company_id == id
+        ).all()
+    internships = []
+    with sqlalchemy.orm.Session(engine) as session:
+        internships = session.query(models.Internships).filter(
+            models.Internships.company_id == id
+        ).all()
+    return (interviews, internships)
+
 # Get all upvoted reviews by user
 def get_upvoted_reviews_by_user(netid):
     interviews = []

@@ -2,7 +2,6 @@
 .navbar-custom {
     background-color: #2058DC;
 }
-
 .navbar-brand {
     color: white !important;
     font-size: 25px;
@@ -11,6 +10,9 @@
 .nav-link {
     color: white !important;
     font-size: 20px;
+}
+.navbar-active {
+    color: #FAB305 !important;
 }
 
 nav ul li a,

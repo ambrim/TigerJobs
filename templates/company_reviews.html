@@ -1,4 +1,4 @@
-<!--{% for r in comp.reviews%}-->
+{% for job in comp_internships %}
 <div class="container-flush">
     <div class="search-results-card">
           <div class="row">
@@ -35,151 +35,11 @@
                          Category Ratings: 
                          <div class="row">
                               <div class="col card-categories">
-                                   Career Impact <br>
-                                   Culture <br>
-                                   Pay <br>
-                                   Supervisor <br>
-                                   Work/Life Balance
-                              </div>
-                              <div class="col card-categories">
-                                   <!--Career Impact-->
-                                   {% if job.career_impact == 1 %}
-                                        <img src="/static/assets/1star (1).png"
-                                        height="15"
-                                        width="auto"alt="5 stars"/>
-                                   {% elif job.career_impact == 2 %}
-                                        <img src="/static/assets/2stars (1).png" 
-                                        height="15"
-                                        width="auto"
-                                        alt="5 stars"/>
-                                   {% elif job.career_impact == 3 %}
-                                        <img src="/static/assets/3stars (1).png" 
-                                        height="15"
-                                        width="auto"
-                                        alt="No matches Tigerjobs"alt="5 stars"/>
-                                   {% elif job.career_impact == 4 %}
-                                        <img src="/static/assets/4stars (1).png" 
-                                        height="15"
-                                        width="auto"
-                                        alt="No matches Tigerjobs"alt="5 stars"/>
-                                   {% elif job.career_impact == 5 %}
-                                        <img src="/static/assets/5stars (1).png" 
-                                        height="15"
-                                        width="auto"
-                                        alt="5 stars"/>
-                                   {% endif %} 
-                                   <br>
-
-                                   <!--Culture-->
-                                   {% if job.culture == 1 %}
-                                        <img src="/static/assets/1star (1).png"
-                                        height="15"
-                                        width="auto"alt="5 stars"/>
-                                   {% elif job.culture == 2 %}
-                                        <img src="/static/assets/2stars (1).png" 
-                                        height="15"
-                                        width="auto"
-                                        alt="5 stars"/>
-                                   {% elif job.culture == 3 %}
-                                        <img src="/static/assets/3stars (1).png" 
-                                        height="15"
-                                        width="auto"
-                                        alt="No matches Tigerjobs"alt="5 stars"/>
-                                   {% elif job.culture == 4 %}
-                                        <img src="/static/assets/4stars (1).png" 
-                                        height="15"
-                                        width="auto"
-                                        alt="No matches Tigerjobs"alt="5 stars"/>
-                                   {% elif job.culture == 5 %}
-                                        <img src="/static/assets/5stars (1).png" 
-                                        height="15"
-                                        width="auto"
-                                        alt="5 stars"/>
-                                   {% endif %} 
-                                   <br>
-
-                                   <!--Pay-->
-                                   {% if job.pay == 1 %}
-                                        <img src="/static/assets/1star (1).png"
-                                        height="15"
-                                        width="auto"alt="5 stars"/>
-                                   {% elif job.pay == 2 %}
-                                        <img src="/static/assets/2stars (1).png" 
-                                        height="15"
-                                        width="auto"
-                                        alt="5 stars"/>
-                                   {% elif job.pay == 3 %}
-                                        <img src="/static/assets/3stars (1).png" 
-                                        height="15"
-                                        width="auto"
-                                        alt="No matches Tigerjobs"alt="5 stars"/>
-                                   {% elif job.pay == 4 %}
-                                        <img src="/static/assets/4stars (1).png" 
-                                        height="15"
-                                        width="auto"
-                                        alt="No matches Tigerjobs"alt="5 stars"/>
-                                   {% elif job.pay == 5 %}
-                                        <img src="/static/assets/5stars (1).png" 
-                                        height="15"
-                                        width="auto"
-                                        alt="5 stars"/>
-                                   {% endif %} 
-                                   <br>
-
-                                   <!--Supervisor-->
-                                   {% if job.supervisor == 1 %}
-                                        <img src="/static/assets/1star (1).png"
-                                        height="15"
-                                        width="auto"alt="5 stars"/>
-                                   {% elif job.supervisor == 2 %}
-                                        <img src="/static/assets/2stars (1).png" 
-                                        height="15"
-                                        width="auto"
-                                        alt="5 stars"/>
-                                   {% elif job.supervisor == 3 %}
-                                        <img src="/static/assets/3stars (1).png" 
-                                        height="15"
-                                        width="auto"
-                                        alt="No matches Tigerjobs"alt="5 stars"/>
-                                   {% elif job.supervisor == 4 %}
-                                        <img src="/static/assets/4stars (1).png" 
-                                        height="15"
-                                        width="auto"
-                                        alt="No matches Tigerjobs"alt="5 stars"/>
-                                   {% elif job.supervisor == 5 %}
-                                        <img src="/static/assets/5stars (1).png" 
-                                        height="15"
-                                        width="auto"
-                                        alt="5 stars"/>
-                                   {% endif %} 
-                                   <br>
-
-                                   <!--Balance-->
-                                   {% if job.balance == 1 %}
-                                        <img src="/static/assets/1star (1).png"
-                                        height="15"
-                                        width="auto"alt="5 stars"/>
-                                   {% elif job.balance == 2 %}
-                                        <img src="/static/assets/2stars (1).png" 
-                                        height="15"
-                                        width="auto"
-                                        alt="5 stars"/>
-                                   {% elif job.balance == 3 %}
-                                        <img src="/static/assets/3stars (1).png" 
-                                        height="15"
-                                        width="auto"
-                                        alt="No matches Tigerjobs"alt="5 stars"/>
-                                   {% elif job.balance == 4 %}
-                                        <img src="/static/assets/4stars (1).png" 
-                                        height="15"
-                                        width="auto"
-                                        alt="No matches Tigerjobs"alt="5 stars"/>
-                                   {% elif job.balance == 5 %}
-                                        <img src="/static/assets/5stars (1).png" 
-                                        height="15"
-                                        width="auto"
-                                        alt="5 stars"/>
-                                   {% endif %} 
+                                   Career Impact: <b>{{job.career_impact}}</b> <br>
+                                   Culture: <b>{{job.culture}}</b> <br>
+                                   Pay: <b>{{job.pay}}</b> <br>
+                                   Supervisor: <b>{{job.supervisor}}</b><br>
+                                   Work/Life Balance: <b>{{job.balance}}</b>
                               </div>
                          </div>
                     </div>
@@ -220,8 +80,9 @@
                     {% elif job.grade == "fr" %} Freshman
                     {% else %} Grad Student
                     {% endif %}
-                    in the {{job.major}} department 
+                    in the {{job.major}} department
                     {% if job.certificates != "" %} 
+                         pursuing certificates in
                          {{job.certificates}}
                     {% endif %}
                </div>
@@ -230,4 +91,103 @@
     </div>
 </div>
 {% endfor %} 
+{% for i in comp_interviews %}
+<div class="container-flush">
+     <div class="search-results-card">
+          <div class="row">
+               <div class="col d-flex">
+                    <div class="card-title"> <b>{{i.job_position}}</b>, {{i.company}}</div>
+                    <!--href link to company page-->
+               </div>
+               <div class="col-sm-auto justify-content-end">
+                    {% if netid in i.upvotes %}
+                    <span type="button" class="card-upvotes" onclick="upvoteReview({{i.id}})">
+                         <svg id="upvote-{{i.id}}" class="upvote-icon" xmlns="http://www.w3.org/2000/svg" width="16"
+                              height="16" viewBox="0 0 24 24" fill="none" stroke="#2058DC" stroke-width="3"
+                              stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M17 11l-5-5-5 5M17 18l-5-5-5 5" />
+                         </svg>
+                    </span>
+                    <span class="card-upvote-text card-upvote-selected" id="upvote-count-{{i.id}}">
+                         {{i.upvotes | length}}
+                    </span>
+                    {% else %}
+                    <span type="button" class="card-upvotes" onclick="upvoteReview({{i.id}})">
+                         <svg id="upvote-{{i.id}}" class="upvote-icon" xmlns="http://www.w3.org/2000/svg" width="16"
+                              height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="3"
+                              stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M17 11l-5-5-5 5M17 18l-5-5-5 5" />
+                         </svg>
+                    </span>
+                    <span class="card-upvote-text" id="upvote-count-{{i.id}}">
+                         {{i.upvotes | length}}
+                    </span>
+                    {% endif %}
+               </div>
+          </div>
+          <div class="row">
+               <div class="col">
+                    <div class="card-content">
+                         Difficulty: <b>{{i.difficulty}}</b> &#160
+                         Enjoyment: <b>{{i.enjoyment}}</b> <br>
+                         Round: {{i.round}} {% if i.final_round == true %}(Final) {% endif %} <br>
+                         Interview obtained by: {{i.how_interview}} <br>
+                         Job Field: {{i.job_field}} <br>
+                    </div>
+               </div>
+               <div class="col">
+                    <div class="card-content">
+                         Location: {{i.location_type}} <br>
+                         Duration: {{i.duration}} <br>
+                         Number of interviewers: {{i.num_interviewers}}<br>
+                         <b>Advanced?</b>
+                         {% if i.advanced %}
+                         Yes
+                         {% else %}
+                         No
+                         {% endif %} <br>
+                         Date Posted: <i>{{i.date_created}}</i>
+                    </div>
+               </div>
+          </div>
+          <div class="row">
+               <div class="card-content">
+                    {% if i.question_description != "" %}
+                    Description: {{i.question_description}}
+                    {% endif %}
+               </div>
+          </div>
+          <div class="row">
+               <div class="card-content">
+                    {% if i.technologies != None %}
+                    Technologies Used: {{i.technologies}}
+                    {% endif %}
+               </div>
+          </div>
+          <div class="row">
+               <div class="card-content">
+                    {% if i.tips != "" %}
+                    Tips: {{i.tips}}
+                    {% endif %}
+               </div>
+          </div>
+          <div class="row">
+               <div class="card-content">
+                    Reviewer Info:
+                    {% if i.grade == "jr" %} Junior
+                    {% elif i.grade == "sr" %} Senior
+                    {% elif i.grade == "so" %} Sophomore
+                    {% elif i.grade == "fr" %} Freshman
+                    {% else %} Grad Student
+                    {% endif %}
+                    in the {{i.major}} department
+                    {% if i.certificates != "" %}
+                    pursuing certificates in
+                    {{i.certificates}}
+                    {% endif %}
+               </div>
+          </div>
+
+     </div>
 </div>
+{% endfor %}

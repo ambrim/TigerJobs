@@ -181,9 +181,12 @@ def companies():
 def company_page(id):
     netid = auth.authenticate()
     comp = database.get_company(id)
+    comp_interviews, comp_internships = database.get_reviews_by_company(id)
     html = flask.render_template('templates/companies.html', 
             netid=netid,
-            comp=comp)
+            comp=comp,
+            comp_interviews=comp_interviews,
+            comp_internships=comp_internships)
     response = flask.make_response(html)
     return response
 #----------------------------------------------------------------------
