@@ -21,16 +21,15 @@
     {% include 'templates/navbar.html' %}
     <!-- Content -->
     <div class="top-container-jobs">
-        <div class="col">
-            top companies by major
-        </div>
-        <div class="col">
-            Autocorrect search bar goes here
-            <div class="form-group autocomplete">
-                <input type="text" class="form-control" id="company_searched"
-                    placeholder="Search for a company...">
+        <div class="row">
+            <div class="col-md-6 container-scroll-jobs">
+                {% include 'templates/companies_search_results.html' %}
             </div>
-            {% include 'templates/companies_search_results.html' %}
+            <div class="col-md-6 container-scroll-jobs">
+                {% include 'templates/companies_top.html' %}
+            </div>
         </div>
     </div>
 </body>
+
+</html>

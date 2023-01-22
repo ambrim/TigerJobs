@@ -171,9 +171,11 @@ def upvote_interview():
 def companies():
     netid = auth.authenticate()
     comp = database.get_company_by_name('MITRE')
+    res = database.get_all_companies()
     html = flask.render_template('templates/companies.html', 
             netid=netid,
-            comp=comp)
+            comp=comp,
+            company_search_res=res)
     response = flask.make_response(html)
     return response
 # Companies specific page
@@ -187,6 +189,21 @@ def company_page(id):
             comp=comp,
             comp_interviews=comp_interviews,
             comp_internships=comp_internships)
+    response = flask.make_response(html)
+    return response
+#----------------------------------------------------------------------
+# About Routes
+#----------------------------------------------------------------------
+# About page
+@app.route('/about', methods=['GET'])
+def about():
+    netid = auth.authenticate()
+    comp = database.get_company_by_name('MITRE')
+    res = database.get_all_companies()
+    html = flask.render_template('templates/about.html', 
+            netid=netid,
+            comp=comp,
+            company_search_res=res)
     response = flask.make_response(html)
     return response
 #----------------------------------------------------------------------
