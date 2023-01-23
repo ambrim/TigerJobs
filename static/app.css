@@ -12,7 +12,7 @@
     font-size: 20px;
 }
 .navbar-active {
-    color: #FAB305 !important;
+    color: #fddb5b !important;
 }
 
 nav ul li a,
@@ -20,10 +20,6 @@ nav ul li a:after,
 nav ul li a:before {
     transition: all .5s;
 }
-nav ul li a:hover {
-    color: #FAB305 ;
-}
-
 /* stroke */
 nav.stroke ul li a,
 nav.fill ul li a {
@@ -39,7 +35,7 @@ nav.fill ul li a:after {
   width: 0%;
   content: '.';
   color: transparent;
-  background: #FAB305 ;
+  background: #fddb5b ;
   height: 1px;
 }
 nav.stroke ul li a:hover:after {
@@ -807,6 +803,7 @@ from{--p:0}
     color: white;
     text-align: left;
     background-color:#2058dc;
+    background-color:#5a82ea;
 }
 .company-textbox-field {
     margin: 1px 0px;
@@ -816,6 +813,7 @@ from{--p:0}
     color: white;
     text-align: left;
     background-color:#4269e2;
+    background-color:#ff9419;
 }
 .company-textbox-major {
     margin: 1px 0px;
@@ -825,6 +823,7 @@ from{--p:0}
     color: white;
     text-align: left;
     background-color:#5a82ea;
+    background-color:#ffc800df;
 }
 .top-bottom {
     margin-top: 3px;

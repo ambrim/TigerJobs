@@ -7,7 +7,7 @@
                 <h2 class="accordion-header" id="internships-header-{{i.id}}">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#internships-{{i.id}}"
                         aria-expanded="false" aria-controls="collapseOne">
-                        {{i.title}},&nbsp; <b>{{i.company}}</b>
+                        {{i.title}},&nbsp; <b> <a class="card-companylink" href="/companies/{{i.company_id}}">{{i.company}}</a></b>
                     </button>
                 </h2>
                 <div id="internships-{{i.id}}" class="accordion-collapse collapse" aria-labelledby="internships-header-{{i.id}}">
@@ -108,8 +108,8 @@
             <h2 class="accordion-header" id="interviews-header-{{i.id}}">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#interviews-{{i.id}}"
                     aria-expanded="false" aria-controls="collapseTwo">
-                    {% if i.final %} {{i.job_position}},&nbsp;<b>{{i.company}}</b>: Round {{i.round}} (Final){% endif %}
-                    {% if not i.final %} {{i.job_position}},&nbsp;<b>{{i.company}}</b>: Round {{i.round}}{% endif %}
+                    {% if i.final %} {{i.job_position}},&nbsp;<b><a class="card-companylink" href="/companies/{{i.company_id}}">{{i.company}}</a></b>: Round {{i.round}} (Final){% endif %}
+                    {% if not i.final %} {{i.job_position}},&nbsp;<b><a class="card-companylink" href="/companies/{{i.company_id}}">{{i.company}}</a></b>: Round {{i.round}}{% endif %}
                 </button>
             </h2>
             <div id="interviews-{{i.id}}" class="accordion-collapse collapse" aria-labelledby="interviews-header-{{i.id}}">

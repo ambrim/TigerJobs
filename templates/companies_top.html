@@ -1,25 +1,104 @@
-<div class="container top-companies-card" >
-    <div class="center company-title-sm"><b>Top Reviewed Companies</b></div>  
-    <ol>
-        {% for comp in ordered_comp %}
-        <li>{{comp.name}}: {{num_interviews}} interviews and {{num_interships}} jobs </li>
-        {% endfor %}
-    </ol>  
+
+<div class="top-container-jobs">
+<div class="center company-title-sm"><b><span>Top Reviewed Companies</span></b>
+    <span class="center company-title-sm">
+        <span><button id="field-or-major" onclick="filterTop()">Dropdown for fields/majors</button></span>
+    </span>
+</div>  
 </div>
 
-<div class="container rec-companies-card" >
-    <div class="center company-title-sm"><b>Companies for {user.major} Majors</b></div>  
-    <ul>
-        
-    </ul>  
-</div>
+
+<div id="companies-top-results">
+    {% if company_top_res | length == 0 %} 
+    <p id="company-top-results-message" class="no-results" >
+         <img src="/static/assets/apply.png"
+              padding=20px
+              width=50%
+              height=auto
+              alt="No matches Tigerjobs"
+              class="d-inline-block align-text-center mx-2" />
+         <br>
+         <br>
+         Oops, no results yet! Check your spelling or try other keywords.
+     </p>
+    {% else %} 
+    {% for c in company_top_res %}
+    <div class="container-flush">
+        <div class="search-results-card"> 
+            <div class="row">
+                <div class="font-20px">
+                    <b><a class="card-companylink" href="/companies/{{c.id}}">{{c.name}}</a></b> &nbsp; 
+                    <span class="company-textbox-field">
+                    {% for field in comp.fields %}
+                    {{field}}
+                    {% endfor %} </span>
+                <br>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+                    {% for loc in comp.locations %}
+                    <span class="company-textbox-loc">{{loc}}</span> 
+                    {% endfor %} <br>
+                </div>
+            </div>
+            <div class="row">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
+                    {% for major in comp.majors %}
+                    <span class="company-textbox-major">{{major}}</span> 
+                    {% endfor %} <br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card-content">
+                        <b> {{comp.num_internships}} </b> Job review(s) <br>
+                        {% if comp.num_internships > 0 %}
+                        
+                            <p>
+                                Average Difficulty: <b>{{comp.internship_difficulty / comp.num_internships}}</b>/5 <br>
+                                Average Enjoyment: <b>{{comp.internship_enjoyment / comp.num_internships}}</b>/5 
+                            </p>
+                     
+                        {% else %}
+                  
+                            <p>
+                                Average Difficulty: <b>0</b>/5 <br>
+                                Average Enjoyment: <b>0</b>/5
+                            </p>
+                       
+                        {% endif %}
+                        
+                    </div>
+                </div> 
+                <div class="col">
+                    <div class="card-content">
+                        <b> {{comp.num_interviews}} </b> Interview review(s) <br>
+                        {% if comp.num_interviews > 0 %}
+              
+                    <p>
+                        Average Difficulty: <b>{{comp.interview_difficulty / comp.num_interviews}}</b>/5 <br>
+                        Average Enjoyment: <b>{{comp.interview_enjoyment / comp.num_interviews}}</b>/5 
+                    </p>
+                 
+                {% else %}
+          
+                    <p>
+                        Average Difficulty: <b>0</b>/5 <br>
+                        Average Enjoyment: <b>0</b>/5
+                    </p>
+               
+                {% endif %}
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+    {% endfor %} {% endif %} 
+    </div>
 
 <script>
-function company_selected() {
-    var b = document.getElementById('name').value,
-        url = 'http:/localhost/10001/companies_result.html?name=' + encodeURIComponent(b);
-
-    document.location.href = url;
-}
 
 </script>
