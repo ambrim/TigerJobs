@@ -184,9 +184,20 @@ def company_page(id):
     netid = auth.authenticate()
     comp = database.get_company(id)
     comp_interviews, comp_internships = database.get_reviews_by_company(id)
+    # Sort locations, fields, and majors
+    zip_locations = zip(comp.location_count, comp.locations)
+    locations = [x for _, x in sorted(zip_locations, reverse=True)]
+    zip_fields = zip(comp.field_count, comp.fields)
+    fields = [x for _, x in sorted(zip_fields, reverse=True)]
+    zip_majors = zip(comp.major_count, comp.majors)
+    majors = [x for _, x in sorted(zip_majors, reverse=True)]
+    print(locations, fields, majors)
     html = flask.render_template('templates/companies.html', 
             netid=netid,
             comp=comp,
+            locations=locations,
+            fields=fields,
+            majors=majors,
             comp_interviews=comp_interviews,
             comp_internships=comp_internships)
     response = flask.make_response(html)
@@ -200,7 +211,7 @@ def about():
     netid = auth.authenticate()
     comp = database.get_company_by_name('MITRE')
     res = database.get_all_companies() ######## PLACEHOLDER ########
-    top = database.get_all_companies() ######## PLACEHOLDER ########
+    top = database.get_top_companies('') ######## PLACEHOLDER ########
     html = flask.render_template('templates/about.html', 
             netid=netid,
             comp=comp,
@@ -314,8 +325,11 @@ def add_job():
             internship_difficulty = int(data['difficulty']),
             internship_enjoyment = int(data['enjoyment']),
             locations=current_locations,
+            location_count=[1],
             fields=current_fields,
+            field_count=[1],
             majors=current_majors,
+            major_count=[1],
             interview_grades = [0, 0, 0, 0, 0],
             internship_grades = current_grades,
             advanced = 0,
@@ -327,17 +341,33 @@ def add_job():
         database.add_company(new_company)
     else:
         current_locations = company.locations
-        # Update locations
-        if data['location'] not in current_locations:
+        current_location_count = company.location_count
+        # Update locations and location count
+        if data['location'].upper() not in (location.upper() for location in current_locations):
             current_locations.append(data['location'])
+            current_location_count.append(1)
+        else:
+            new_locations = [location.upper() for location in current_locations]
+            location_index = new_locations.index(data['location'].upper())
+            current_location_count[location_index] += 1
         current_fields = company.fields
-        # Update fields
+        current_field_count = company.field_count
+        # Update fields and fields count
         if data['companyType'] not in current_fields:
             current_fields.append(data['companyType'])
+            current_field_count.append(1)
+        else:
+            field_index = current_fields.index(data['companyType'])
+            current_field_count[field_index] += 1
         current_majors = company.majors
-        # Update majors
+        current_major_count = company.major_count
+        # Update majors and major count
         if user.major not in current_majors:
             current_majors.append(user.major)
+            current_major_count.append(1)
+        else:
+            major_index = current_majors.index(user.major)
+            current_major_count[major_index] += 1
         current_grades = company.internship_grades
         # Update grades
         current_grades[grades_global.index(data['year'])] += 1
@@ -356,8 +386,11 @@ def add_job():
             internship_difficulty = int(data['difficulty']) + company.internship_difficulty,
             internship_enjoyment = int(data['enjoyment']) + company.internship_enjoyment,
             locations=current_locations,
+            location_count=current_location_count,
             fields=current_fields,
+            field_count=current_field_count,
             majors=current_majors,
+            major_count=current_major_count,
             interview_grades = company.interview_grades,
             internship_grades = current_grades,
             advanced = company.advanced,
@@ -491,8 +524,11 @@ def add_interview():
             internship_difficulty = 0,
             internship_enjoyment = 0,
             locations=[],
+            location_count=[],
             fields=[],
+            field_count=[],
             majors=[],
+            major_count=[],
             interview_grades = current_grades,
             internship_grades = [0, 0, 0, 0, 0],
             advanced = current_advanced,
@@ -523,8 +559,11 @@ def add_interview():
             internship_difficulty = company.internship_difficulty,
             internship_enjoyment = company.internship_enjoyment,
             locations = company.locations,
+            location_count = company.location_count,
             fields = company.fields,
+            field_count = company.field_count,
             majors= company.majors,
+            major_count=company.major_count,
             interview_grades = current_grades,
             internship_grades = company.internship_grades,
             advanced = current_advanced,
@@ -594,6 +633,34 @@ def delete_job():
     new_difficulty = 0
     if internship.difficulty >= 3:
         new_difficulty = 1
+    # Delete location if present
+    new_location_count = company.location_count
+    updated_locations = company.locations
+    new_locations = [location.lower() for location in company.locations]
+    location_index = new_locations.index(internship.location.lower())
+    new_location_count[location_index] = company.location_count[location_index] - 1
+    # Remove location if less than or equal to 0
+    if new_location_count[location_index] <= 0:
+        updated_locations.pop(location_index)
+        new_location_count.pop(location_index)
+    # Delete field if present
+    new_field_count = company.field_count
+    updated_fields = company.fields
+    field_index = company.fields.index(internship.company_type)
+    new_field_count[field_index] = company.field_count[field_index] - 1
+    # Remove field if less than or equal to 0
+    if new_field_count[field_index] <= 0:
+        updated_fields.pop(field_index)
+        new_field_count.pop(field_index)
+    # Delete major if present
+    new_major_count = company.major_count
+    updated_majors = company.majors
+    major_index = company.majors.index(internship.major)
+    new_major_count[major_index] = max(company.major_count[major_index] - 1, 0)
+    # Remove major if less than or equal to 0
+    if new_major_count[major_index] <= 0:
+        updated_majors.pop(major_index)
+        new_major_count.pop(major_index)
     # Update company
     new_company = models.Companies(
         id = company.id,
@@ -609,9 +676,12 @@ def delete_job():
         internship_career = max(company.internship_career - internship.career_impact, 0),
         internship_difficulty = max(company.internship_difficulty - internship.difficulty, 0),
         internship_enjoyment = max(company.internship_enjoyment - internship.enjoyment, 0),
-        locations = company.locations,
-        fields = company.fields,
-        majors = company.majors,
+        locations = updated_locations,
+        location_count = new_location_count,
+        fields = updated_fields,
+        field_count = new_field_count,
+        majors = updated_majors,
+        major_count=new_major_count,
         interview_grades = company.interview_grades,
         internship_grades = new_internship_grades,
         advanced = company.advanced,
@@ -673,8 +743,11 @@ def delete_interview():
         internship_difficulty = company.internship_difficulty,
         internship_enjoyment = company.internship_enjoyment,
         locations = company.locations,
+        location_count = company.location_count,
         fields = company.fields,
+        field_count = company.field_count,
         majors = company.majors,
+        major_count = company.major_count,
         interview_grades = new_interview_grades,
         internship_grades = company.internship_grades,
         advanced = advanced_count,

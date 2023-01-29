@@ -138,10 +138,16 @@ class Companies (Base):
     internship_enjoyment = sqlalchemy.Column(sqlalchemy.Integer)
     # Set of locations added
     locations = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.String))
+    # Review count by location
+    location_count = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.Integer))
     # Set of fields added to company
     fields = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.String))
+    # Review count by field
+    field_count = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.Integer))
     # Set of majors
-    majors = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.String))
+    majors = sqlalchemy.Column(ARRAY(sqlalchemy.String))
+    # Review count by major
+    major_count = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.Integer))
     # Grade distribution for interviews
     interview_grades = sqlalchemy.Column(sqlalchemy.ARRAY(sqlalchemy.Integer))
     # Grade distribution for internships

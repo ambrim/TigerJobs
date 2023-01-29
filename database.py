@@ -423,8 +423,11 @@ def update_company(company:models.Companies):
                     'internship_difficulty': company.internship_difficulty,
                     'internship_enjoyment': company.internship_enjoyment,
                     'locations': company.locations,
+                    'location_count': company.location_count,
                     'fields': company.fields,
+                    'field_count': company.field_count,
                     'majors': company.majors,
+                    'major_count': company.major_count,
                     'interview_grades': company.interview_grades,
                     'internship_grades': company.internship_grades,
                     'advanced': company.advanced,
@@ -435,6 +438,26 @@ def update_company(company:models.Companies):
                 }
             )
         session.commit()
+def sort_company_no_majors(company):
+    return company.num_interviews + company.num_internships
+def sort_company_major(company, major):
+    majors = company.majors
+    major_index = majors.index(major)
+    return company.major_count[major_index]
+# Get top companies by major
+def get_top_companies(major):
+    companies = []
+    if major == '':
+        with sqlalchemy.orm.Session(engine) as session:
+            companies = session.query(models.Companies).all()
+            companies.sort(key=lambda x: sort_company_no_majors(x), reverse=True)
+    else:
+        with sqlalchemy.orm.Session(engine) as session:
+            companies = session.query(models.Companies).filter(
+                models.Companies.majors.contains([major])
+            ).all()
+            companies.sort(key=lambda x: sort_company_major(x, major), reverse=True)
+    return companies
 #----------------------------------------------------------------------
 # User Queries
 #----------------------------------------------------------------------

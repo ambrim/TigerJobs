@@ -9,15 +9,15 @@
                 </div>
                 <p class="align-bottom">
                     <b>Location(s):</b> 
-                    {% for loc in comp.locations %}
+                    {% for loc in locations %}
                         <span class="company-textbox-loc">{{loc}}</span> 
                     {% endfor %}<br>
                     <b>Field(s):</b> 
-                    {% for field in comp.fields %}
+                    {% for field in fields %}
                         <span class="company-textbox-field">{{field}}</span>
                     {% endfor %}<br>
                     <b>Major(s):</b> 
-                    {% for major in comp.majors %}
+                    {% for major in majors %}
                         <span class="company-textbox-major">{{major}}</span> 
                     {% endfor %}<br>
                 </p>
@@ -91,8 +91,8 @@
                 {% if comp.num_internships > 0 %}
                 <div class="row tight">
                     <p>
-                        Average Difficulty: <b>{{comp.internship_difficulty / comp.num_internships}}</b>/5 <br>
-                        Average Enjoyment: <b>{{comp.internship_enjoyment / comp.num_internships}}</b>/5 
+                        Average Difficulty: <b>{{"%.2f"|format(comp.internship_difficulty / comp.num_internships)}}</b>/5 <br>
+                        Average Enjoyment: <b>{{"%.2f"|format(comp.internship_enjoyment / comp.num_internships)}}</b>/5 
                     </p>
                 </div>
                 {% else %}
@@ -120,11 +120,11 @@
                             <div class="Stars" style="--rating:{{comp.internship_balance / comp.num_internships}};"></div>
                     </div>
                     <div class="col-2">
-                            <b>{{comp.internship_career / comp.num_internships}}</b> <br>
-                            <b>{{comp.internship_culture / comp.num_internships}}</b> <br>
-                            <b>{{comp.internship_pay / comp.num_internships}}</b> <br>
-                            <b>{{comp.internship_supervisor / comp.num_internships}}</b> <br>
-                            <b>{{comp.internship_balance / comp.num_internships}}</b>
+                            <b>{{"%.2f"|format(comp.internship_career / comp.num_internships)}}</b> <br>
+                            <b>{{"%.2f"|format(comp.internship_culture / comp.num_internships)}}</b> <br>
+                            <b>{{"%.2f"|format(comp.internship_pay / comp.num_internships)}}</b> <br>
+                            <b>{{"%.2f"|format(comp.internship_supervisor / comp.num_internships)}}</b> <br>
+                            <b>{{"%.2f"|format(comp.internship_balance / comp.num_internships)}}</b>
                     </div>
                     {% else %}
                     <div class="col">
@@ -173,8 +173,8 @@
                 {% if comp.num_interviews > 0 %}
                 <div class="row">
                     <p>
-                        Average Difficulty: <b>{{comp.interview_difficulty / comp.num_interviews}}</b>/5 <br>
-                        Average Enjoyment: <b>{{comp.interview_enjoyment / comp.num_interviews}}</b>/5 
+                        Average Difficulty: <b>{{"%.2f"|format(comp.interview_difficulty / comp.num_interviews)}}</b>/5 <br>
+                        Average Enjoyment: <b>{{"%.2f"|format(comp.interview_enjoyment / comp.num_interviews)}}</b>/5 
                     </p>
                 </div>    
                 {% else %}
