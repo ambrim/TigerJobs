@@ -20,25 +20,18 @@
     <!-- Navbar -->
     {% include 'templates/navbar.html' %}
     <!-- Content -->
-    <div class="top-container-jobs">
+    <div class="top-companies-container">
         <div class="row">
-            <div class="col-md-8">
-                {% include 'templates/company_result.html' %}
+            <div class="col-md-6 container-scroll-jobs">
+                {% include 'templates/companies_search.html' %}
             </div>
-            <div class="col-md-4 container-scroll-jobs">
-                {% include 'templates/company_reviews.html' %}
-                <!--{% include 'templates/companies_search_results.html' %}-->
+            <div class="col-md-6 container-scroll-jobs">
+                {% include 'templates/companies_top.html' %}
             </div>
         </div>
     </div>
-
-    <!--
-    <div class="pie animate" style="--p:60;--c:orange"> 60%</div>
-    <div class="pie animate no-round" style="--p:80;--c:orange;"> 80%</div>
-    <div class="Stars" style="--rating: 2.6;"></div>
-    -->
-    
-
+    <script>
+        let request=null;
+    </script>
 </body>
-
 </html>

@@ -170,11 +170,35 @@ def upvote_interview():
 @app.route('/companies', methods=['GET'])
 def companies():
     netid = auth.authenticate()
-    comp = database.get_company_by_name('MITRE')
-    res = database.get_all_companies() ######## PLACEHOLDER #######
-    html = flask.render_template('templates/companies.html', 
+    major_codes = list(database.majors.keys())
+    major_names = list(database.majors.values())
+    res = database.get_all_companies()
+    top = database.get_top_companies('')
+    html = flask.render_template('templates/companieshome.html', 
             netid=netid,
-            comp=comp,
+            company_top_res=top,
+            company_search_res=res,
+            major_codes=major_codes,
+            major_names=major_names)
+    response = flask.make_response(html)
+    return response
+# Get top companies
+@app.route('/companies/top', methods=['POST'])
+def top_companies():
+    _ = auth.authenticate()
+    major = flask.request.args.get('major')
+    top = database.get_top_companies(major)
+    html = flask.render_template('templates/companies_top_results.html', 
+            company_top_res=top)
+    response = flask.make_response(html)
+    return response
+# Get companies by search
+@app.route('/companies/search', methods=['POST'])
+def search_companies():
+    _ = auth.authenticate()
+    query = flask.request.args.get('query')
+    res = database.get_search_companies(query)
+    html = flask.render_template('templates/companies_search_results.html', 
             company_search_res=res)
     response = flask.make_response(html)
     return response
@@ -192,7 +216,7 @@ def company_page(id):
     zip_majors = zip(comp.major_count, comp.majors)
     majors = [x for _, x in sorted(zip_majors, reverse=True)]
     print(locations, fields, majors)
-    html = flask.render_template('templates/companies.html', 
+    html = flask.render_template('templates/company.html', 
             netid=netid,
             comp=comp,
             locations=locations,

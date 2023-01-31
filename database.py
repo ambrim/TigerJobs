@@ -458,6 +458,15 @@ def get_top_companies(major):
             ).all()
             companies.sort(key=lambda x: sort_company_major(x, major), reverse=True)
     return companies
+# Get companies with query in name
+def get_search_companies(query):
+    # Make sure to only get one company
+    companies = []
+    with sqlalchemy.orm.Session(engine) as session:
+        companies = session.query(models.Companies).filter(
+            models.Companies.name.ilike('%{}%'.format(query))).all()
+    return companies
+
 #----------------------------------------------------------------------
 # User Queries
 #----------------------------------------------------------------------

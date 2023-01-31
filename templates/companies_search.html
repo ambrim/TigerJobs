@@ -1,0 +1,48 @@
+<div class="top-companies-container">
+    <div class="center company-title-sm"><b><span>Company Search</span></b>
+        <br>
+        <span class="center company-title-sm row">
+            <div class="col g-0">
+                <form class="company-bar">
+                    <input id="company-search-bar" class="company-bar form-control" type="text" name="query"
+                        placeholder="Search for a company..." value="{{ last_query_unquoted }}"
+                        pattern="^[a-zA-Z0-9-:?%\x22\x27\x26\x2C ]+$" maxlength="100" autocomplete="off" autocapitalize="off" />
+                </form>
+            </div>
+            <div class="col-md-auto g-0">
+                <span type="button" class="company-search-submit" onclick=getSearchedCompanies()> Search
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                        stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 18l6-6-6-6" />
+                    </svg>
+                </span>
+            </div>
+        </span>
+    </div>
+</div>
+{% include 'templates/companies_search_results.html' %}
+<script>
+    function getSearchedCompanies() {
+        if (request != null)
+            request.abort();
+        let query = $('#company-search-bar').val();
+        let url = "/companies/search?query=" + query;
+        request = $.post(url, {
+        }).done(function (data) {
+            $('#companies-search-results').html(data);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            alert(errorThrown)
+        });
+    }
+    function setup() {
+        // Don't submit form on enter
+        $("form").keypress(function (e) {
+            if (e.keyCode == 13) {
+                e.preventDefault();
+                getSearchedCompanies();
+                return false;
+            }
+        })
+    }
+    $('document').ready(setup);
+</script>

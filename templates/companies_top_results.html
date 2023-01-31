@@ -1,6 +1,6 @@
-<div id="companies-search-results">
-    {% if company_search_res | length == 0 %}
-    <p id="company-search-results-message" class="no-results">
+<div id="companies-top-results">
+    {% if company_top_res | length == 0 %}
+    <p id="company-top-results-message" class="no-results">
         <img src="/static/assets/apply.png" padding=20px width=50% height=auto alt="No matches Tigerjobs"
             class="d-inline-block align-text-center mx-2" />
         <br>
@@ -8,7 +8,7 @@
         Oops, no results yet! Check your spelling or try other keywords.
     </p>
     {% else %}
-    {% for comp in company_search_res %}
+    {% for comp in company_top_res %}
     <div class="container-flush">
         <div class="search-results-card">
             <div class="row">
@@ -36,7 +36,7 @@
             </div>
             <div class="row">
                 <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="20" viewBox="0 0 24 24" fill="none"
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                         stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="12" y1="2" x2="12" y2="6"></line>
                         <line x1="12" y1="18" x2="12" y2="22"></line>
