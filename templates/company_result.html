@@ -4,7 +4,7 @@
             <div class="col-lg-6 bottom-align">
                 <div class="company-title"><b>{{comp.name}}</b>   
                     <span class="company-num-reviews"><b>
-                        {{comp.num_internships + comp.num_interviews}}</b> total review(s)
+                        {{comp.num_internships + comp.num_interviews}}</b> <span class="company-review-click" onclick="showAllReviews()">total review(s)</span>
                     </span>
                 </div>
                 <p class="align-bottom">
@@ -85,7 +85,7 @@
             <div class="container company-card" >
                 <div class="company-title-sm"><b>Jobs at {{comp.name}}</b>   
                     <span class="company-num-reviews"><b>
-                        {{comp.num_internships}} </b>review(s)
+                        {{comp.num_internships}} </b><span class="company-review-click" onclick="showInternshipReviews()">review(s)</span>
                     </span>
                 </div>
                 {% if comp.num_internships > 0 %}
@@ -166,7 +166,10 @@
                 <div class="row">
                     <div class="company-title-sm"><b>Interviews at {{comp.name}}</b>   
                         <span class="company-num-reviews"><b>
-                            {{comp.num_interviews}} </b>review(s)
+                            {{comp.num_interviews}} </b>
+                            <span class="company-review-click" onclick="showInterviewReviews()">
+                                review(s)
+                            </span>
                         </span>
                     </div>
                 </div>

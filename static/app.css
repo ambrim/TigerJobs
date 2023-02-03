@@ -867,4 +867,8 @@ from{--p:0}
 .company-search-submit:hover {
     background-color: #5a82ea;
 }
+.company-review-click:hover {
+    cursor: pointer;
+    color: #2058DC;
+}
 

@@ -215,7 +215,6 @@ def company_page(id):
     fields = [x for _, x in sorted(zip_fields, reverse=True)]
     zip_majors = zip(comp.major_count, comp.majors)
     majors = [x for _, x in sorted(zip_majors, reverse=True)]
-    print(locations, fields, majors)
     html = flask.render_template('templates/company.html', 
             netid=netid,
             comp=comp,
