@@ -48,8 +48,6 @@
         // highlight current navbar page
         $(function () {
             $('a').each(function () {
-                console.log($(this).prop('href'))
-                console.log("WINDOW: " + window.location.href)
                 if ($(this).prop('href') == window.location.href) {
                     $(this).addClass('navbar-active'); 
                     $(this).parents('li').addClass('navbar-active');

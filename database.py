@@ -330,6 +330,39 @@ def add_internship(internship:models.Internships):
     with sqlalchemy.orm.Session(engine) as session:
         session.add(internship)
         session.commit()
+# Update internship review
+def update_internship(internship:models.Internships):
+    with sqlalchemy.orm.Session(engine) as session:
+        session.query(models.Internships).filter(
+            models.Internships.id == internship.id).update(
+                {
+                    'netid': internship.netid,
+                    'title': internship.title,
+                    'location': internship.location,
+                    'virtual': internship.virtual,
+                    'description': internship.description,
+                    'technologies': internship.technologies,
+                    'type': internship.type,
+                    'length': internship.length,
+                    'company': internship.company,
+                    'company_id': internship.company_id,
+                    'company_type': internship.company_type,
+                    'salary': internship.salary,
+                    'supervisor': internship.supervisor,
+                    'pay': internship.pay,
+                    'balance': internship.balance,
+                    'culture': internship.culture,
+                    'career_impact': internship.career_impact,
+                    'difficulty': internship.difficulty,
+                    'enjoyment': internship.enjoyment,
+                    'upvotes': internship.upvotes,
+                    'major': internship.major,
+                    'certificates': internship.certificates,
+                    'grade': internship.grade,
+                    'date_created': internship.date_created,
+                }
+            )
+        session.commit()
 # Get internship review from id
 def get_internship(id) -> models.Internships:
     # Make sure to only get one

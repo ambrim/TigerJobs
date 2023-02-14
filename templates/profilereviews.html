@@ -92,6 +92,7 @@
                         <div><b>Date Created:&nbsp;</b>{{i.date_created}}</div>
                         <br>
                         <div class="center-container">
+                            <button class="profile-btn-submit" onclick="editJob({{i.id}})""><b>Edit This Job Review</b></button>
                             <button class="profile-btn-reset" onclick="deleteJob({{i.id}})"><b>Delete This Job Review</b></button>
                         </div>
                     </div>
@@ -193,6 +194,19 @@
                 resetForm();
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 $('#modalErrorBody').html("There was an error with our servers in deleting your review! Try again!")
+                $('#modalError').modal('show');
+            });
+    }
+    function editJob(id) {
+        if (request != null)
+            request.abort();
+        url = "/profile/jobs/get?id=" + id;
+        request = $.get(url, {})
+            .done(function (data) {
+                $('#editJob').html(data);
+                $('#editJobModal').modal('show');
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                $('#modalErrorBody').html("There was an error with our servers in retrieving the job information! Try again!")
                 $('#modalError').modal('show');
             });
     }

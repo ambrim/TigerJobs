@@ -1,0 +1,449 @@
+<!-- Modal -->
+<div class="modal fade" id="editJobModal" tabindex="-1" aria-labelledby="editJobModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="right-container">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="editJobForm" autocomplete="off">
+                    <div class="center-container">
+                        <h2>Edit Job</h2>
+                    </div>
+                    <div class="form-group">
+                        <label class="required" for="edit-job-title"><b>Job Position Title</b></label>
+                        <input type="text" class="form-control" id="edit-job-title" aria-describedby="jobTitleHelp"
+                            placeholder="Enter job position title (e.g. Business Intern)" required value="{{job.title}}">
+                        <div id="edit-error-title" class="red">
+                            Please put in your job position title.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-job-location"><b>Job Location</b></label>
+                        <input type="text" class="form-control" id="edit-job-location" aria-describedby="jobLocationHelp"
+                            placeholder="Enter the job city, state and country (e.g. Miami, FL, USA) or Remote" value="{{job.location}}">
+                        <div id="edit-error-location" class="red">
+                            Please put in the location of the job.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-job-locationstyle"><b>Location Style</b></label>
+                        <select class="form-select" id="edit-job-locationstyle">
+                            <option value="" disabled>Choose the best option</option>
+                            <option value="In-person" {% if job.virtual == "In-person" %}selected="selected"{% endif %}>In-person</option>
+                            <option value="Hybrid" {% if job.virtual == "Hybrid" %}selected="selected"{% endif %}>Hybrid</option>
+                            <option value="Virtual" {% if job.virtual == "Virtual" %}selected="selected"{% endif %}>Virtual</option>
+                        </select>
+                        <div id="edit-error-locationstyle" class="red">
+                            Please select the style of the location.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-job-type"><b>Job Type</b></label>
+                        <select class="form-select" id="edit-job-type">
+                            <option value="" disabled>Choose the best option</option>
+                            <option value="Internship: Industry - Private Sector" {% if job.type == "Internship: Industry - Private Sector" %}selected="selected"{% endif %}>Internship: Industry - Private Sector</option>
+                            <option value="Internship: Industry - Public Sector" {% if job.type == "Internship: Industry - Public Sector" %}selected="selected"{% endif %}>Internship: Industry - Public Sector</option>
+                            <option value="Research - Princeton Sponsored" {% if job.type == "Research - Princeton Sponsored" %}selected="selected"{% endif %}>Research - Princeton Sponsored</option>
+                            <option value="Research - Non-Princeton" {% if job.type == "Research - Non-Princeton" %}selected="selected"{% endif %}>Research - Non-Princeton</option>
+                            <option value="Co-op" {% if job.type == "Co-op" %}selected="selected"{% endif %}>Co-op</option>
+                            <option value="Part-time" {% if job.type == "Part-time" %}selected="selected"{% endif %}>Part-time</option>
+                            <option value="Full-time/New grad" {% if job.type == "Full-time/New grad" %}selected="selected"{% endif %}>Full-time/New grad</option>
+                            <option value="Other" {% if job.type == "Other" %}selected="selected"{% endif %}>Other</option>
+                        </select>
+                        <div id="edit-error-type" class="red">
+                            Please select the type of the job.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-job-length"><b>Job Length in weeks (to the nearest week)</b></label>
+                        <input type="number" class="form-control" id="edit-job-length" aria-describedby="jobLengthHelp"
+                            placeholder="Enter the length of the job (in weeks)" min="1" value="{{job.length}}">
+                        <div id="edit-error-length" class="red">
+                            Please enter a valid job length (An integer greater than 0).
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-job-year"><b>What year were you in at the time of the job?</b></label>
+                        <select class="form-select" id="edit-job-year">
+                            <option value="" disabled>Select your class year at the time of the job</option>
+                            <option value="fr" {% if job.major == "fr" %}selected="selected"{% endif %}>Freshman (4 years till graduation)</option>
+                            <option value="so" {% if job.major == "so" %}selected="selected"{% endif %}>Sophomore (3 years till graduation)</option>
+                            <option value="jr" {% if job.major == "jr" %}selected="selected"{% endif %}>Junior (2 years till graduation)</option>
+                            <option value="sr" {% if job.major == "sr" %}selected="selected"{% endif %}>Senior (1 year till graduation)</option>
+                            <option value="grad" {% if job.major == "grad" %}selected="selected"{% endif %}>Graduate Student</option>
+                            <option value="other" {% if job.major == "other" %}selected="selected"{% endif %}>Other</option>
+                        </select>
+                        <div id="edit-error-year" class="red">
+                            Please select your class year at the time of the job.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group autocomplete">
+                        <label class="required" for="edit-job-company"><b>Company Name</b></label>
+                        <input type="text" class="form-control" id="edit-job-company" aria-describedby="jobCompanyHelp"
+                            placeholder="Enter the name of the company" value="{{job.company}}" disabled>
+                        <div id="edit-error-company" class="red">
+                            Please enter the company.
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-job-company-type"><b>Job Field</b></label>
+                        <select class="form-select" id="edit-job-company-type">
+                            <option value="" disabled>Choose the best option</option>
+                            <option value="Pharmaceuticals" {% if job.company_type == "Pharmaceuticals" %}selected="selected"{% endif %}>Pharmaceuticals</option>
+                            <option value="Biotech" {% if job.company_type == "Biotech" %}selected="selected"{% endif %}>Biotech</option>
+                            <option value="Healthcare" {% if job.company_type == "Healthcare" %}selected="selected"{% endif %}>Healthcare</option>
+                            <option value="Legal Services" {% if job.company_type == "Legal Services" %}selected="selected"{% endif %}>Legal Services</option>
+                            <option value="Econonomics and Business Administration" {% if job.company_type == "Econonomics and Business Administration" %}selected="selected"{% endif %}>Economics and Business Administration</option>
+                            <option value="Government, Education, and Policy" {% if job.company_type == "Government, Education, and Policy" %}selected="selected"{% endif %}>Government, Education, and Policy</option>
+                            <option value="Investment and Corporate Banking" {% if job.company_type == "Investment and Corporate Banking" %}selected="selected"{% endif %}>Investment and Corporate Banking</option>
+                            <option value="Management Consulting" {% if job.company_type == "Management Consulting" %}selected="selected"{% endif %}>Management Consulting</option>
+                            <option value="Trading, Private Equity, and Venture Capital" {% if job.company_type == "Trading, Private Equity, and Venture Capital" %}selected="selected"{% endif %}>Trading, Private Equity, and Venture Capital</option>
+                            <option value="Accounting and Insurance" {% if job.company_type == "Accounting and Insurance" %}selected="selected"{% endif %}>Accounting and Insurance</option>
+                            <option value="Fintech" {% if job.company_type == "Fintech" %}selected="selected"{% endif %}>Fintech</option>
+                            <option value="IT and Security" {% if job.company_type == "IT and Security" %}selected="selected"{% endif %}>IT and Security</option>
+                            <option value="Software Engineering" {% if job.company_type == "Software Engineering" %}selected="selected"{% endif %}>Software Engineering</option>
+                            <option value="Aerospace and Robotics" {% if job.company_type == "Aerospace and Robotics" %}selected="selected"{% endif %}>Aerospace and Robotics</option>
+                            <option value="Data Science and Analytics" {% if job.company_type == "Data Science and Analytics" %}selected="selected"{% endif %}>Data Science and Analytics</option>
+                            <option value="Engineering and Project Management" {% if job.company_type == "Engineering and Project Management" %}selected="selected"{% endif %}>Engineering and Project Management</option>
+                            <option value="Marketing and Business Development" {% if job.company_type == "Marketing and Business Development" %}selected="selected"{% endif %}>Marketing and Business Development</option>
+                            <option value="Journalism, Publishing, and Media" {% if job.company_type == "Journalism, Publishing, and Media" %}selected="selected"{% endif %}>Journalism, Publishing, and Media</option>
+                            <option value="Graphic Design and Production" {% if job.company_type == "Graphic Design and Production" %}selected="selected"{% endif %}>Graphic Design and Production</option>
+                            <option value="Arts and Entertainment" {% if job.company_type == "Arts and Entertainment" %}selected="selected"{% endif %}>Arts and Entertainment</option>
+                            <option value="National or College Laboratory" {% if job.company_type == "National or College Laboratory" %}selected="selected"{% endif %}>National or College Laboratory</option>
+                            <option value="STEM Research" {% if job.company_type == "STEM Research" %}selected="selected"{% endif %}>STEM Research</option>
+                            <option value="Humanities Research" {% if job.company_type == "Humanities Research" %}selected="selected"{% endif %}>Humanities Research</option>
+                            <option value="Other" {% if job.company_type == "Other" %}selected="selected"{% endif %}>Other</option>
+                        </select>
+                        <div id="edit-error-companytype" class="red">
+                            Please select the field of the job.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="edit-job-description"><b>Job Description</b></label>
+                        <textarea class="form-control" id="edit-job-description" aria-describedby="jobDescriptionHelp"
+                            placeholder="Enter a description of your daily tasks/work">{{job.description}}</textarea>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="edit-job-technologies"><b>Technologies Used</b></label>
+                        <input type="text" class="form-control" id="edit-job-technologies" aria-describedby="jobTechnologyHelp"
+                            placeholder="Enter any technologies you used (e.g. Excel, PowerPoint, Python)" value="{{job.technologies}}">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="edit-job-salary"><b>Job Salary in dollars per hour (to the nearest dollar) (you're
+                                anonymous!)</b></label>
+                        <input type="number" class="form-control" id="edit-job-salary" aria-describedby="jobSalaryHelp"
+                            placeholder="Enter the salary of the job (in dollars per hour)" min="0" value="{{job.salary}}">
+                        <div id="edit-error-salary" class="red">
+                            Please enter a valid salary (An integer greater than or equal to 0).
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-job-supervisor"><b>How much did your supervisor support and/or teach you (from 1 to
+                                5)?</b></label>
+                        <select class="form-select" id="edit-job-supervisor">
+                            <option value="" disabled>Choose the best option</option>
+                            <option value="1" {% if job.supervisor == 1 %}selected="selected"{% endif %}>1</option>
+                            <option value="2" {% if job.supervisor == 2 %}selected="selected"{% endif %}>2</option>
+                            <option value="3" {% if job.supervisor == 3 %}selected="selected"{% endif %}>3</option>
+                            <option value="4" {% if job.supervisor == 4 %}selected="selected"{% endif %}>4</option>
+                            <option value="5" {% if job.supervisor == 5 %}selected="selected"{% endif %}>5</option>
+                        </select>
+                        <div id="edit-error-supervisor" class="red">
+                            Please rate your job supervisor (you're anonymous!)
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-job-pay"><b>How satisfied were you with the salary you received relative to your
+                                peers within the field (from 1 to 5)?</b></label>
+                        <select class="form-select" id="edit-job-pay">
+                            <option value="" disabled>Choose the best option</option>
+                            <option value="1" {% if job.pay ==1 %}selected="selected"{% endif %}>1</option>
+                            <option value="2" {% if job.pay == 2 %}selected="selected"{% endif %}>2</option>
+                            <option value="3" {% if job.pay == 3 %}selected="selected"{% endif %}>3</option>
+                            <option value="4" {% if job.pay == 4 %}selected="selected"{% endif %}>4</option>
+                            <option value="5" {% if job.pay == 5 %}selected="selected"{% endif %}>5</option>
+                        </select>
+                        <div id="edit-error-pay" class="red">
+                            Please rate your job pay (you're anonymous!)
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-job-balance"><b>How well did you balance life and work during this experience (from
+                                1 to 5)?</b></label>
+                        <select class="form-select" id="edit-job-balance">
+                            <option value="" disabled>Choose the best option</option>
+                            <option value="1" {% if job.balance==1 %}selected="selected" {% endif %}>1</option>
+                            <option value="2" {% if job.balance==2 %}selected="selected" {% endif %}>2</option>
+                            <option value="3" {% if job.balance==3 %}selected="selected" {% endif %}>3</option>
+                            <option value="4" {% if job.balance==4 %}selected="selected" {% endif %}>4</option>
+                            <option value="5" {% if job.balance==5 %}selected="selected" {% endif %}>5</option>
+                        </select>
+                        <div id="edit-error-balance" class="red">
+                            Please rate your work/life balance (you're anonymous!)
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-job-culture"><b>How much did you enjoy the culture of your team and/or the company
+                                (from 1 to 5)?</b></label>
+                        <select class="form-select" id="edit-job-culture">
+                            <option value="" disabled>Choose the best option</option>
+                            <option value="1" {% if job.culture==1 %}selected="selected" {% endif %}>1</option>
+                            <option value="2" {% if job.culture==2 %}selected="selected" {% endif %}>2</option>
+                            <option value="3" {% if job.culture==3 %}selected="selected" {% endif %}>3</option>
+                            <option value="4" {% if job.culture==4 %}selected="selected" {% endif %}>4</option>
+                            <option value="5" {% if job.culture==5 %}selected="selected" {% endif %}>5</option>
+                        </select>
+                        <div id="edit-error-culture" class="red">
+                            Please rate the culture of the company (you're anonymous!)
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-job-career"><b>How much did this experience positively impact your career plans
+                                (from 1 to 5)?</b></label>
+                        <select class="form-select" id="edit-job-career">
+                            <option value="" disabled>Choose the best option</option>
+                            <option value="1" {% if job.career==1 %}selected="selected" {% endif %}>1</option>
+                            <option value="2" {% if job.career==2 %}selected="selected" {% endif %}>2</option>
+                            <option value="3" {% if job.career==3 %}selected="selected" {% endif %}>3</option>
+                            <option value="4" {% if job.career==4 %}selected="selected" {% endif %}>4</option>
+                            <option value="5" {% if job.career==5 %}selected="selected" {% endif %}>5</option>
+                        </select>
+                        <div id="edit-error-career" class="red">
+                            Please rate the impact of this job on your overall career.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-job-difficulty"><b>Difficulty Rating (from 1 to 5)</b></label>
+                        <select class="form-select" id="edit-job-difficulty">
+                            <option value="" disabled>Choose the best option</option>
+                            <option value="1" {% if job.difficulty==1 %}selected="selected" {% endif %}>1 - ez money; had all the skills needed :)</option>
+                            <option value="2" {% if job.difficulty==2 %}selected="selected" {% endif %}>2 – doable; put in the hours and it’ll be fine</option>
+                            <option value="3" {% if job.difficulty==3 %}selected="selected" {% endif %}>3 – tough; learn quickly or fall behind</option>
+                            <option value="4" {% if job.difficulty==4 %}selected="selected" {% endif %}>4 – challenging; they expected things i did not think i would accomplish</option>
+                            <option value="5" {% if job.difficulty==5 %}selected="selected" {% endif %}>5 – nearly impossible; could’ve put in double the hours and still not meet their
+                                expectations :’)</option>
+                        </select>
+                        <div id="edit-error-difficulty" class="red">
+                            Please select the difficulty of the job.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-job-enjoyment"><b>Enjoyment Rating (from 1 to 5)</b></label>
+                        <select class="form-select" id="edit-job-enjoyment">
+                            <option value="" disabled>Choose the best option</option>
+                            <option value="1" {% if job.enjoyment==1 %}selected="selected" {% endif %}>1 – would not recommend</option>
+                            <option value="2" {% if job.enjoyment==2 %}selected="selected" {% endif %}>2 – gained something out of it ig</option>
+                            <option value="3" {% if job.enjoyment==3 %}selected="selected" {% endif %}>3 – good but ….</option>
+                            <option value="4" {% if job.enjoyment==4 %}selected="selected" {% endif %}>4 – great experience and memorable supervisor</option>
+                            <option value="5" {% if job.enjoyment==5 %}selected="selected" {% endif %}>5 – had a blast!</option>
+                        </select>
+                        <div id="edit-error-enjoyment" class="red">
+                            Please select your enjoyment of the job.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="center-container">
+                        <button type="button" class="profile-btn-reset" onclick="resetEditJobForm()">Cancel Changes</button>
+                        <button type="button" class="profile-btn-submit" onclick="submitEditJobForm({{job.id}})">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+     // Function to tell if value is an integer or not
+    function isInt(value) {
+        return !isNaN(value) &&
+            parseInt(Number(value)) == value &&
+            !isNaN(parseInt(value, 10));
+    }
+    function hideErrorJobForm() {
+        // Hide all error messages
+        $('#edit-error-title').hide();
+        $('#edit-error-location').hide();
+        $('#edit-error-locationstyle').hide();
+        $('#edit-error-type').hide();
+        $('#edit-error-length').hide();
+        $('#edit-error-year').hide();
+        $('#edit-error-company').hide();
+        $('#edit-error-companytype').hide();
+        $('#edit-error-salary').hide();
+        $('#edit-error-supervisor').hide();
+        $('#edit-error-pay').hide();
+        $('#edit-error-balance').hide();
+        $('#edit-error-culture').hide();
+        $('#edit-error-career').hide();
+        $('#edit-error-difficulty').hide();
+        $('#edit-error-enjoyment').hide();
+    }
+    function resetEditJobForm() {
+            // Hide previous error messages
+            hideErrorJobForm();
+            // Close modal
+            $('#editJobModal').modal('hide');
+        }
+    function submitEditJobForm(id) {
+        // Hide all error messages
+        hideErrorJobForm();
+        // Count number of errors
+        var numErrors = 0;
+        // Get data from form
+        var title = $('#edit-job-title').val();
+        if (title == "") {
+            $('#edit-error-title').show();
+            numErrors++;
+        }
+        var location = $('#edit-job-location').val();
+        if (location == "") {
+            $('#edit-error-location').show();
+            numErrors++;
+        }
+        var locationstyle = $('#edit-job-locationstyle').val();
+        if (locationstyle == null) {
+            $('#edit-error-locationstyle').show();
+            numErrors++;
+        }
+        var type = $('#edit-job-type').val();
+        if (type == null) {
+            $('#edit-error-type').show();
+            numErrors++;
+        }
+        var length = $('#edit-job-length').val();
+        if (length == "" || !isInt(length) || parseInt(length) <= 0) {
+            $('#edit-error-length').show();
+            numErrors++;
+        }
+        var year = $('#edit-job-year').val();
+        if (year == null) {
+            $('#edit-error-year').show();
+            numErrors++;
+        }
+        var company = $('#edit-job-company').val();
+        if (company == "") {
+            $('#edit-error-company').show();
+            numErrors++;
+        }
+        var companyType = $('#edit-job-company-type').val();
+        if (companyType == null) {
+            $('#edit-error-companytype').show();
+            numErrors++;
+        }
+        var description = $('#edit-job-description').val();
+        var technologies = $('#edit-job-technologies').val();
+        var salary = $('#edit-job-salary').val();
+        if (salary != "" && (!isInt(salary) || parseInt(salary) <= 0)) {
+            $('#edit-error-salary').show();
+            numErrors++;
+        }
+        // Ratings
+        var supervisor = $('#edit-job-supervisor').val();
+        if (supervisor == null) {
+            $('#edit-error-supervisor').show();
+            numErrors++;
+        }
+        var pay = $('#edit-job-pay').val();
+        if (pay == null) {
+            $('#edit-error-pay').show();
+            numErrors++;
+        }
+        var balance = $('#edit-job-balance').val();
+        if (balance == null) {
+            $('#edit-error-balance').show();
+            numErrors++;
+        }
+        var culture = $('#edit-job-culture').val();
+        if (culture == null) {
+            $('#edit-error-culture').show();
+            numErrors++;
+        }
+        var career = $('#edit-job-career').val();
+        if (career == null) {
+            $('#edit-error-career').show();
+            numErrors++;
+        }
+        var difficulty = $('#edit-job-difficulty').val();
+        if (difficulty == null) {
+            $('#edit-error-difficulty').show();
+            numErrors++;
+        }
+        var enjoyment = $('#edit-job-enjoyment').val();
+        if (enjoyment == null) {
+            $('#edit-error-enjoyment').show();
+            numErrors++;
+        }
+        // Post if no errors
+        if (numErrors > 0) {
+            $('#editJobModal').scrollTop(0);
+            return;
+        }
+        var json_event = {
+            "title": title,
+            "location": location,
+            "locationstyle": locationstyle,
+            "type": type,
+            "length": length,
+            "year": year,
+            "company": company,
+            "companyType": companyType,
+            "description": description,
+            "technologies": technologies,
+            "salary": salary,
+            "supervisor": supervisor,
+            "pay": pay,
+            "balance": balance,
+            "culture": culture,
+            "career": career,
+            "difficulty": difficulty,
+            "enjoyment": enjoyment
+        };
+        if (request != null)
+            request.abort();
+        url = "/profile/edit/job?id=" + id;
+        request = $.post(url, {
+            dataType: 'json',
+            contentType: 'application/json',
+            event_data: JSON.stringify(json_event)
+        }).done(function (data) {
+            if (data == "ERROR") {
+                $('#editJobModal').modal('hide');
+                $('#modalErrorBody').html("Please update your major and class year before adding any reviews. Your form information will remain when you're ready to submit (don't refresh!)")
+                $('#modalError').modal('show');
+                return;
+            }
+            $('#editJobModal').modal('hide');
+            $('#modalSuccessBody').html("Job review successfully updated!")
+            $('#modalSuccess').modal('show');
+            $('#profile-reviews').html(data);
+            resetForm();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            $('#editJobModal').modal('hide');
+            $('#modalErrorBody').html("There was an error with our servers in updating your review! Try again!")
+            $('#modalError').modal('show');
+        });
+    }
+    function setup() {
+        hideErrorJobForm();
+    }
+    $('document').ready(setup);
+
+</script>
