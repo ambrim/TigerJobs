@@ -271,7 +271,7 @@
     </div>
 </div>
 <script>
-     // Function to tell if value is an integer or not
+    // Function to tell if value is an integer or not
     function isInt(value) {
         return !isNaN(value) &&
             parseInt(Number(value)) == value &&
@@ -297,11 +297,11 @@
         $('#edit-error-enjoyment').hide();
     }
     function resetEditJobForm() {
-            // Hide previous error messages
-            hideErrorJobForm();
-            // Close modal
-            $('#editJobModal').modal('hide');
-        }
+        // Hide previous error messages
+        hideErrorJobForm();
+        // Close modal
+        $('#editJobModal').modal('hide');
+    }
     function submitEditJobForm(id) {
         // Hide all error messages
         hideErrorJobForm();
@@ -418,7 +418,7 @@
         };
         if (request != null)
             request.abort();
-        url = "/profile/edit/job?id=" + id;
+        let url = "/profile/edit/job?id=" + id;
         request = $.post(url, {
             dataType: 'json',
             contentType: 'application/json',

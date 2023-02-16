@@ -80,6 +80,15 @@ def get_all_interviews() -> List[models.Interviews]:
 '''
 def get_filtered_interviews(filters) -> List[models.Interviews]:
     interviews = []
+    keyword_clauses = []
+    for query_word in filters[0]:
+        keyword_clauses.append(sqlalchemy.or_(
+                models.Interviews.job_position.ilike('%{}%'.format(query_word)),
+                models.Interviews.company.ilike('%{}%'.format(query_word)),
+                models.Interviews.technologies.ilike('%{}%'.format(query_word)),
+                models.Interviews.question_description.ilike('%{}%'.format(query_word)),
+                models.Interviews.tips.ilike('%{}%'.format(query_word))
+            ))
     clauses = [models.Interviews.certificates.contains(elem) for elem in filters[11]]
     # Create sort by clauses
     sort_by_clauses = []
@@ -102,13 +111,7 @@ def get_filtered_interviews(filters) -> List[models.Interviews]:
     with sqlalchemy.orm.Session(engine) as session:
         interviews = session.query(models.Interviews).filter(
             # Filter by query in title, description, technology, or company
-            sqlalchemy.or_(
-                models.Interviews.job_position.ilike('%{}%'.format(filters[0])),
-                models.Interviews.company.ilike('%{}%'.format(filters[0])),
-                models.Interviews.technologies.ilike('%{}%'.format(filters[0])),
-                models.Interviews.question_description.ilike('%{}%'.format(filters[0])),
-                models.Interviews.tips.ilike('%{}%'.format(filters[0]))
-            ),
+            *keyword_clauses,
             # Filter by difficulty rating
             sqlalchemy.or_(
                 models.Interviews.difficulty.in_(filters[1]),
@@ -180,6 +183,39 @@ def add_interview(interview:models.Interviews):
         session.add(interview)
         session.commit()
 
+# Update internship review
+def update_interview(interview:models.Interviews):
+    with sqlalchemy.orm.Session(engine) as session:
+        session.query(models.Interviews).filter(
+            models.Interviews.id == interview.id).update(
+                {
+                    'netid':interview.netid,
+                    'round':interview.round,
+                    'final_round':interview.final_round,
+                    'job_position':interview.job_position,
+                    'job_field':interview.job_field,
+                    'type':interview.type,
+                    'location_type':interview.location_type,
+                    'duration':interview.duration,
+                    'company':interview.company,
+                    'company_id':interview.company_id,
+                    'num_interviewers':interview.num_interviewers,
+                    'question_description':interview.question_description,
+                    'technologies':interview.technologies,
+                    'how_interview':interview.how_interview,
+                    'tips':interview.tips,
+                    'difficulty':interview.difficulty,
+                    'enjoyment':interview.enjoyment,
+                    'advanced':interview.advanced,
+                    'upvotes':interview.upvotes,
+                    'major':interview.major,
+                    'certificates':interview.certificates,
+                    'grade':interview.grade,
+                    'date_created':interview.date_created
+                }
+            )
+        session.commit()
+
 # Get interview review from id
 def get_interview(id) -> models.Interviews:
     # Make sure to only get one
@@ -240,13 +276,22 @@ def get_all_internship_locations():
 '''
     Filters list is as follows:
     [
-        Query, Difficulty List, Enjoyment List, Class Year,
+        Query List, Difficulty List, Enjoyment List, Class Year,
         Location Style, Job Type, Locations, Majors, Certificates,
         Job Fields, Sort By Type, Sort By Direction
     ]
 '''
 def get_filtered_internships(filters) -> List[models.Internships]:
     internships = []
+    # Clauses to search by all keywords separately
+    keyword_clauses = []
+    for query_word in filters[0]:
+        keyword_clauses.append(sqlalchemy.or_(
+                models.Internships.title.ilike('%{}%'.format(query_word)),
+                models.Internships.company.ilike('%{}%'.format(query_word)),
+                models.Internships.technologies.ilike('%{}%'.format(query_word)),
+                models.Internships.description.ilike('%{}%'.format(query_word)),
+            ))
     clauses = [models.Internships.certificates.contains(elem) for elem in filters[8]]
     # Create sort by clauses
     sort_by_clauses = []
@@ -268,13 +313,8 @@ def get_filtered_internships(filters) -> List[models.Internships]:
         sort_by_clauses.append(models.Internships.enjoyment)
     with sqlalchemy.orm.Session(engine) as session:
         internships = session.query(models.Internships).filter(
-            # Filter by query in title, description, technology, or company
-            sqlalchemy.or_(
-                models.Internships.title.ilike('%{}%'.format(filters[0])),
-                models.Internships.company.ilike('%{}%'.format(filters[0])),
-                models.Internships.technologies.ilike('%{}%'.format(filters[0])),
-                models.Internships.description.ilike('%{}%'.format(filters[0])),
-            ),
+            # Filter by query words separately in title, description, technology, or company
+            *keyword_clauses,
             # Filter by difficulty rating
             sqlalchemy.or_(
                 models.Internships.difficulty.in_(filters[1]),

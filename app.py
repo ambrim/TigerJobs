@@ -4,6 +4,7 @@ import database
 import models
 import json
 from datetime import datetime
+import re
 
 #----------------------------------------------------------------------
 
@@ -58,8 +59,9 @@ def job_filtered():
     netid = auth.authenticate()
     # Get form data
     data = json.loads(flask.request.form.to_dict()['event_data'])
+    query_words = re.split(r' |,|;', data['query'])
     filters = [
-        data['query'],
+        query_words,
         data['difficulty'],
         data['enjoyment'],
         data['classes'],
@@ -123,8 +125,10 @@ def interview_filtered():
     _ = auth.authenticate()
     # Get form data
     data = json.loads(flask.request.form.to_dict()['event_data'])
+    query_words = re.split(r' |,|;', data['query'])
+    print(query_words)
     filters = [
-        data['query'],
+        query_words,
         data['difficulty'],
         data['enjoyment'],
         data['classes'],
@@ -994,6 +998,138 @@ def edit_job():
     response = flask.make_response(html)
     return response
 
+# Edit Interview Review
+@app.route('/profile/edit/interview', methods=['POST'])
+def edit_interview():
+    print("REACHED")
+    # Get all data from form and other
+    netid = auth.authenticate()
+    # Get interview id for review to delete
+    id = flask.request.args.get('id')
+    # Get interview review
+    interview = database.get_interview(id)
+    # Make sure current user is one deleting internship
+    if interview.netid != netid:
+        return "YOU ARE NOT THE WRITER OF THIS REVIEW!"
+    # Get company for interview
+    company = database.get_company_by_name(interview.company)
+    # Get current user data
+    user = database.get_user(netid)
+    # Check if user has put in info yet
+    if user.grade == "" or user.major == "":
+        return "ERROR"
+    # Get form data
+    data = json.loads(flask.request.form.to_dict()['event_data'])
+    # Change final to boolean
+    if data['final'] == 'True':
+        data['final'] = True
+    else:
+        data['final'] = False
+    # Change advanced to boolean
+    if data['advanced'] == 'True':
+        data['advanced'] = True
+    else:
+        data['advanced'] = False
+    # Get current date
+    today = datetime.today().strftime('%Y-%m-%d')
+
+    # Interview Grades 
+    new_interview_grades = company.interview_grades
+    new_interview_grades[grades_global.index(interview.grade)] -= 1
+    new_interview_grades[grades_global.index(data['year'])] += 1
+
+    # Interview advanced count
+    advanced_count = company.advanced
+    if interview.advanced:
+        advanced_count -= 1
+    if data['advanced']:
+        advanced_count += 1
+
+    # Interview enjoyment
+    new_enjoyment = 0
+    if interview.enjoyment >= 3:
+        new_enjoyment = 1
+    current_enjoyment = 0
+    if int(data['enjoyment']) >= 3:
+        current_enjoyment = 1
+    
+    # Interview difficulty
+    new_difficulty = 0
+    if interview.difficulty >= 3:
+        new_difficulty = 1
+    current_difficulty = 0
+    if int(data['difficulty']) >= 3:
+        current_difficulty = 1
+    
+    # Update company
+    new_company = models.Companies(
+        id = company.id,
+        name = company.name,
+        num_interviews = company.num_interviews,
+        num_internships = company.num_internships,
+        interview_difficulty = max(company.interview_difficulty - interview.difficulty + int(data['difficulty']), 0),
+        interview_enjoyment = max(company.interview_enjoyment - interview.enjoyment + int(data['enjoyment']), 0),
+        internship_supervisor = company.internship_supervisor,
+        internship_pay = company.internship_pay,
+        internship_balance = company.internship_balance,
+        internship_culture = company.internship_culture,
+        internship_career = company.internship_career,
+        internship_difficulty = company.internship_difficulty,
+        internship_enjoyment = company.internship_enjoyment,
+        locations = company.locations,
+        location_count = company.location_count,
+        fields = company.fields,
+        field_count = company.field_count,
+        majors = company.majors,
+        major_count = company.major_count,
+        interview_grades = new_interview_grades,
+        internship_grades = company.internship_grades,
+        advanced = advanced_count,
+        enjoyed_interview = max(company.enjoyed_interview - new_enjoyment + current_enjoyment, 0),
+        enjoyed_internship = company.enjoyed_internship,
+        difficult_interview = max(company.difficult_interview - new_difficulty + current_difficulty, 0),
+        difficult_internship = company.difficult_internship
+    )
+    database.update_company(new_company)
+    company = database.get_company_by_name(data['company'])
+
+    # Update interview review
+    interview = models.Interviews(
+        id = id,
+        netid = netid,
+        round = int(data['round']),
+        final_round = data['final'],
+        job_position = data['job_position'],
+        job_field = data['job_type'],
+        type=data['type'],
+        location_type=data['location'],
+        duration = data['duration'],
+        company = data['company'],
+        company_id = company.id,
+        num_interviewers = data['num'],
+        question_description = data['questions'],
+        technologies = data['technologies'],
+        how_interview = data['how'],
+        tips = data['tips'],
+        difficulty = int(data['difficulty']),
+        enjoyment = int(data['enjoyment']),
+        advanced = data['advanced'],
+        upvotes = [],
+        major = user.major,
+        certificates = user.certificates,
+        grade = data['year'],
+        date_created = today
+    )
+    database.update_interview(interview)
+    # Rerender profile reviews template
+    interviews, internships = database.get_reviews_by_user(netid)
+    html = flask.render_template('templates/profilereviews.html', 
+                netid=netid,
+                interviews=interviews,
+                internships=internships
+            )
+    response = flask.make_response(html)
+    return response
 
 # Remove job upvote on profile page
 # Jobs main page
@@ -1037,8 +1173,7 @@ def upvote_interview_profile():
     response = flask.make_response(html)
     return response
 
-# Get job by id
-# Jobs main page
+# Edit jobs main page
 @app.route('/profile/jobs/get', methods=['GET'])
 def get_job():
     netid = auth.authenticate()
@@ -1048,6 +1183,20 @@ def get_job():
     html = flask.render_template('templates/profileeditjobform.html', 
                 netid=netid,
                 job=job
+            )
+    response = flask.make_response(html)
+    return response
+
+# Edit interview page
+@app.route('/profile/interviews/get', methods=['GET'])
+def get_interviews():
+    netid = auth.authenticate()
+    # Get form data
+    id = flask.request.args.get('id')
+    interview = database.get_interview(id)
+    html = flask.render_template('templates/profileeditinterviewform.html', 
+                netid=netid,
+                interview=interview
             )
     response = flask.make_response(html)
     return response

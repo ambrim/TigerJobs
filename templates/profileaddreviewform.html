@@ -755,7 +755,7 @@
             numErrors++;
         }
         var num = $('#interview-num').val();
-        if (num == "" || !isInt(parseInt(num)) || parseInt(num) <= 0) {
+        if (num == "" || !isInt(parseInt(num)) || parseInt(num) < 0) {
             $('#error-interview-num').show();
             numErrors++;
         }
