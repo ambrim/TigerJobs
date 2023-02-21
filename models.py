@@ -54,6 +54,8 @@ class Interviews (Base):
     grade = sqlalchemy.Column(sqlalchemy.String)
     # Date created (yyyy-mm-dd)
     date_created = sqlalchemy.Column(sqlalchemy.String)
+    # True if this interview was reported for offensive content
+    reported = sqlalchemy.Column(sqlalchemy.Boolean)
 
 # Interships Review Table
 class Internships (Base):
@@ -107,6 +109,8 @@ class Internships (Base):
     grade = sqlalchemy.Column(sqlalchemy.String)
     # Date created (yyyy-mm-dd)
     date_created = sqlalchemy.Column(sqlalchemy.String)
+    # True if this interview was reported for offensive content
+    reported = sqlalchemy.Column(sqlalchemy.Boolean)
 
 # Companies Table
 class Companies (Base):
@@ -162,6 +166,8 @@ class Companies (Base):
     difficult_interview = sqlalchemy.Column(sqlalchemy.Integer)
     # Number of people that found job difficult
     difficult_internship = sqlalchemy.Column(sqlalchemy.Integer)
+    # True if this interview was reported for offensive content
+    reported = sqlalchemy.Column(sqlalchemy.Boolean)
 
 # Users Table
 class Users (Base):

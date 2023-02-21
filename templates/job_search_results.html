@@ -21,6 +21,9 @@
                     <!--href link to company page-->
                </div>
                <div class="col-sm-auto justify-content-end">
+                    <span>
+                        <button class="report-btn" onclick="reportReviewModal({{job.id}}, {{job.company_id}})">Report</button>
+                    </span>
                     {% if netid in job.upvotes %}
                     <span type="button" class="card-upvotes" onclick="upvoteReview({{job.id}})">
                          <svg id="upvote-{{job.id}}" class="upvote-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"

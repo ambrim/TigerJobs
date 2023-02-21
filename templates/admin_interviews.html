@@ -1,0 +1,88 @@
+<div id="admin-interviews">
+{% for i in interviews %}
+<div class="container-flush">
+    <div class="search-results-card">
+        <div class="row">
+            <div class="col d-flex">
+                <div class="card-title"> <b>{{i.job_position}}</b>, <a class="card-companylink"
+                        href="/companies/{{i.company_id}}">{{i.company}}</a></div>
+                <!--href link to company page-->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card-content">
+                    Difficulty: <b>{{i.difficulty}}</b> &#160
+                    Enjoyment: <b>{{i.enjoyment}}</b> <br>
+                    Round: {{i.round}} {% if i.final_round == true %}(Final) {% endif %} <br>
+                    Interview obtained by: {{i.how_interview}} <br>
+                    Job Field: {{i.job_field}} <br>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card-content">
+                    Location: {{i.location_type}} <br>
+                    Duration: {{i.duration}} <br>
+                    Number of interviewers: {{i.num_interviewers}}<br>
+                    <b>Advanced?</b>
+                    {% if i.advanced %}
+                    Yes
+                    {% else %}
+                    No
+                    {% endif %} <br>
+                    Date Posted: <i>{{i.date_created}}</i>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card-content">
+                {% if i.question_description != "" %}
+                Description: {{i.question_description}}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="card-content">
+                {% if i.technologies != None %}
+                Technologies Used: {{i.technologies}}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="card-content">
+                {% if i.tips != "" %}
+                Tips: {{i.tips}}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="card-content">
+                Reviewer Info:
+                {% if i.grade == "jr" %} Junior
+                {% elif i.grade == "sr" %} Senior
+                {% elif i.grade == "so" %} Sophomore
+                {% elif i.grade == "fr" %} Freshman
+                {% else %} Grad Student
+                {% endif %}
+                in the {{i.major}} department
+                {% if i.certificates != "" %}
+                pursuing certificates in
+                {{i.certificates}}
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button class="admin-dismiss-btn" onclick="dismissInterview({{i.id}})">Dismiss Report</button>
+            </div>
+            <div class="col">
+                <button class="admin-warning-btn">Edit Interview</button>
+            </div>
+            <div class="col">
+                <button class="admin-delete-btn">Delete Interview</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+</div>

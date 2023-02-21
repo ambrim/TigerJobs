@@ -1,0 +1,33 @@
+<div class="modal fade" id="modalReport" tabindex="-1" aria-labelledby="addReviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <span hidden id="report-id"></span>
+                <span hidden id="report-company-id"></span>
+                <div class="right-container">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="center-container">
+                    <h2 class="red">What would you like to report?</h2>
+                </div>
+                <div id="modalReportBody" class="center-container">
+                    <div class="row">
+                        <div class="col">
+                            If something offensive was written in the company name, click here:
+                            <div>
+                                <button class="profile-btn-reset" onclick="reportCompany()">Report Company</button>
+                            </div>
+                        </div>
+                        <div class="col">
+                            If something offensive was written in the job title, details, or description, click here:
+                            <div>
+                                <button class="profile-btn-reset" onclick="reportReview()">Report Review</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>

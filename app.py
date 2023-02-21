@@ -363,7 +363,8 @@ def add_job():
             enjoyed_interview = 0,
             enjoyed_internship = current_enjoyment,
             difficult_interview = 0,
-            difficult_internship = current_difficulty
+            difficult_internship = current_difficulty,
+            reported = False
         )
         database.add_company(new_company)
     else:
@@ -424,7 +425,8 @@ def add_job():
             enjoyed_interview = company.enjoyed_interview,
             enjoyed_internship = company.enjoyed_internship + current_enjoyment,
             difficult_interview = company.difficult_interview,
-            difficult_internship = company.difficult_internship + current_difficulty
+            difficult_internship = company.difficult_internship + current_difficulty,
+            reported = company.reported
         )
         database.update_company(new_company)
     # Get company to get company ID
@@ -456,7 +458,8 @@ def add_job():
             major = user.major,
             certificates = user.certificates,
             grade = data['year'],
-            date_created = today
+            date_created = today,
+            reported = False
         )
     # Check data['salary'] to be nonempty
     else:
@@ -485,7 +488,8 @@ def add_job():
             major = user.major,
             certificates = user.certificates,
             grade = data['year'],
-            date_created = today
+            date_created = today,
+            reported = False
         )
     database.add_internship(internship)
     # Rerender profile reviews template
@@ -564,7 +568,8 @@ def add_interview():
             enjoyed_interview = current_enjoyment,
             enjoyed_internship = 0,
             difficult_interview = current_difficulty,
-            difficult_internship = 0
+            difficult_internship = 0,
+            reported = False
         )
         database.add_company(new_company)
     else:
@@ -618,7 +623,8 @@ def add_interview():
             enjoyed_interview = company.enjoyed_interview + current_enjoyment,
             enjoyed_internship = company.enjoyed_internship,
             difficult_interview = company.difficult_interview + current_difficulty,
-            difficult_internship = company.difficult_internship
+            difficult_internship = company.difficult_internship,
+            reported = company.reported
         )
         database.update_company(new_company)
     # Get company to get company ID
@@ -647,7 +653,8 @@ def add_interview():
         major = user.major,
         certificates = user.certificates,
         grade = data['year'],
-        date_created = today
+        date_created = today,
+        reported = False
     )
     database.add_interview(interview)
     # Rerender profile reviews template
@@ -736,7 +743,8 @@ def delete_job():
         enjoyed_interview = company.enjoyed_interview,
         enjoyed_internship = max(company.enjoyed_internship - new_enjoyment, 0),
         difficult_interview = company.difficult_interview,
-        difficult_internship = max(company.difficult_internship - new_difficulty, 0)
+        difficult_internship = max(company.difficult_internship - new_difficulty, 0),
+        reported = company.reported
     )
     database.update_company(new_company)
     # Delete job review
@@ -820,7 +828,8 @@ def delete_interview():
         enjoyed_interview = max(company.enjoyed_interview - new_enjoyment, 0),
         enjoyed_internship = company.enjoyed_internship,
         difficult_interview = max(company.difficult_interview - new_difficulty, 0),
-        difficult_internship = company.difficult_internship
+        difficult_internship = company.difficult_internship,
+        reported = company.reported
     )
     database.update_company(new_company)
     # Delete interview review
@@ -844,6 +853,8 @@ def edit_job():
     id = flask.request.args.get('id')
     # Get job review
     internship = database.get_internship(id)
+    # Keep track of reported status
+    reported = internship.reported
     # Make sure current user is one deleting internship
     if internship.netid != netid:
         return "YOU ARE NOT THE WRITER OF THIS REVIEW!"
@@ -962,7 +973,8 @@ def edit_job():
         enjoyed_interview = company.enjoyed_interview,
         enjoyed_internship = max(company.enjoyed_internship - new_enjoyment + current_enjoyment, 0),
         difficult_interview = company.difficult_interview,
-        difficult_internship = max(company.difficult_internship - new_difficulty + current_difficulty, 0)
+        difficult_internship = max(company.difficult_internship - new_difficulty + current_difficulty, 0),
+        reported = company.reported
     )
     database.update_company(new_company)
     ## Edit internship
@@ -993,7 +1005,8 @@ def edit_job():
             major = user.major,
             certificates = user.certificates,
             grade = data['year'],
-            date_created = today
+            date_created = today,
+            reported = reported
         )
     # Check data['salary'] to be nonempty
     else:
@@ -1023,7 +1036,8 @@ def edit_job():
             major = user.major,
             certificates = user.certificates,
             grade = data['year'],
-            date_created = today
+            date_created = today,
+            reported = reported
         )
     database.update_internship(internship)
     # Rerender profile reviews template
@@ -1046,6 +1060,8 @@ def edit_interview():
     id = flask.request.args.get('id')
     # Get interview review
     interview = database.get_interview(id)
+    # Keep track of reported status
+    reported = interview.reported
     # Make sure current user is one deleting internship
     if interview.netid != netid:
         return "YOU ARE NOT THE WRITER OF THIS REVIEW!"
@@ -1162,7 +1178,8 @@ def edit_interview():
         enjoyed_interview = max(company.enjoyed_interview - new_enjoyment + current_enjoyment, 0),
         enjoyed_internship = company.enjoyed_internship,
         difficult_interview = max(company.difficult_interview - new_difficulty + current_difficulty, 0),
-        difficult_internship = company.difficult_internship
+        difficult_internship = company.difficult_internship,
+        reported = company.reported
     )
     database.update_company(new_company)
     company = database.get_company_by_name(data['company'])
@@ -1192,7 +1209,8 @@ def edit_interview():
         major = user.major,
         certificates = user.certificates,
         grade = data['year'],
-        date_created = today
+        date_created = today,
+        reported = reported
     )
     database.update_interview(interview)
     # Rerender profile reviews template
@@ -1271,6 +1289,95 @@ def get_interviews():
     html = flask.render_template('templates/profileeditinterviewform.html', 
                 netid=netid,
                 interview=interview
+            )
+    response = flask.make_response(html)
+    return response
+#----------------------------------------------------------------------
+# Admin Routes
+#----------------------------------------------------------------------
+# Admin main page
+@app.route('/admin', methods=['GET'])
+def admin():
+    netid = auth.authenticate()
+    internships, interviews, companies = database.get_reported()
+    html = flask.render_template('templates/admin.html', 
+                netid=netid,
+                internships=internships,
+                interviews=interviews,
+                companies=companies
+            )
+    response = flask.make_response(html)
+    return response
+# Report routes
+# Report interview page
+@app.route('/report/interviews', methods=['POST'])
+def report_interview():
+    _ = auth.authenticate()
+    # Get form data
+    id = flask.request.args.get('id')
+    database.report_interview(id, True)
+    return "SUCCESS"
+
+# Report internship page
+@app.route('/report/internships', methods=['POST'])
+def report_internship():
+    _ = auth.authenticate()
+    # Get form data
+    id = flask.request.args.get('id')
+    database.report_internship(id, True)
+    return "SUCCESS"
+
+# Report internship page
+@app.route('/report/companies', methods=['POST'])
+def report_company():
+    _ = auth.authenticate()
+    # Get form data
+    id = flask.request.args.get('id')
+    database.report_company(id, True)
+    return "SUCCESS"
+
+# Dismiss report routes
+# Report interview page
+@app.route('/dismiss/interviews', methods=['POST'])
+def dismiss_interview():
+    netid = auth.authenticate()
+    # Get form data
+    id = flask.request.args.get('id')
+    database.report_interview(id, False)
+    _, interviews, _ = database.get_reported()
+    html = flask.render_template('templates/admin_interviews.html', 
+                netid=netid,            
+                interviews=interviews
+            )
+    response = flask.make_response(html)
+    return response
+
+# Report internship page
+@app.route('/dismiss/internships', methods=['POST'])
+def dismiss_internship():
+    netid = auth.authenticate()
+    # Get form data
+    id = flask.request.args.get('id')
+    database.report_internship(id, False)
+    internships, _, _ = database.get_reported()
+    html = flask.render_template('templates/admin_jobs.html', 
+                netid=netid,
+                internships=internships
+            )
+    response = flask.make_response(html)
+    return response
+
+# Report internship page
+@app.route('/dismiss/companies', methods=['POST'])
+def dismiss_company():
+    netid = auth.authenticate()
+    # Get form data
+    id = flask.request.args.get('id')
+    database.report_company(id, False)
+    _, _, companies = database.get_reported()
+    html = flask.render_template('templates/admin_companies.html', 
+                netid=netid,
+                companies=companies
             )
     response = flask.make_response(html)
     return response

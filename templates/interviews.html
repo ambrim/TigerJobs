@@ -60,7 +60,9 @@
             </div>
         </div>
     </div>
-
+    {% include 'templates/modalreport.html' %}
+    {% include 'templates/modalsuccess.html' %}
+    {% include 'templates/modalerror.html' %}
     <script>
     let request = null;
     let currentInterviewSort = 'recency';
@@ -200,18 +202,42 @@
         let url = "/interviews/upvote?id=" + id;
         request = $.post(url, {
         }).done(function (data) {
-            // let upvoteIconId = "#upvote-" + id;
-            // let elemId = "#upvote-count-" + id;
-            // if (data[0] == "False") {
-            //     $(upvoteIconId).css("stroke", "black");
-            //     $(elemId).removeClass("card-upvote-selected");
-            // }
-            // else if (data[0] == "True") {
-            //     $(upvoteIconId).css("stroke", "#2058DC");
-            //     $(elemId).addClass("card-upvote-selected");
-            // }
-            // $(elemId).text(data[1])
         }).fail(function (jqXHR, textStatus, errorThrown) {
+        });
+    }
+    function reportInterviewReviewModal(id, company_id) {
+        $('#modalReport').modal('show');
+        $('#report-id').html(id);
+        $('#report-company-id').html(company_id);
+    }
+    function reportReview() {
+        $('#modalReport').modal('hide');
+        id = $('#report-id').html();
+        if (request != null)
+            request.abort();
+        let url = "/report/interviews?id=" + id;
+        request = $.post(url, {
+        }).done(function (data) {
+            $('#modalSuccessBody').html("Successfully reported")
+            $('#modalSuccess').modal('show');
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            $('#modalErrorBody').html("Error reporting. Try again!")
+            $('#modalError').modal('show');
+        });
+    }
+    function reportCompany() {
+        $('#modalReport').modal('hide');
+        id = $('#report-company-id').html();
+        if (request != null)
+            request.abort();
+        let url = "/report/companies?id=" + id;
+        request = $.post(url, {
+        }).done(function (data) {
+            $('#modalSuccessBody').html("Successfully reported")
+            $('#modalSuccess').modal('show');
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            $('#modalErrorBody').html("Error reporting. Try again!")
+            $('#modalError').modal('show');
         });
     }
     function setup() {

@@ -32,7 +32,8 @@ def add_test_internship(session):
         major = 'COS',
         certificates = 'SML, Finance',
         grade = 'so',
-        date_created = '2023-01-10'
+        date_created = '2023-01-10',
+        reported = False
     )
     session.add(internship)
 
@@ -61,7 +62,8 @@ def add_test_interview(session):
         major = 'COS',
         certificates = 'Statistics and Machine Learning, Finance',
         grade = 'jr',
-        date_created = '2023-01-10'
+        date_created = '2023-01-10',
+        reported = False
     )
     session.add(interview)
 
@@ -92,7 +94,8 @@ def add_test_companies(session):
         enjoyed_interview = 0,
         enjoyed_internship = 1,
         difficult_interview = 0,
-        difficult_internship = 1
+        difficult_internship = 1,
+        reported = False
     )
     session.add(company)
     company = models.Companies(
@@ -120,7 +123,8 @@ def add_test_companies(session):
         enjoyed_interview = 1,
         enjoyed_internship = 0,
         difficult_interview = 0,
-        difficult_internship = 0
+        difficult_internship = 0,
+        reported = False
     )
     session.add(company)
 

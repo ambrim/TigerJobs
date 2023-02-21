@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List
 import sqlalchemy
 import sqlalchemy.orm
 from sqlalchemy.exc import SQLAlchemyError
@@ -211,7 +211,8 @@ def update_interview(interview:models.Interviews):
                     'major':interview.major,
                     'certificates':interview.certificates,
                     'grade':interview.grade,
-                    'date_created':interview.date_created
+                    'date_created':interview.date_created,
+                    'reported':interview.reported
                 }
             )
         session.commit()
@@ -400,6 +401,7 @@ def update_internship(internship:models.Internships):
                     'certificates': internship.certificates,
                     'grade': internship.grade,
                     'date_created': internship.date_created,
+                    'reported': internship.reported
                 }
             )
         session.commit()
@@ -424,6 +426,7 @@ def upvote_internship(id, new_val):
             )
         session.commit()
     return internship
+
 # Delete an internship review
 def delete_internship(id):
     with sqlalchemy.orm.Session(engine) as session:
@@ -507,7 +510,8 @@ def update_company(company:models.Companies):
                     'enjoyed_interview': company.enjoyed_interview,
                     'enjoyed_internship': company.enjoyed_internship,
                     'difficult_interview': company.difficult_interview,
-                    'difficult_internship': company.difficult_internship
+                    'difficult_internship': company.difficult_internship,
+                    'reported': company.reported
                 }
             )
         session.commit()
@@ -616,3 +620,67 @@ def get_upvoted_reviews_by_user(netid):
             models.Internships.upvotes.contains([netid])
         ).all()
     return (interviews, internships)
+
+#----------------------------------------------------------------------
+# Reported Queries
+#----------------------------------------------------------------------
+# Get all reported things:
+def get_reported():
+    internships = []
+    with sqlalchemy.orm.Session(engine) as session:
+        internships = session.query(models.Internships).filter(
+            models.Internships.reported
+        ).all()
+    interviews = []
+    with sqlalchemy.orm.Session(engine) as session:
+        interviews = session.query(models.Interviews).filter(
+            models.Interviews.reported
+        ).all()
+    companies = []
+    with sqlalchemy.orm.Session(engine) as session:
+        companies = session.query(models.Companies).filter(
+            models.Companies.reported
+        ).all()
+    return (internships, interviews, companies)
+
+# Change reported value
+def report_interview(id, new_val):
+    # Make sure to only get one
+    interview = None
+    with sqlalchemy.orm.Session(engine) as session:
+        interview = session.query(models.Interviews).filter(
+            models.Interviews.id == id).update(
+                {
+                    "reported": new_val
+                }
+            )
+        session.commit()
+    return interview
+
+# Change reported value
+def report_internship(id, new_val):
+    # Make sure to only get one
+    internship = None
+    with sqlalchemy.orm.Session(engine) as session:
+        internship = session.query(models.Internships).filter(
+            models.Internships.id == id).update(
+                {
+                    "reported": new_val
+                }
+            )
+        session.commit()
+    return internship
+
+# Change reported value
+def report_company(id, new_val):
+    # Make sure to only get one
+    company = None
+    with sqlalchemy.orm.Session(engine) as session:
+        company = session.query(models.Companies).filter(
+            models.Companies.id == id).update(
+                {
+                    "reported": new_val
+                }
+            )
+        session.commit()
+    return company
