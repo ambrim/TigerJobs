@@ -532,6 +532,8 @@ def add_interview():
     # Either update company or add company to database
     company = database.get_company_by_name(data['company'])
     if company is None:
+        current_fields = [data['companyType']]
+        current_majors = [user.major]
         current_grades = [0, 0, 0, 0, 0]
         current_grades[grades_global.index(data['year'])] += 1
         current_advanced = 0
@@ -552,10 +554,10 @@ def add_interview():
             internship_enjoyment = 0,
             locations=[],
             location_count=[],
-            fields=[],
-            field_count=[],
-            majors=[],
-            major_count=[],
+            fields=current_fields,
+            field_count=[1],
+            majors=current_majors,
+            major_count=[1],
             interview_grades = current_grades,
             internship_grades = [0, 0, 0, 0, 0],
             advanced = current_advanced,
@@ -566,6 +568,25 @@ def add_interview():
         )
         database.add_company(new_company)
     else:
+        # Update fields and fields count
+        current_fields = company.fields
+        current_field_count = company.field_count
+        if data['job_type'] not in current_fields:
+            current_fields.append(data['job_type'])
+            current_field_count.append(1)
+        else:
+            field_index = current_fields.index(data['job_type'])
+            current_field_count[field_index] += 1
+        # Update majors and major count
+        current_majors = company.majors
+        current_major_count = company.major_count
+        if user.major not in current_majors:
+            current_majors.append(user.major)
+            current_major_count.append(1)
+        else:
+            major_index = current_majors.index(user.major)
+            current_major_count[major_index] += 1
+        # Update grades
         current_grades = company.interview_grades
         current_grades[grades_global.index(data['year'])] += 1
         current_advanced = company.advanced
@@ -587,10 +608,10 @@ def add_interview():
             internship_enjoyment = company.internship_enjoyment,
             locations = company.locations,
             location_count = company.location_count,
-            fields = company.fields,
-            field_count = company.field_count,
-            majors= company.majors,
-            major_count=company.major_count,
+            fields=current_fields,
+            field_count=current_field_count,
+            majors=current_majors,
+            major_count=current_major_count,
             interview_grades = current_grades,
             internship_grades = company.internship_grades,
             advanced = current_advanced,
@@ -754,6 +775,24 @@ def delete_interview():
     new_difficulty = 0
     if interview.difficulty >= 3:
         new_difficulty = 1
+    # Delete field if present
+    new_field_count = company.field_count
+    updated_fields = company.fields
+    field_index = company.fields.index(interview.job_field)
+    new_field_count[field_index] = company.field_count[field_index] - 1
+    # Remove field if less than or equal to 0
+    if new_field_count[field_index] <= 0:
+        updated_fields.pop(field_index)
+        new_field_count.pop(field_index)
+    # Delete major if present
+    new_major_count = company.major_count
+    updated_majors = company.majors
+    major_index = company.majors.index(interview.major)
+    new_major_count[major_index] = max(company.major_count[major_index] - 1, 0)
+    # Remove major if less than or equal to 0
+    if new_major_count[major_index] <= 0:
+        updated_majors.pop(major_index)
+        new_major_count.pop(major_index)
     # Update company
     new_company = models.Companies(
         id = company.id,
@@ -771,10 +810,10 @@ def delete_interview():
         internship_enjoyment = company.internship_enjoyment,
         locations = company.locations,
         location_count = company.location_count,
-        fields = company.fields,
-        field_count = company.field_count,
-        majors = company.majors,
-        major_count = company.major_count,
+        fields = updated_fields,
+        field_count = new_field_count,
+        majors = updated_majors,
+        major_count=new_major_count,
         interview_grades = new_interview_grades,
         internship_grades = company.internship_grades,
         advanced = advanced_count,
@@ -1001,7 +1040,6 @@ def edit_job():
 # Edit Interview Review
 @app.route('/profile/edit/interview', methods=['POST'])
 def edit_interview():
-    print("REACHED")
     # Get all data from form and other
     netid = auth.authenticate()
     # Get interview id for review to delete
@@ -1037,6 +1075,42 @@ def edit_interview():
     new_interview_grades = company.interview_grades
     new_interview_grades[grades_global.index(interview.grade)] -= 1
     new_interview_grades[grades_global.index(data['year'])] += 1
+
+    ## Update fields of company
+    # Delete field if present
+    new_field_count = company.field_count
+    updated_fields = company.fields
+    field_index = company.fields.index(interview.job_field)
+    new_field_count[field_index] = company.field_count[field_index] - 1
+    # Remove field if less than or equal to 0
+    if new_field_count[field_index] <= 0:
+        updated_fields.pop(field_index)
+        new_field_count.pop(field_index)
+    # Update fields and fields count
+    if data['job_type'] not in updated_fields:
+        updated_fields.append(data['job_type'])
+        new_field_count.append(1)
+    else:
+        field_index = updated_fields.index(data['job_type'])
+        new_field_count[field_index] += 1
+    
+    ## Update majors of company
+    # Delete major if present
+    new_major_count = company.major_count
+    updated_majors = company.majors
+    major_index = company.majors.index(interview.major)
+    new_major_count[major_index] = max(company.major_count[major_index] - 1, 0)
+    # Remove major if less than or equal to 0
+    if new_major_count[major_index] <= 0:
+        updated_majors.pop(major_index)
+        new_major_count.pop(major_index)
+    # Update majors and major count
+    if user.major not in updated_majors:
+        updated_majors.append(user.major)
+        new_major_count.append(1)
+    else:
+        major_index = updated_majors.index(user.major)
+        new_major_count[major_index] += 1
 
     # Interview advanced count
     advanced_count = company.advanced
@@ -1078,10 +1152,10 @@ def edit_interview():
         internship_enjoyment = company.internship_enjoyment,
         locations = company.locations,
         location_count = company.location_count,
-        fields = company.fields,
-        field_count = company.field_count,
-        majors = company.majors,
-        major_count = company.major_count,
+        fields = updated_fields,
+        field_count = new_field_count,
+        majors = updated_majors,
+        major_count=new_major_count,
         interview_grades = new_interview_grades,
         internship_grades = company.internship_grades,
         advanced = advanced_count,

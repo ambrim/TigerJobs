@@ -7,19 +7,64 @@
                         {{comp.num_internships + comp.num_interviews}}</b> <span class="company-review-click" onclick="showAllReviews()">total review(s)</span>
                     </span>
                 </div>
-                <p class="align-bottom">
+                <p id="hidden-info" class="align-bottom">
                     <b>Location(s):</b> 
-                    {% for loc in locations %}
+                    {% if locations|length < 3%}
+                    <span>
+                    {% for loc in locations[:3] %}
                         <span class="company-textbox-loc">{{loc}}</span> 
                     {% endfor %}<br>
+                    </span>
+                    {% else %}
+                    <span id="hidden-locations">
+                    {% for loc in locations[:3] %}
+                        <span class="company-textbox-loc">{{loc}}</span> 
+                    {% endfor %}<a href="javascript:showLocations(true)" class="company-link">(see more)</a><br>
+                    </span>
+                    <span id="shown-locations">
+                    {% for loc in locations %}
+                    <span class="company-textbox-loc">{{loc}}</span>
+                    {% endfor %}<a href="javascript:showLocations(false)" class="company-link">(see less)</a><br>
+                    </span>
+                    {% endif %}
+
                     <b>Field(s):</b> 
-                    {% for field in fields %}
+                    {% if fields|length < 3%} <span>
+                    {% for field in fields[:3] %}
                         <span class="company-textbox-field">{{field}}</span>
                     {% endfor %}<br>
+                    </span>
+                    {% else %}
+                    <span id="hidden-fields">
+                    {% for field in fields[:3] %}
+                        <span class="company-textbox-field">{{field}}</span>
+                    {% endfor %}<a href="javascript:showFields(true)" class="company-link">(see more)</a><br>
+                    </span>
+                    <span id="shown-fields">
+                        {% for field in fields %}
+                        <span class="company-textbox-field">{{field}}</span>
+                        {% endfor %}<a href="javascript:showFields(false)" class="company-link">(see less)</a><br>
+                    </span>
+                    {% endif %}
+
                     <b>Major(s):</b> 
-                    {% for major in majors %}
-                        <span class="company-textbox-major">{{major}}</span> 
+                    {% if majors|length < 3%} <span>
+                    {% for major in majors[:3] %}
+                        <span class="company-textbox-major">{{major}}</span>
                     {% endfor %}<br>
+                    </span>
+                    {% else %}
+                    <span id="hidden-majors">
+                    {% for major in majors[:3] %}
+                        <span class="company-textbox-major">{{major}}</span> 
+                    {% endfor %}<a href="javascript:showMajors(true)" class="company-link">(see more)</a><br>
+                    </span>
+                    <span id="shown-majors">
+                        {% for major in majors[:3] %}
+                        <span class="company-textbox-major">{{major}}</span>
+                        {% endfor %}<a href="javascript:showMajors(false)" class="company-link">(see less)</a><br>
+                    </span>
+                    {% endif %}
                 </p>
             </div>
             {% if comp.num_internships > 0 %}
@@ -264,3 +309,41 @@
         </div>
     </div>
 </div>
+<script>
+    function showLocations(show) {
+        if (show) {
+            $('#hidden-locations').hide();
+            $('#shown-locations').show();
+        }
+        else {
+            $('#hidden-locations').show();
+            $('#shown-locations').hide();
+        }
+    }
+    function showFields(show) {
+        if (show) {
+            $('#hidden-fields').hide();
+            $('#shown-fields').show();
+        }
+        else {
+            $('#hidden-fields').show();
+            $('#shown-fields').hide();
+        }
+    }
+    function showMajors(show) {
+        if (show) {
+            $('#hidden-majors').hide();
+            $('#shown-majors').show();
+        }
+        else {
+            $('#hidden-majors').show();
+            $('#shown-majors').hide();
+        }
+    }
+    function setup() {
+        $('#shown-locations').hide();
+        $('#shown-fields').hide();
+        $('#shown-majors').hide();
+    }
+    $('document').ready(setup)
+</script>

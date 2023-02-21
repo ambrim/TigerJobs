@@ -752,6 +752,10 @@ from{--p:0}
     transform: scale(1.03);
     transition: transform 0.3s;
 }
+.company-link {
+    font-size:0.8rem;
+    text-decoration: none;
+}
 .tight {
     margin-bottom: 0.6rem;
 }
