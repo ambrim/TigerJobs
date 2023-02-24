@@ -76,10 +76,12 @@ def authenticate():
                 netid = username,
                 major = '',
                 certificates = '',
-                grade = ''
+                grade = '',
+                admin = False
             )
             database.add_user(user)
-        return username
+        
+        return (username, user.admin)
     # If the request does not contain a login ticket, then redirect
     # the browser to the login page to get one.
     ticket = request.args.get('ticket')
@@ -101,13 +103,13 @@ def authenticate():
             major = '',
             certificates = '',
             grade = '',
-            
+            admin = False
         )
         database.add_user(user)
     # The user is authenticated, so store the username in
     # the session.
     session['username'] = username
-    return username
+    return (username, user.admin)
 
 
 # ----------------------------------------------------------------------

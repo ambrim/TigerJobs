@@ -134,7 +134,8 @@ def add_test_users(session):
         netid = "amkumar",
         major = '',
         certificates = '',
-        grade = ''
+        grade = '',
+        admin = False
     )
     session.add(user)
 

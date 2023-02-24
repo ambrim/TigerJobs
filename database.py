@@ -616,7 +616,18 @@ def update_user(user:models.Users):
                     'netid': user.netid,
                     'major': user.major,
                     'certificates': user.certificates,
-                    'grade': user.grade
+                    'grade': user.grade,
+                    'admin': user.admin
+                }
+            )
+        session.commit()
+# Update user
+def update_user_admin(id, val):
+    with sqlalchemy.orm.Session(engine) as session:
+        session.query(models.Users).filter(
+            models.Users.netid == id).update(
+                {
+                    'admin': val
                 }
             )
         session.commit()

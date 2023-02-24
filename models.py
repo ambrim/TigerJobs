@@ -180,3 +180,5 @@ class Users (Base):
     certificates = sqlalchemy.Column(sqlalchemy.String)
     # User's class (fr, so, jr, or sr)
     grade = sqlalchemy.Column(sqlalchemy.String)
+    # True if user is admin
+    admin = sqlalchemy.Column(sqlalchemy.Boolean)

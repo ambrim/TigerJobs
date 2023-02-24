@@ -36,7 +36,7 @@ def netID():
 # Jobs main page
 @app.route('/jobs', methods=['GET'])
 def jobs():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
     res = database.get_all_internships()
     major_codes = list(database.majors.keys())
     major_names = list(database.majors.values())
@@ -44,6 +44,7 @@ def jobs():
     locations = database.get_all_internship_locations()
     html = flask.render_template('templates/jobs.html', 
                 netid=netid,
+                admin=admin,
                 job_search_res = res,
                 major_codes=major_codes,
                 major_names=major_names,
@@ -56,7 +57,7 @@ def jobs():
 # Jobs main page
 @app.route('/jobs/filter', methods=['POST'])
 def job_filtered():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
     # Get form data
     data = json.loads(flask.request.form.to_dict()['event_data'])
     query_words = re.split(r' |,|;', data['query'])
@@ -77,6 +78,7 @@ def job_filtered():
     res = database.get_filtered_internships(filters)
     html = flask.render_template('templates/job_search_results.html', 
                 netid = netid,
+                admin = admin,
                 job_search_res = res,
             )
     response = flask.make_response(html)
@@ -85,7 +87,7 @@ def job_filtered():
 # Jobs main page
 @app.route('/jobs/upvote', methods=['POST'])
 def upvote_job():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
     # Get form data
     id = flask.request.args.get('id')
     # Variable to say whether adding or removing
@@ -105,13 +107,14 @@ def upvote_job():
 # Interviews main page
 @app.route('/interviews', methods=['GET'])
 def interviews():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
     res = database.get_all_interviews()
     major_codes = list(database.majors.keys())
     major_names = list(database.majors.values())
     certificates = list(database.certificates)
     html = flask.render_template('templates/interviews.html', 
                 netid=netid,
+                admin=admin,
                 interview_search_res = res,
                 major_codes=major_codes,
                 major_names=major_names,
@@ -126,7 +129,6 @@ def interview_filtered():
     # Get form data
     data = json.loads(flask.request.form.to_dict()['event_data'])
     query_words = re.split(r' |,|;', data['query'])
-    print(query_words)
     filters = [
         query_words,
         data['difficulty'],
@@ -153,7 +155,7 @@ def interview_filtered():
 
 @app.route('/interviews/upvote', methods=['POST'])
 def upvote_interview():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
     # Get form data
     id = flask.request.args.get('id')
     # Variable to say whether adding or removing
@@ -173,13 +175,14 @@ def upvote_interview():
 # Companies main page
 @app.route('/companies', methods=['GET'])
 def companies():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
     major_codes = list(database.majors.keys())
     major_names = list(database.majors.values())
     res = database.get_all_companies()
     top = database.get_top_companies('')
     html = flask.render_template('templates/companieshome.html', 
             netid=netid,
+            admin=admin,
             company_top_res=top,
             company_search_res=res,
             major_codes=major_codes,
@@ -209,7 +212,7 @@ def search_companies():
 # Companies specific page
 @app.route('/companies/<id>', methods=['GET'])
 def company_page(id):
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
     comp = database.get_company(id)
     comp_interviews, comp_internships = database.get_reviews_by_company(id)
     # Sort locations, fields, and majors
@@ -221,6 +224,7 @@ def company_page(id):
     majors = [x for _, x in sorted(zip_majors, reverse=True)]
     html = flask.render_template('templates/company.html', 
             netid=netid,
+            admin=admin,
             comp=comp,
             locations=locations,
             fields=fields,
@@ -235,12 +239,13 @@ def company_page(id):
 # About page
 @app.route('/about', methods=['GET'])
 def about():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
     comp = database.get_company_by_name('MITRE')
     res = database.get_all_companies() ######## PLACEHOLDER ########
     top = database.get_top_companies('') ######## PLACEHOLDER ########
     html = flask.render_template('templates/about.html', 
             netid=netid,
+            admin=admin,
             comp=comp,
             company_top_res=top,
             company_search_res=res)
@@ -252,7 +257,7 @@ def about():
 # Profile main page
 @app.route('/profile', methods=['GET'])
 def profile():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
     user = database.get_user(netid)
     interviews, internships = database.get_reviews_by_user(netid)
     my_interview_upvotes = 0
@@ -268,6 +273,7 @@ def profile():
     company_names = database.get_all_company_names()
     html = flask.render_template('templates/profile.html', 
                 netid=netid,
+                admin=admin,
                 user=user,
                 interviews=interviews,
                 internships=internships,
@@ -286,15 +292,18 @@ def profile():
 # Update profile route
 @app.route('/profile/update', methods=['POST'])
 def profile_update():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
     # Get form data
     data = json.loads(flask.request.form.to_dict()['event_data'])
+    # Get user info 
+    old_user = database.get_user(netid)
     # Update user data
     user = models.Users(
         netid=netid,
         major=data['major'],
         certificates = data['certificates'],
-        grade = data['grade']
+        grade = data['grade'],
+        admin = old_user.admin
     )
     database.update_user(user)
     major_codes = list(database.majors.keys())
@@ -302,6 +311,7 @@ def profile_update():
     user_certificates = user.certificates.split(", ")
     html = flask.render_template('templates/profileform.html', 
                 netid=netid,
+                admin=admin,
                 user=user,
                 major_codes=major_codes,
                 major_names=major_names,
@@ -313,7 +323,7 @@ def profile_update():
 # Add Job Review
 @app.route('/profile/add/job', methods=['POST'])
 def add_job():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
     # Get current user data
     user = database.get_user(netid)
     # Check if user has put in info yet
@@ -496,6 +506,7 @@ def add_job():
     interviews, internships = database.get_reviews_by_user(netid)
     html = flask.render_template('templates/profilereviews.html', 
                 netid=netid,
+                admin=admin,
                 user=user,
                 interviews=interviews,
                 internships=internships
@@ -506,7 +517,7 @@ def add_job():
 # Add Interview Review
 @app.route('/profile/add/interview', methods=['POST'])
 def add_interview():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
     # Get current user data
     user = database.get_user(netid)
     # Check if user has put in info yet
@@ -661,6 +672,7 @@ def add_interview():
     interviews, internships = database.get_reviews_by_user(netid)
     html = flask.render_template('templates/profilereviews.html', 
                 netid=netid,
+                admin=admin,
                 interviews=interviews,
                 internships=internships
             )
@@ -670,7 +682,7 @@ def add_interview():
 # Delete job review
 @app.route('/profile/delete/job', methods=['POST'])
 def delete_job():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
     # Get job id for review to delete
     id = flask.request.args.get('id')
     # Get job review
@@ -753,6 +765,7 @@ def delete_job():
     interviews, internships = database.get_reviews_by_user(netid)
     html = flask.render_template('templates/profilereviews.html', 
                 netid=netid,
+                admin=admin,
                 interviews=interviews,
                 internships=internships
             )
@@ -762,7 +775,7 @@ def delete_job():
 # Delete interview review
 @app.route('/profile/delete/interview', methods=['POST'])
 def delete_interview():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
     # Get interview id for review to delete
     id = flask.request.args.get('id')
     # Get interview review
@@ -838,6 +851,7 @@ def delete_interview():
     interviews, internships = database.get_reviews_by_user(netid)
     html = flask.render_template('templates/profilereviews.html', 
                 netid=netid,
+                admin=admin,
                 interviews=interviews,
                 internships=internships
             )
@@ -848,7 +862,7 @@ def delete_interview():
 @app.route('/profile/edit/job', methods=['POST'])
 def edit_job():
     ## Load in data to update company
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
     # Get job id for review to update
     id = flask.request.args.get('id')
     # Get job review
@@ -1044,6 +1058,7 @@ def edit_job():
     interviews, internships = database.get_reviews_by_user(netid)
     html = flask.render_template('templates/profilereviews.html', 
                 netid=netid,
+                admin=admin,
                 user=user,
                 interviews=interviews,
                 internships=internships
@@ -1055,7 +1070,7 @@ def edit_job():
 @app.route('/profile/edit/interview', methods=['POST'])
 def edit_interview():
     # Get all data from form and other
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
     # Get interview id for review to delete
     id = flask.request.args.get('id')
     # Get interview review
@@ -1217,6 +1232,7 @@ def edit_interview():
     interviews, internships = database.get_reviews_by_user(netid)
     html = flask.render_template('templates/profilereviews.html', 
                 netid=netid,
+                admin=admin,
                 interviews=interviews,
                 internships=internships
             )
@@ -1227,7 +1243,7 @@ def edit_interview():
 # Jobs main page
 @app.route('/profile/jobs/upvote', methods=['POST'])
 def upvote_job_profile():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
     # Get form data
     id = flask.request.args.get('id')
     old_review = database.get_internship(id)
@@ -1238,6 +1254,7 @@ def upvote_job_profile():
     upvote_interviews, upvote_internships = database.get_upvoted_reviews_by_user(netid)
     html = flask.render_template('templates/profileupvoted.html', 
                 netid=netid,
+                admin=admin,
                 upvote_interviews=upvote_interviews,
                 upvote_internships=upvote_internships,
             )
@@ -1248,7 +1265,7 @@ def upvote_job_profile():
 # Jobs main page
 @app.route('/profile/interviews/upvote', methods=['POST'])
 def upvote_interview_profile():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
     # Get form data
     id = flask.request.args.get('id')
     old_review = database.get_interview(id)
@@ -1259,6 +1276,7 @@ def upvote_interview_profile():
     upvote_interviews, upvote_internships = database.get_upvoted_reviews_by_user(netid)
     html = flask.render_template('templates/profileupvoted.html', 
                 netid=netid,
+                admin=admin,
                 upvote_interviews=upvote_interviews,
                 upvote_internships=upvote_internships,
             )
@@ -1268,12 +1286,13 @@ def upvote_interview_profile():
 # Edit jobs main page
 @app.route('/profile/jobs/get', methods=['GET'])
 def get_job():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
     # Get form data
     id = flask.request.args.get('id')
     job = database.get_internship(id)
     html = flask.render_template('templates/profileeditjobform.html', 
                 netid=netid,
+                admin=admin,
                 job=job
             )
     response = flask.make_response(html)
@@ -1282,12 +1301,13 @@ def get_job():
 # Edit interview page
 @app.route('/profile/interviews/get', methods=['GET'])
 def get_interviews():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
     # Get form data
     id = flask.request.args.get('id')
     interview = database.get_interview(id)
     html = flask.render_template('templates/profileeditinterviewform.html', 
                 netid=netid,
+                admin=admin,
                 interview=interview
             )
     response = flask.make_response(html)
@@ -1298,10 +1318,13 @@ def get_interviews():
 # Admin main page
 @app.route('/admin', methods=['GET'])
 def admin():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
+    if not admin:
+        return flask.redirect('/profile')
     internships, interviews, companies = database.get_reported()
     html = flask.render_template('templates/admin.html', 
                 netid=netid,
+                admin=admin,
                 internships=internships,
                 interviews=interviews,
                 companies=companies
@@ -1312,7 +1335,7 @@ def admin():
 # Report interview page
 @app.route('/report/interviews', methods=['POST'])
 def report_interview():
-    _ = auth.authenticate()
+    netid, admin = auth.authenticate()
     # Get form data
     id = flask.request.args.get('id')
     database.report_interview(id, True)
@@ -1321,7 +1344,7 @@ def report_interview():
 # Report internship page
 @app.route('/report/internships', methods=['POST'])
 def report_internship():
-    _ = auth.authenticate()
+    netid, admin = auth.authenticate()
     # Get form data
     id = flask.request.args.get('id')
     database.report_internship(id, True)
@@ -1330,7 +1353,7 @@ def report_internship():
 # Report internship page
 @app.route('/report/companies', methods=['POST'])
 def report_company():
-    _ = auth.authenticate()
+    netid, admin = auth.authenticate()
     # Get form data
     id = flask.request.args.get('id')
     database.report_company(id, True)
@@ -1340,13 +1363,16 @@ def report_company():
 # Report interview page
 @app.route('/dismiss/interviews', methods=['POST'])
 def dismiss_interview():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
+    if not admin:
+        return flask.redirect('/profile')
     # Get form data
     id = flask.request.args.get('id')
     database.report_interview(id, False)
     _, interviews, _ = database.get_reported()
     html = flask.render_template('templates/admin_interviews.html', 
-                netid=netid,            
+                netid=netid,  
+                admin=admin,          
                 interviews=interviews
             )
     response = flask.make_response(html)
@@ -1355,13 +1381,16 @@ def dismiss_interview():
 # Report internship page
 @app.route('/dismiss/internships', methods=['POST'])
 def dismiss_internship():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
+    if not admin:
+        return flask.redirect('/profile')
     # Get form data
     id = flask.request.args.get('id')
     database.report_internship(id, False)
     internships, _, _ = database.get_reported()
     html = flask.render_template('templates/admin_jobs.html', 
                 netid=netid,
+                admin=admin,
                 internships=internships
             )
     response = flask.make_response(html)
@@ -1370,13 +1399,16 @@ def dismiss_internship():
 # Report internship page
 @app.route('/dismiss/companies', methods=['POST'])
 def dismiss_company():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
+    if not admin:
+        return flask.redirect('/profile')
     # Get form data
     id = flask.request.args.get('id')
     database.report_company(id, False)
     _, _, companies = database.get_reported()
     html = flask.render_template('templates/admin_companies.html', 
                 netid=netid,
+                admin=admin,
                 companies=companies
             )
     response = flask.make_response(html)
@@ -1386,7 +1418,9 @@ def dismiss_company():
 # Delete internship from admin page
 @app.route('/admin/delete/job', methods=['POST'])
 def delete_job_admin():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
+    if not admin:
+        return flask.redirect('/profile')
     # Get job id for review to delete
     id = flask.request.args.get('id')
     # Get job review
@@ -1469,6 +1503,7 @@ def delete_job_admin():
     internships, _, _ = database.get_reported()
     html = flask.render_template('templates/admin_jobs.html', 
                 netid=netid,
+                admin=admin,
                 internships=internships
             )
     response = flask.make_response(html)
@@ -1477,7 +1512,9 @@ def delete_job_admin():
 # Delete interview from admin page
 @app.route('/admin/delete/interview', methods=['POST'])
 def delete_interview_admin():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
+    if not admin:
+        return flask.redirect('/profile')
     # Get interview id for review to delete
     id = flask.request.args.get('id')
     # Get interview review
@@ -1552,7 +1589,8 @@ def delete_interview_admin():
     # Rerender profile reviews template
     _, interviews, _ = database.get_reported()
     html = flask.render_template('templates/admin_interviews.html', 
-                netid=netid,            
+                netid=netid,   
+                admin=admin,         
                 interviews=interviews
             )
     response = flask.make_response(html)
@@ -1561,12 +1599,15 @@ def delete_interview_admin():
 ## EDIT ROUTES
 @app.route('/admin/jobs/get', methods=['GET'])
 def get_job_admin():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
+    if not admin:
+        return flask.redirect('/profile')
     # Get form data
     id = flask.request.args.get('id')
     job = database.get_internship(id)
     html = flask.render_template('templates/admineditjobform.html', 
                 netid=netid,
+                admin=admin,
                 job=job
             )
     response = flask.make_response(html)
@@ -1574,12 +1615,15 @@ def get_job_admin():
 
 @app.route('/admin/interviews/get', methods=['GET'])
 def get_interviews_admin():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
+    if not admin:
+        return flask.redirect('/profile')
     # Get form data
     id = flask.request.args.get('id')
     interview = database.get_interview(id)
     html = flask.render_template('templates/admineditinterviewform.html', 
                 netid=netid,
+                admin=admin,
                 interview=interview
             )
     response = flask.make_response(html)
@@ -1587,12 +1631,15 @@ def get_interviews_admin():
 
 @app.route('/admin/companies/get', methods=['GET'])
 def get_companies_admin():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
+    if not admin:
+        return flask.redirect('/profile')
     # Get form data
     id = flask.request.args.get('id')
     company = database.get_company(id)
     html = flask.render_template('templates/admineditcompanyform.html', 
                 netid=netid,
+                admin=admin,
                 company=company
             )
     response = flask.make_response(html)
@@ -1602,7 +1649,9 @@ def get_companies_admin():
 @app.route('/admin/edit/job', methods=['POST'])
 def edit_job_admin():
     ## Load in data to update company
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
+    if not admin:
+        return flask.redirect('/profile')
     # Get job id for review to update
     id = flask.request.args.get('id')
     # Get job review
@@ -1798,6 +1847,7 @@ def edit_job_admin():
     internships, _, _ = database.get_reported()
     html = flask.render_template('templates/admin_jobs.html', 
                 netid=netid,
+                admin=admin,
                 internships=internships
             )
     response = flask.make_response(html)
@@ -1807,7 +1857,9 @@ def edit_job_admin():
 @app.route('/admin/edit/interview', methods=['POST'])
 def edit_interview_admin():
     # Get all data from form and other
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
+    if not admin:
+        return flask.redirect('/profile')
     # Get interview id for review to delete
     id = flask.request.args.get('id')
     # Get interview review
@@ -1968,7 +2020,8 @@ def edit_interview_admin():
     # Rerender profile reviews template
     _, interviews, _ = database.get_reported()
     html = flask.render_template('templates/admin_interviews.html', 
-                netid=netid,            
+                netid=netid,    
+                admin=admin,        
                 interviews=interviews
             )
     response = flask.make_response(html)
@@ -1977,7 +2030,9 @@ def edit_interview_admin():
 # Edit company
 @app.route('/admin/edit/company', methods=['POST'])
 def edit_company_admin():
-    netid = auth.authenticate()
+    netid, admin = auth.authenticate()
+    if not admin:
+        return flask.redirect('/profile')
     # Get form data
     id = flask.request.args.get('id')
     company = database.get_company(id)
@@ -1986,7 +2041,22 @@ def edit_company_admin():
     _, _, companies = database.get_reported()
     html = flask.render_template('templates/admin_companies.html', 
                 netid=netid,
+                admin=admin,
                 companies=companies
             )
     response = flask.make_response(html)
     return response
+
+# Add admin
+@app.route('/admin/update', methods=['POST'])
+def admin_update():
+    netid, admin = auth.authenticate()
+    if not admin:
+        return flask.redirect('/profile')
+    id = flask.request.args.get('id')
+    user = database.get_user(id)
+    if user is None:
+        return "NO USER"
+    # Update user data
+    database.update_user_admin(id, True)
+    return "SUCCESS"

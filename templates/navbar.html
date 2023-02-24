@@ -23,9 +23,11 @@
                 <li>
                     <a class="nav-link" href="/profile">Profile</a>
                 </li>
+                {% if admin %}
                 <li>
                     <a class="nav-link" href="/admin">Admin</a>
                 </li>
+                {% endif %}
             </ul>
         </div>
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">

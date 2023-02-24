@@ -38,6 +38,26 @@
                 {% include 'templates/admin_companies.html' %}
             </div>
         </div>
+        <div class="row">
+            <h2>Add Admins</h2>
+            <div class="col g-0">
+                <form class="nosubmit">
+                    <input id="admin-add" class="nosubmit form-control form-control-lg" type="text" name="query"
+                        placeholder="Enter the netid of the user to make admin" value="{{ last_query_unquoted }}"
+                        pattern="^[a-zA-Z0-9-:?%\x22\x27\x26\x2C ]+$" maxlength="100" autocomplete="off" autocapitalize="off" />
+                </form>
+            </div>
+            <div class="col-md-auto g-0">
+                <span type="button" class="submit" onclick=addAdmin()> Add
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                        stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 18l6-6-6-6" />
+                    </svg>
+                </span>
+            </div>
+        </div>
+        <br>
+        <br>
     </div>
     {% include 'templates/modalreport.html' %}
     {% include 'templates/modalsuccess.html' %}
@@ -157,6 +177,40 @@
                 $('#modalError').modal('show');
             });
         }
+        function addAdmin() {
+            netid = $('#admin-add').val()
+            if (request != null)
+                request.abort();
+            url = "/admin/update?id=" + netid;
+            request = $.post(url, {})
+            .done(function (data) {
+                if (data == "SUCCESS") {
+                    var message = "User " + netid + " successfully made admin!";
+                    $('#modalSuccessBody').html(message);
+                    $('#modalSuccess').modal('show');
+                    $('#admin-add').val("");
+                }
+                else if (data == "NO USER") {
+                    var message = "There is no user with netid " + netid + " in our database! Try again!";
+                    $('#modalErrorBody').html(message);
+                    $('#modalError').modal('show');
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                $('#modalErrorBody').html("There was an error with our servers! Try again!")
+                $('#modalError').modal('show');
+            });
+        }
+        function setup() {
+            // Don't submit form on enter
+            $("form").keypress(function (e) {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    addAdmin();
+                    return false;
+                }
+            })
+        }
+        $('document').ready(setup);
     </script>
 </body>
 
