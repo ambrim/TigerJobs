@@ -1308,7 +1308,7 @@ def admin():
             )
     response = flask.make_response(html)
     return response
-# Report routes
+# REPORT ROUTES
 # Report interview page
 @app.route('/report/interviews', methods=['POST'])
 def report_interview():
@@ -1336,7 +1336,7 @@ def report_company():
     database.report_company(id, True)
     return "SUCCESS"
 
-# Dismiss report routes
+# DISMISS ROUTES
 # Report interview page
 @app.route('/dismiss/interviews', methods=['POST'])
 def dismiss_interview():
@@ -1374,6 +1374,615 @@ def dismiss_company():
     # Get form data
     id = flask.request.args.get('id')
     database.report_company(id, False)
+    _, _, companies = database.get_reported()
+    html = flask.render_template('templates/admin_companies.html', 
+                netid=netid,
+                companies=companies
+            )
+    response = flask.make_response(html)
+    return response
+
+# DELETE ROUTES
+# Delete internship from admin page
+@app.route('/admin/delete/job', methods=['POST'])
+def delete_job_admin():
+    netid = auth.authenticate()
+    # Get job id for review to delete
+    id = flask.request.args.get('id')
+    # Get job review
+    internship = database.get_internship(id)
+    # Make sure current user is one deleting internship
+    if internship.netid != netid:
+        return "YOU ARE NOT THE WRITER OF THIS REVIEW!"
+    # Get company for job
+    company = database.get_company_by_name(internship.company)
+    new_internship_grades = company.internship_grades
+    new_internship_grades[grades_global.index(internship.grade)] -= 1
+    new_enjoyment = 0
+    if internship.enjoyment >= 3:
+        new_enjoyment = 1
+    new_difficulty = 0
+    if internship.difficulty >= 3:
+        new_difficulty = 1
+    # Delete location if present
+    new_location_count = company.location_count
+    updated_locations = company.locations
+    new_locations = [location.lower() for location in company.locations]
+    location_index = new_locations.index(internship.location.lower())
+    new_location_count[location_index] = company.location_count[location_index] - 1
+    # Remove location if less than or equal to 0
+    if new_location_count[location_index] <= 0:
+        updated_locations.pop(location_index)
+        new_location_count.pop(location_index)
+    # Delete field if present
+    new_field_count = company.field_count
+    updated_fields = company.fields
+    field_index = company.fields.index(internship.company_type)
+    new_field_count[field_index] = company.field_count[field_index] - 1
+    # Remove field if less than or equal to 0
+    if new_field_count[field_index] <= 0:
+        updated_fields.pop(field_index)
+        new_field_count.pop(field_index)
+    # Delete major if present
+    new_major_count = company.major_count
+    updated_majors = company.majors
+    major_index = company.majors.index(internship.major)
+    new_major_count[major_index] = max(company.major_count[major_index] - 1, 0)
+    # Remove major if less than or equal to 0
+    if new_major_count[major_index] <= 0:
+        updated_majors.pop(major_index)
+        new_major_count.pop(major_index)
+    # Update company
+    new_company = models.Companies(
+        id = company.id,
+        name = company.name,
+        num_interviews = company.num_interviews,
+        num_internships = max(company.num_internships - 1, 0),
+        interview_difficulty = company.interview_difficulty,
+        interview_enjoyment = company.interview_enjoyment,
+        internship_supervisor = max(company.internship_supervisor - internship.supervisor, 0),
+        internship_pay = max(company.internship_pay - internship.pay, 0),
+        internship_balance = max(company.internship_balance - internship.balance, 0),
+        internship_culture = max(company.internship_culture - internship.culture, 0),
+        internship_career = max(company.internship_career - internship.career_impact, 0),
+        internship_difficulty = max(company.internship_difficulty - internship.difficulty, 0),
+        internship_enjoyment = max(company.internship_enjoyment - internship.enjoyment, 0),
+        locations = updated_locations,
+        location_count = new_location_count,
+        fields = updated_fields,
+        field_count = new_field_count,
+        majors = updated_majors,
+        major_count=new_major_count,
+        interview_grades = company.interview_grades,
+        internship_grades = new_internship_grades,
+        advanced = company.advanced,
+        enjoyed_interview = company.enjoyed_interview,
+        enjoyed_internship = max(company.enjoyed_internship - new_enjoyment, 0),
+        difficult_interview = company.difficult_interview,
+        difficult_internship = max(company.difficult_internship - new_difficulty, 0),
+        reported = company.reported
+    )
+    database.update_company(new_company)
+    # Delete job review
+    database.delete_internship(id)
+    # Rerender profile reviews template
+    internships, _, _ = database.get_reported()
+    html = flask.render_template('templates/admin_jobs.html', 
+                netid=netid,
+                internships=internships
+            )
+    response = flask.make_response(html)
+    return response
+
+# Delete interview from admin page
+@app.route('/admin/delete/interview', methods=['POST'])
+def delete_interview_admin():
+    netid = auth.authenticate()
+    # Get interview id for review to delete
+    id = flask.request.args.get('id')
+    # Get interview review
+    interview = database.get_interview(id)
+    # Make sure current user is one deleting internship
+    if interview.netid != netid:
+        return "YOU ARE NOT THE WRITER OF THIS REVIEW!"
+    # Get company for job
+    company = database.get_company_by_name(interview.company)
+    new_interview_grades = company.interview_grades
+    new_interview_grades[grades_global.index(interview.grade)] -= 1
+    advanced_count = company.advanced
+    if interview.advanced:
+        advanced_count -= 1
+    new_enjoyment = 0
+    if interview.enjoyment >= 3:
+        new_enjoyment = 1
+    new_difficulty = 0
+    if interview.difficulty >= 3:
+        new_difficulty = 1
+    # Delete field if present
+    new_field_count = company.field_count
+    updated_fields = company.fields
+    field_index = company.fields.index(interview.job_field)
+    new_field_count[field_index] = company.field_count[field_index] - 1
+    # Remove field if less than or equal to 0
+    if new_field_count[field_index] <= 0:
+        updated_fields.pop(field_index)
+        new_field_count.pop(field_index)
+    # Delete major if present
+    new_major_count = company.major_count
+    updated_majors = company.majors
+    major_index = company.majors.index(interview.major)
+    new_major_count[major_index] = max(company.major_count[major_index] - 1, 0)
+    # Remove major if less than or equal to 0
+    if new_major_count[major_index] <= 0:
+        updated_majors.pop(major_index)
+        new_major_count.pop(major_index)
+    # Update company
+    new_company = models.Companies(
+        id = company.id,
+        name = company.name,
+        num_interviews = max(company.num_interviews - 1, 0),
+        num_internships = company.num_internships,
+        interview_difficulty = max(company.interview_difficulty - interview.difficulty, 0),
+        interview_enjoyment = max(company.interview_enjoyment - interview.enjoyment, 0),
+        internship_supervisor = company.internship_supervisor,
+        internship_pay = company.internship_pay,
+        internship_balance = company.internship_balance,
+        internship_culture = company.internship_culture,
+        internship_career = company.internship_career,
+        internship_difficulty = company.internship_difficulty,
+        internship_enjoyment = company.internship_enjoyment,
+        locations = company.locations,
+        location_count = company.location_count,
+        fields = updated_fields,
+        field_count = new_field_count,
+        majors = updated_majors,
+        major_count=new_major_count,
+        interview_grades = new_interview_grades,
+        internship_grades = company.internship_grades,
+        advanced = advanced_count,
+        enjoyed_interview = max(company.enjoyed_interview - new_enjoyment, 0),
+        enjoyed_internship = company.enjoyed_internship,
+        difficult_interview = max(company.difficult_interview - new_difficulty, 0),
+        difficult_internship = company.difficult_internship,
+        reported = company.reported
+    )
+    database.update_company(new_company)
+    # Delete interview review
+    database.delete_interview(id)
+    # Rerender profile reviews template
+    _, interviews, _ = database.get_reported()
+    html = flask.render_template('templates/admin_interviews.html', 
+                netid=netid,            
+                interviews=interviews
+            )
+    response = flask.make_response(html)
+    return response
+
+## EDIT ROUTES
+@app.route('/admin/jobs/get', methods=['GET'])
+def get_job_admin():
+    netid = auth.authenticate()
+    # Get form data
+    id = flask.request.args.get('id')
+    job = database.get_internship(id)
+    html = flask.render_template('templates/admineditjobform.html', 
+                netid=netid,
+                job=job
+            )
+    response = flask.make_response(html)
+    return response
+
+@app.route('/admin/interviews/get', methods=['GET'])
+def get_interviews_admin():
+    netid = auth.authenticate()
+    # Get form data
+    id = flask.request.args.get('id')
+    interview = database.get_interview(id)
+    html = flask.render_template('templates/admineditinterviewform.html', 
+                netid=netid,
+                interview=interview
+            )
+    response = flask.make_response(html)
+    return response
+
+@app.route('/admin/companies/get', methods=['GET'])
+def get_companies_admin():
+    netid = auth.authenticate()
+    # Get form data
+    id = flask.request.args.get('id')
+    company = database.get_company(id)
+    html = flask.render_template('templates/admineditcompanyform.html', 
+                netid=netid,
+                company=company
+            )
+    response = flask.make_response(html)
+    return response
+
+# Edit job in admin page
+@app.route('/admin/edit/job', methods=['POST'])
+def edit_job_admin():
+    ## Load in data to update company
+    netid = auth.authenticate()
+    # Get job id for review to update
+    id = flask.request.args.get('id')
+    # Get job review
+    internship = database.get_internship(id)
+    # Keep track of reported status
+    reported = internship.reported
+    # Make sure current user is one deleting internship
+    if internship.netid != netid:
+        return "YOU ARE NOT THE WRITER OF THIS REVIEW!"
+    # Get company for job
+    company = database.get_company_by_name(internship.company)
+    # Get current user data
+    user = database.get_user(netid)
+    # Check if user has put in info yet
+    if user.grade == "" or user.major == "":
+        return "ERROR"
+    # Get form data
+    data = json.loads(flask.request.form.to_dict()['event_data'])
+    # Get current date
+    today = datetime.today().strftime('%Y-%m-%d')
+
+    ## Update internship grade list
+    # First remove internship grade from before
+    new_internship_grades = company.internship_grades
+    new_internship_grades[grades_global.index(internship.grade)] -= 1
+    # Then update grades to new grades
+    new_internship_grades[grades_global.index(data['year'])] += 1
+
+    ## Update locations of company
+    # Delete location if present
+    new_location_count = company.location_count
+    updated_locations = company.locations
+    new_locations = [location.lower() for location in company.locations]
+    location_index = new_locations.index(internship.location.lower())
+    new_location_count[location_index] = company.location_count[location_index] - 1
+    if new_location_count[location_index] <= 0:
+        updated_locations.pop(location_index)
+        new_location_count.pop(location_index)
+    # Now update location list
+    if data['location'].upper() not in (location.upper() for location in updated_locations):
+        updated_locations.append(data['location'])
+        new_location_count.append(1)
+    else:
+        updated_locations = [location.upper() for location in updated_locations]
+        location_index = updated_locations.index(data['location'].upper())
+        new_location_count[location_index] += 1
+    
+    ## Update fields of company
+    # Delete field if present
+    new_field_count = company.field_count
+    updated_fields = company.fields
+    field_index = company.fields.index(internship.company_type)
+    new_field_count[field_index] = company.field_count[field_index] - 1
+    # Remove field if less than or equal to 0
+    if new_field_count[field_index] <= 0:
+        updated_fields.pop(field_index)
+        new_field_count.pop(field_index)
+    # Update fields and fields count
+    if data['companyType'] not in updated_fields:
+        updated_fields.append(data['companyType'])
+        new_field_count.append(1)
+    else:
+        field_index = updated_fields.index(data['companyType'])
+        new_field_count[field_index] += 1
+    
+    ## Update majors of company
+    # Delete major if present
+    new_major_count = company.major_count
+    updated_majors = company.majors
+    major_index = company.majors.index(internship.major)
+    new_major_count[major_index] = max(company.major_count[major_index] - 1, 0)
+    # Remove major if less than or equal to 0
+    if new_major_count[major_index] <= 0:
+        updated_majors.pop(major_index)
+        new_major_count.pop(major_index)
+    # Update majors and major count
+    if user.major not in updated_majors:
+        updated_majors.append(user.major)
+        new_major_count.append(1)
+    else:
+        major_index = updated_majors.index(user.major)
+        new_major_count[major_index] += 1
+
+    ## Update enjoyment and difficulty
+    new_enjoyment = 0
+    if internship.enjoyment >= 3:
+        new_enjoyment = 1
+    new_difficulty = 0
+    if internship.difficulty >= 3:
+        new_difficulty = 1
+    current_enjoyment = 0
+    if int(data['enjoyment']) >= 3:
+        current_enjoyment = 1
+    current_difficulty = 0
+    if int(data['difficulty']) >= 3:
+        current_difficulty = 1
+
+    ## Update company
+    new_company = models.Companies(
+        id = company.id,
+        name = company.name,
+        num_interviews = company.num_interviews,
+        num_internships = company.num_internships,
+        interview_difficulty = company.interview_difficulty,
+        interview_enjoyment = company.interview_enjoyment,
+        internship_supervisor = max(company.internship_supervisor - internship.supervisor + int(data['supervisor']) , 0),
+        internship_pay = max(company.internship_pay - internship.pay + int(data['pay']), 0),
+        internship_balance = max(company.internship_balance - internship.balance + int(data['balance']), 0),
+        internship_culture = max(company.internship_culture - internship.culture + int(data['culture']), 0),
+        internship_career = max(company.internship_career - internship.career_impact + int(data['career']), 0),
+        internship_difficulty = max(company.internship_difficulty - internship.difficulty + int(data['difficulty']), 0),
+        internship_enjoyment = max(company.internship_enjoyment - internship.enjoyment + int(data['enjoyment']), 0),
+        locations = updated_locations,
+        location_count = new_location_count,
+        fields = updated_fields,
+        field_count = new_field_count,
+        majors = updated_majors,
+        major_count=new_major_count,
+        interview_grades = company.interview_grades,
+        internship_grades = new_internship_grades,
+        advanced = company.advanced,
+        enjoyed_interview = company.enjoyed_interview,
+        enjoyed_internship = max(company.enjoyed_internship - new_enjoyment + current_enjoyment, 0),
+        difficult_interview = company.difficult_interview,
+        difficult_internship = max(company.difficult_internship - new_difficulty + current_difficulty, 0),
+        reported = company.reported
+    )
+    database.update_company(new_company)
+    ## Edit internship
+    # Check data['salary'] to be nonempty
+    if data['salary'] == '':
+        # Create new internship review to add
+        internship = models.Internships(
+            id = id,
+            netid = netid,
+            title = data['title'],
+            location = data['location'],
+            virtual = data['locationstyle'],
+            description = data['description'],
+            technologies = data['technologies'],
+            type = data['type'],
+            length = int(data['length']),
+            company = data['company'],
+            company_id = company.id,
+            company_type = data['companyType'],
+            supervisor = int(data['supervisor']),
+            pay = int(data['pay']),
+            balance = int(data['balance']),
+            culture = int(data['culture']),
+            career_impact = int(data['career']),
+            difficulty = int(data['difficulty']),
+            enjoyment = int(data['enjoyment']),
+            upvotes = [],
+            major = user.major,
+            certificates = user.certificates,
+            grade = data['year'],
+            date_created = today,
+            reported = reported
+        )
+    # Check data['salary'] to be nonempty
+    else:
+        # Create new internship review to add
+        internship = models.Internships(
+            id = id,
+            netid = netid,
+            title = data['title'],
+            location = data['location'],
+            virtual = data['locationstyle'],
+            description = data['description'],
+            technologies = data['technologies'],
+            type = data['type'],
+            length = int(data['length']),
+            company = data['company'],
+            company_id = company.id,
+            company_type = data['companyType'],
+            salary = int(data['salary']),
+            supervisor = int(data['supervisor']),
+            pay = int(data['pay']),
+            balance = int(data['balance']),
+            culture = int(data['culture']),
+            career_impact = int(data['career']),
+            difficulty = int(data['difficulty']),
+            enjoyment = int(data['enjoyment']),
+            upvotes = [],
+            major = user.major,
+            certificates = user.certificates,
+            grade = data['year'],
+            date_created = today,
+            reported = reported
+        )
+    database.update_internship(internship)
+    # Rerender profile reviews template
+    internships, _, _ = database.get_reported()
+    html = flask.render_template('templates/admin_jobs.html', 
+                netid=netid,
+                internships=internships
+            )
+    response = flask.make_response(html)
+    return response
+
+# Edit Interview Review
+@app.route('/admin/edit/interview', methods=['POST'])
+def edit_interview_admin():
+    # Get all data from form and other
+    netid = auth.authenticate()
+    # Get interview id for review to delete
+    id = flask.request.args.get('id')
+    # Get interview review
+    interview = database.get_interview(id)
+    # Keep track of reported status
+    reported = interview.reported
+    # Make sure current user is one deleting internship
+    if interview.netid != netid:
+        return "YOU ARE NOT THE WRITER OF THIS REVIEW!"
+    # Get company for interview
+    company = database.get_company_by_name(interview.company)
+    # Get current user data
+    user = database.get_user(netid)
+    # Check if user has put in info yet
+    if user.grade == "" or user.major == "":
+        return "ERROR"
+    # Get form data
+    data = json.loads(flask.request.form.to_dict()['event_data'])
+    # Change final to boolean
+    if data['final'] == 'True':
+        data['final'] = True
+    else:
+        data['final'] = False
+    # Change advanced to boolean
+    if data['advanced'] == 'True':
+        data['advanced'] = True
+    else:
+        data['advanced'] = False
+    # Get current date
+    today = datetime.today().strftime('%Y-%m-%d')
+
+    # Interview Grades 
+    new_interview_grades = company.interview_grades
+    new_interview_grades[grades_global.index(interview.grade)] -= 1
+    new_interview_grades[grades_global.index(data['year'])] += 1
+
+    ## Update fields of company
+    # Delete field if present
+    new_field_count = company.field_count
+    updated_fields = company.fields
+    field_index = company.fields.index(interview.job_field)
+    new_field_count[field_index] = company.field_count[field_index] - 1
+    # Remove field if less than or equal to 0
+    if new_field_count[field_index] <= 0:
+        updated_fields.pop(field_index)
+        new_field_count.pop(field_index)
+    # Update fields and fields count
+    if data['job_type'] not in updated_fields:
+        updated_fields.append(data['job_type'])
+        new_field_count.append(1)
+    else:
+        field_index = updated_fields.index(data['job_type'])
+        new_field_count[field_index] += 1
+    
+    ## Update majors of company
+    # Delete major if present
+    new_major_count = company.major_count
+    updated_majors = company.majors
+    major_index = company.majors.index(interview.major)
+    new_major_count[major_index] = max(company.major_count[major_index] - 1, 0)
+    # Remove major if less than or equal to 0
+    if new_major_count[major_index] <= 0:
+        updated_majors.pop(major_index)
+        new_major_count.pop(major_index)
+    # Update majors and major count
+    if user.major not in updated_majors:
+        updated_majors.append(user.major)
+        new_major_count.append(1)
+    else:
+        major_index = updated_majors.index(user.major)
+        new_major_count[major_index] += 1
+
+    # Interview advanced count
+    advanced_count = company.advanced
+    if interview.advanced:
+        advanced_count -= 1
+    if data['advanced']:
+        advanced_count += 1
+
+    # Interview enjoyment
+    new_enjoyment = 0
+    if interview.enjoyment >= 3:
+        new_enjoyment = 1
+    current_enjoyment = 0
+    if int(data['enjoyment']) >= 3:
+        current_enjoyment = 1
+    
+    # Interview difficulty
+    new_difficulty = 0
+    if interview.difficulty >= 3:
+        new_difficulty = 1
+    current_difficulty = 0
+    if int(data['difficulty']) >= 3:
+        current_difficulty = 1
+    
+    # Update company
+    new_company = models.Companies(
+        id = company.id,
+        name = company.name,
+        num_interviews = company.num_interviews,
+        num_internships = company.num_internships,
+        interview_difficulty = max(company.interview_difficulty - interview.difficulty + int(data['difficulty']), 0),
+        interview_enjoyment = max(company.interview_enjoyment - interview.enjoyment + int(data['enjoyment']), 0),
+        internship_supervisor = company.internship_supervisor,
+        internship_pay = company.internship_pay,
+        internship_balance = company.internship_balance,
+        internship_culture = company.internship_culture,
+        internship_career = company.internship_career,
+        internship_difficulty = company.internship_difficulty,
+        internship_enjoyment = company.internship_enjoyment,
+        locations = company.locations,
+        location_count = company.location_count,
+        fields = updated_fields,
+        field_count = new_field_count,
+        majors = updated_majors,
+        major_count=new_major_count,
+        interview_grades = new_interview_grades,
+        internship_grades = company.internship_grades,
+        advanced = advanced_count,
+        enjoyed_interview = max(company.enjoyed_interview - new_enjoyment + current_enjoyment, 0),
+        enjoyed_internship = company.enjoyed_internship,
+        difficult_interview = max(company.difficult_interview - new_difficulty + current_difficulty, 0),
+        difficult_internship = company.difficult_internship,
+        reported = company.reported
+    )
+    database.update_company(new_company)
+    company = database.get_company_by_name(data['company'])
+
+    # Update interview review
+    interview = models.Interviews(
+        id = id,
+        netid = netid,
+        round = int(data['round']),
+        final_round = data['final'],
+        job_position = data['job_position'],
+        job_field = data['job_type'],
+        type=data['type'],
+        location_type=data['location'],
+        duration = data['duration'],
+        company = data['company'],
+        company_id = company.id,
+        num_interviewers = data['num'],
+        question_description = data['questions'],
+        technologies = data['technologies'],
+        how_interview = data['how'],
+        tips = data['tips'],
+        difficulty = int(data['difficulty']),
+        enjoyment = int(data['enjoyment']),
+        advanced = data['advanced'],
+        upvotes = [],
+        major = user.major,
+        certificates = user.certificates,
+        grade = data['year'],
+        date_created = today,
+        reported = reported
+    )
+    database.update_interview(interview)
+    # Rerender profile reviews template
+    _, interviews, _ = database.get_reported()
+    html = flask.render_template('templates/admin_interviews.html', 
+                netid=netid,            
+                interviews=interviews
+            )
+    response = flask.make_response(html)
+    return response
+
+# Edit company
+@app.route('/admin/edit/company', methods=['POST'])
+def edit_company_admin():
+    netid = auth.authenticate()
+    # Get form data
+    id = flask.request.args.get('id')
+    company = database.get_company(id)
+    data = json.loads(flask.request.form.to_dict()['event_data'])
+    database.update_company_name(id, company.name, data['name'])
     _, _, companies = database.get_reported()
     html = flask.render_template('templates/admin_companies.html', 
                 netid=netid,

@@ -42,7 +42,9 @@
     {% include 'templates/modalreport.html' %}
     {% include 'templates/modalsuccess.html' %}
     {% include 'templates/modalerror.html' %}
-
+    <div id="editJobAdmin"></div>
+    <div id="editInterviewAdmin"></div>
+    <div id="editCompanyAdmin"></div>
     <script>
         let request = null;
         function dismissCompany(id) {
@@ -59,19 +61,59 @@
                 $('#modalError').modal('show');
             });
         }
+        function editCompany(id) {
+            if (request != null)
+                request.abort();
+            url = "/admin/companies/get?id=" + id;
+            request = $.get(url, {})
+                .done(function (data) {
+                    $('#editCompanyAdmin').html(data);
+                    $('#editCompanyAdminModal').modal('show');
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    $('#modalErrorBody').html("There was an error with our servers in retrieving the company information! Try again!")
+                    $('#modalError').modal('show');
+                });
+        }
         function dismissInterview(id) {
             if (request != null)
                 request.abort();
             let url = "/dismiss/interviews?id=" + id;
             request = $.post(url, {
             }).done(function (data) {
-                $('#admin-interviews').html(data);
                 $('#modalSuccessBody').html("Successfully dismissed");
                 $('#modalSuccess').modal('show');
+                $('#admin-interviews').html(data);
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 $('#modalErrorBody').html("Error dismissing report. Try again!")
                 $('#modalError').modal('show');
             });
+        }
+        function deleteInterview(id) {
+            if (request != null)
+                request.abort();
+            url = "/admin/delete/interview?id=" + id;
+            request = $.post(url, {})
+            .done(function (data) {
+                $('#modalSuccessBody').html("Interview review successfully deleted!")
+                $('#modalSuccess').modal('show');
+                $('#admin-interviews').html(data);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                $('#modalErrorBody').html("There was an error with our servers in deleting your review! Try again!")
+                $('#modalError').modal('show');
+            });
+        }
+        function editInterview(id) {
+            if (request != null)
+                request.abort();
+            url = "/admin/interviews/get?id=" + id;
+            request = $.get(url, {})
+                .done(function (data) {
+                    $('#editInterviewAdmin').html(data);
+                    $('#editAdminInterviewModal').modal('show');
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    $('#modalErrorBody').html("There was an error with our servers in retrieving the interview information! Try again!")
+                    $('#modalError').modal('show');
+                });
         }
         function dismissJob(id) {
             if (request != null)
@@ -79,11 +121,39 @@
             let url = "/dismiss/internships?id=" + id;
             request = $.post(url, {
             }).done(function (data) {
-                $('#admin-jobs').html(data);
                 $('#modalSuccessBody').html("Successfully dismissed");
                 $('#modalSuccess').modal('show');
+                $('#admin-jobs').html(data);
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 $('#modalErrorBody').html("Error dismissing report. Try again!")
+                $('#modalError').modal('show');
+            });
+        }
+        function deleteJob(id) {
+            if (request != null)
+                request.abort();
+            url = "/admin/delete/job?id=" + id;
+            request = $.post(url, {})
+            .done(function (data) {
+                $('#modalSuccessBody').html("Job review successfully deleted!")
+                $('#modalSuccess').modal('show');
+                $('#admin-jobs').html(data);
+                resetForm();
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                $('#modalErrorBody').html("There was an error with our servers in deleting your review! Try again!")
+                $('#modalError').modal('show');
+            });
+        }
+        function editJob(id) {
+            if (request != null)
+                request.abort();
+            url = "/admin/jobs/get?id=" + id;
+            request = $.get(url, {})
+            .done(function (data) {
+                $('#editJobAdmin').html(data);
+                $('#editJobAdminModal').modal('show');
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                $('#modalErrorBody').html("There was an error with our servers in retrieving the job information! Try again!")
                 $('#modalError').modal('show');
             });
         }

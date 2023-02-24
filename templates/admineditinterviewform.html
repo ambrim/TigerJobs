@@ -1,0 +1,546 @@
+<!-- Modal -->
+<div class="modal fade" id="editAdminInterviewModal" tabindex="-1" aria-labelledby="editInterviewModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="right-container">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="editInterviewForm" autocomplete="off">
+                    <div class="center-container">
+                        <h2>Edit Interview</h2>
+                    </div>
+                    <div class="form-group autocomplete">
+                        <label class="required" for="edit-interview-company"><b>Interview Company</b></label>
+                        <input type="text" class="form-control" id="edit-interview-company"
+                            aria-describedby="interviewCompany" placeholder="Enter the company the interview was with"
+                            value="{{interview.company}}" disabled>
+                        <div id="edit-error-interview-company" class="red">
+                            Please put in the company you interviewed with.
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-interview-round"><b>Interview Round</b></label>
+                        <input type="number" class="form-control" id="edit-interview-round"
+                            aria-describedby="interviewRoundHelp" placeholder="Enter the round of the interview" min="0"
+                            value="{{interview.round}}">
+                        <div id="edit-error-interview-round" class="red">
+                            Please put in the round of the interview (must be an integer greater than 0).
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-interview-final"><b>Was this the final round?</b></label>
+                        <select class="form-select" id="edit-interview-final">
+                            <option value="" disabled>Choose the best option</option>
+                            <option value="True" {% if interview.final=="True" %}selected="selected" {% endif %}>Yes
+                            </option>
+                            <option value="False" {% if interview.final=="False" %}selected="selected" {% endif %}>No
+                            </option>
+                        </select>
+                        <div id="edit-error-interview-final" class="red">
+                            Please select whether this was the final round or not.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-interview-jobposition"><b>Job Position</b></label>
+                        <input class="form-control" id="edit-interview-jobposition"
+                            aria-describedby="interviewQuestionsHelp" placeholder="Enter the position of the job"
+                            value="{{interview.job_position}}">
+                        <div id="edit-error-interview-jobposition" class="red">
+                            Please enter the job position of the interview.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-interview-jobtype"><b>Job Field</b></label>
+                        <select class="form-select" id="edit-interview-jobtype">
+                            <option value="" disabled>Choose the best option</option>
+                            <option value="Pharmaceuticals" {% if interview.job_field=="Pharmaceuticals"
+                                %}selected="selected" {% endif %}>Pharmaceuticals</option>
+                            <option value="Biotech" {% if interview.job_field=="Biotech" %}selected="selected" {% endif
+                                %}>Biotech</option>
+                            <option value="Healthcare" {% if interview.job_field=="Healthcare" %}selected="selected" {%
+                                endif %}>Healthcare</option>
+                            <option value="Legal Services" {% if interview.job_field=="Legal Services"
+                                %}selected="selected" {% endif %}>Legal Services</option>
+                            <option value="Econonomics and Business Administration" {% if
+                                interview.job_field=="Econonomics and Business Administration" %}selected="selected" {%
+                                endif %}>Economics and Business
+                                Administration</option>
+                            <option value="Government, Education, and Policy" {% if
+                                interview.job_field=="Government, Education, and Policy" %}selected="selected" {% endif
+                                %}>Government, Education, and Policy</option>
+                            <option value="Investment and Corporate Banking" {% if
+                                interview.job_field=="Investment and Corporate Banking" %}selected="selected" {% endif
+                                %}>Investment and Corporate Banking</option>
+                            <option value="Management Consulting" {% if interview.job_field=="Management Consulting"
+                                %}selected="selected" {% endif %}>Management Consulting</option>
+                            <option value="Trading, Private Equity, and Venture Capital" {% if
+                                interview.job_field=="Trading, Private Equity, and Venture Capital"
+                                %}selected="selected" {% endif %}>Trading, Private Equity, and
+                                Venture Capital
+                            </option>
+                            <option value="Accounting and Insurance" {% if
+                                interview.job_field=="Accounting and Insurance" %}selected="selected" {% endif %}>
+                                Accounting and Insurance</option>
+                            <option value="Fintech" {% if interview.job_field=="Fintech" %}selected="selected" {% endif
+                                %}>Fintech</option>
+                            <option value="IT and Security" {% if interview.job_field=="IT and Security"
+                                %}selected="selected" {% endif %}>IT and Security</option>
+                            <option value="Software Engineering" {% if interview.job_field=="Software Engineering"
+                                %}selected="selected" {% endif %}>Software Engineering</option>
+                            <option value="Aerospace and Robotics" {% if interview.job_field=="Aerospace and Robotics"
+                                %}selected="selected" {% endif %}>Aerospace and Robotics</option>
+                            <option value="Data Science and Analytics" {% if
+                                interview.job_field=="Data Science and Analytics" %}selected="selected" {% endif %}>Data
+                                Science and Analytics</option>
+                            <option value="Engineering and Project Management" {% if
+                                interview.job_field=="Engineering and Project Management" %}selected="selected" {% endif
+                                %}>Engineering and Project Management
+                            </option>
+                            <option value="Marketing and Business Development" {% if
+                                interview.job_field=="Marketing and Business Development" %}selected="selected" {% endif
+                                %}>Marketing and Business Development
+                            </option>
+                            <option value="Journalism, Publishing, and Media" {% if
+                                interview.job_field=="Journalism, Publishing, and Media" %}selected="selected" {% endif
+                                %}>Journalism, Publishing, and Media</option>
+                            <option value="Graphic Design and Production" {% if
+                                interview.job_field=="Graphic Design and Production" %}selected="selected" {% endif %}>
+                                Graphic Design and Production</option>
+                            <option value="Arts and Entertainment" {% if interview.job_field=="Arts and Entertainment"
+                                %}selected="selected" {% endif %}>Arts and Entertainment</option>
+                            <option value="National or College Laboratory" {% if
+                                interview.job_field=="National or College Laboratory" %}selected="selected" {% endif %}>
+                                National or College Laboratory</option>
+                            <option value="STEM Research" {% if interview.job_field=="STEM Research"
+                                %}selected="selected" {% endif %}>STEM Research</option>
+                            <option value="Humanities Research" {% if interview.job_field=="Humanities Research"
+                                %}selected="selected" {% endif %}>Humanities Research</option>
+                            <option value="Other" {% if interview.job_field=="Other" %}selected="selected" {% endif %}>
+                                Other</option>
+                        </select>
+                        <div id="edit-error-interview-jobtype" class="red">
+                            Please select the field of the job.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-interview-year"><b>What year were you in at the time of the
+                                interview?</b></label>
+                        <select class="form-select" id="edit-interview-year">
+                            <option value="" disabled>Select your class year at the time of the interview
+                            </option>
+                            <option value="fr" {% if interview.grade=="fr" %}selected="selected" {% endif %}>Freshman (4
+                                years till graduation)</option>
+                            <option value="so" {% if interview.grade=="so" %}selected="selected" {% endif %}>Sophomore
+                                (3 years till graduation)</option>
+                            <option value="jr" {% if interview.grade=="jr" %}selected="selected" {% endif %}>Junior (2
+                                years till graduation)</option>
+                            <option value="sr" {% if interview.grade=="sr" %}selected="selected" {% endif %}>Senior (1
+                                year till graduation)</option>
+                            <option value="grad" {% if interview.grade=="grad" %}selected="selected" {% endif %}>
+                                Graduate Student</option>
+                            <option value="other" {% if interview.grade=="other" %}selected="selected" {% endif %}>Other
+                            </option>
+                        </select>
+                        <div id="edit-error-interview-year" class="red">
+                            Please select your class year at the time of the interview.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-interview-type"><b>Interview Type</b></label>
+                        <select class="form-select" id="edit-interview-type">
+                            <option value="" disabled>Choose the best option</option>
+                            <option value="Online Assessment (OA)" {% if interview.type=="Online Assessment (OA)"
+                                %}selected="selected" {% endif %}>Online Assessment (OA)</option>
+                            <option value="Screening/Phone" {% if interview.type=="Screening/Phone"
+                                %}selected="selected" {% endif %}>Screening/Phone</option>
+                            <option value="Behavioral" {% if interview.type=="Behavioral" %}selected="selected" {% endif
+                                %}>Behavioral</option>
+                            <option value="Technical" {% if interview.type=="Technical" %}selected="selected" {% endif
+                                %}>Technical</option>
+                            <option value="Case" {% if interview.type=="Case" %}selected="selected" {% endif %}>Case
+                            </option>
+                            <option value="Other" {% if interview.type=="Other" %}selected="selected" {% endif %}>Other
+                            </option>
+                        </select>
+                        <div id="edit-error-interview-type" class="red">
+                            Please select the type of the interview.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-interview-location"><b>Interview Location Type</b></label>
+                        <select class="form-select" id="edit-interview-location">
+                            <option value="" disabled>Choose the best option</option>
+                            <option value="In-person" {% if interview.location_type=="In-person" %}selected="selected"
+                                {% endif %}>In-person</option>
+                            <option value="Video call" {% if interview.location_type=="Video call" %}selected="selected"
+                                {% endif %}>Video call</option>
+                            <option value="Phone" {% if interview.location_type=="Phone" %}selected="selected" {% endif
+                                %}>Phone</option>
+                            <option value="Unsupervised" {% if interview.location_type=="Unsupervised"
+                                %}selected="selected" {% endif %}>Unsupervised</option>
+                            <option value="Other" {% if interview.location_type=="Other" %}selected="selected" {% endif
+                                %}>Other</option>
+                        </select>
+                        <div id="edit-error-interview-location" class="red">
+                            Please select the location type of the interview.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-interview-duration"><b>Interview Duration</b></label>
+                        <select class="form-select" id="edit-interview-duration">
+                            <option value="" disabled>Choose the best option</option>
+                            <option value="Under 30 minutes" {% if interview.duration=="Under 30 minutes"
+                                %}selected="selected" {% endif %}>Under 30 minutes</option>
+                            <option value="30-45 minutes" {% if interview.duration=="30-45 minutes"
+                                %}selected="selected" {% endif %}>30-45 minutes</option>
+                            <option value="1 hour" {% if interview.duration=="1 hour" %}selected="selected" {% endif %}>
+                                1 hour</option>
+                            <option value="2 hours" {% if interview.duration=="2 hours" %}selected="selected" {% endif
+                                %}>2 hours</option>
+                            <option value="3 hours" {% if interview.duration=="3 hours" %}selected="selected" {% endif
+                                %}>3 hours</option>
+                            <option value="4 hours" {% if interview.duration=="4 hours" %}selected="selected" {% endif
+                                %}>4 hours</option>
+                            <option value="More than 4 hours but less than a day" {% if
+                                interview.duration=="More than 4 hours but less than a day" %}selected="selected" {%
+                                endif %}>More than 4 hours but less than a day
+                            </option>
+                            <option value="Full day" {% if interview.duration=="Full day" %}selected="selected" {% endif
+                                %}>Full day</option>
+                            <option value="Multiple days" {% if interview.duration=="Multiple days"
+                                %}selected="selected" {% endif %}>Multiple days</option>
+                        </select>
+                        <div id="edit-error-interview-duration" class="red">
+                            Please put in the duration of the interview.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-interview-num"><b>How many interviewers did you
+                                have?</b></label>
+                        <input type="number" class="form-control" id="edit-interview-num"
+                            placeholder="Enter the number of interviewers you had" min="0"
+                            value="{{interview.num_interviewers}}">
+                        <div id="edit-error-interview-num" class="red">
+                            Please enter a valid number of interviewers
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-interview-how"><b>How did you get the interview?</b></label>
+                        <select class="form-select" id="edit-interview-how">
+                            <option value="" disabled selected>Choose the best option</option>
+                            <option value="Application on website" {% if
+                                interview.how_interview=="Application on website" %}selected="selected" {% endif %}>
+                                Application on website</option>
+                            <option value="Application on RippleMatch/Handshake/etc" {% if
+                                interview.how_interview=="Application on RippleMatch/Handshake/etc"
+                                %}selected="selected" {% endif %}>Application on
+                                RippleMatch/Handshake/etc</option>
+                            <option value="Handing in resume/Networking at job fair" {% if
+                                interview.how_interview=="Handing in resume/Networking at job fair"
+                                %}selected="selected" {% endif %}>Handing in resume/Networking at job
+                                fair</option>
+                            <option value="Attending a webinar" {% if interview.how_interview=="Attending a webinar"
+                                %}selected="selected" {% endif %}>Attending a webinar</option>
+                            <option value="Attending a selective small group program" {% if
+                                interview.how_interview=="Attending a selective small group program"
+                                %}selected="selected" {% endif %}>Attending a selective small group
+                                programs</option>
+                            <option value="Reaching out to company employee" {% if
+                                interview.how_interview=="Reaching out to company employee" %}selected="selected" {%
+                                endif %}>Reaching out to company employee</option>
+                            <option value="Worked there previously" {% if
+                                interview.how_interview=="Worked there previously" %}selected="selected" {% endif %}>
+                                Worked there previously</option>
+                            <option value="Had a personal connection" {% if
+                                interview.how_interview=="Had a personal connection" %}selected="selected" {% endif %}>
+                                Had a personal connection</option>
+                            <option value="None of the above" {% if interview.how_interview=="None of the above"
+                                %}selected="selected" {% endif %}>None of the above</option>
+                        </select>
+                        <div id="edit-error-interview-how" class="red">
+                            Please select how you got the interview.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-interview-questions"><b>Interview Questions</b></label>
+                        <textarea class="form-control" id="edit-interview-questions"
+                            aria-describedby="interviewQuestionsHelp"
+                            placeholder="Enter any questions you remember">{{interview.question_description}}</textarea>
+                        <div id="edit-error-interview-questions" class="red">
+                            Please enter any questions you remember from the interview.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-interview-tips"><b>Any tips for the interview?</b></label>
+                        <textarea class="form-control" id="edit-interview-tips"
+                            aria-describedby="interviewQuestionsHelp"
+                            placeholder="Enter any tips for preparing for this interview (e.g. any resources you want to share? how far in advance did you get started?)">{{interview.tips}}</textarea>
+                        <div id="edit-error-interview-tips" class="red">
+                            Please enter any tips you have for the interview.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="edit-interview-technology"><b>Technologies Used</b></label>
+                        <input class="form-control" id="edit-interview-technology"
+                            aria-describedby="interviewQuestionsHelp"
+                            placeholder="Enter any technologies you used (e.g. Excel, PowerPoint, Python)"
+                            value="{{interview.technologies}}">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-interview-difficulty"><b>Difficulty Rating (from 1 to
+                                5)</b></label>
+                        <select class="form-select" id="edit-interview-difficulty">
+                            <option value="" disabled selected>Choose the best option</option>
+                            <option value="1" {% if interview.difficulty==1 %}selected="selected" {% endif %}>1 – little
+                                to no prep; just go in and be yourself :)</option>
+                            <option value="2" {% if interview.difficulty==2 %}selected="selected" {% endif %}>2 –
+                                doable; as long as you prepare, it’ll be fine</option>
+                            <option value="3" {% if interview.difficulty==3 %}selected="selected" {% endif %}>3 – tough;
+                                prepare beforehand then prepare for something you can’t prepare
+                            </option>
+                            <option value="4" {% if interview.difficulty==4 %}selected="selected" {% endif %}>4 –
+                                challenging; you’ll probably come out of it feeling uneasy</option>
+                            <option value="5" {% if interview.difficulty==5 %}selected="selected" {% endif %}>5 – nearly
+                                impossible; prepare some tissues :’)</option>
+                        </select>
+                        <div id="edit-error-interview-difficulty" class="red">
+                            Please select the difficulty of the interview.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-interview-enjoyment"><b>Enjoyment Rating (from 1 to
+                                5)</b></label>
+                        <select class="form-select" id="edit-interview-enjoyment">
+                            <option value="" disabled>Choose the best option</option>
+                            <option value="1" {% if interview.enjoyment==1 %}selected="selected" {% endif %}>1 – had to
+                                be done (or would not recommend)</option>
+                            <option value="2" {% if interview.enjoyment==2 %}selected="selected" {% endif %}>2 – learned
+                                something out of it ig</option>
+                            <option value="3" {% if interview.enjoyment==3 %}selected="selected" {% endif %}>3 – good
+                                but ….</option>
+                            <option value="4" {% if interview.enjoyment==4 %}selected="selected" {% endif %}>4 – great
+                                experience and memorable interviewer</option>
+                            <option value="5" {% if interview.enjoyment==5 %}selected="selected" {% endif %}>5 – had a
+                                blast!</option>
+                        </select>
+                        <div id="edit-error-interview-enjoyment" class="red">
+                            Please select your enjoyment of the interview.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="required" for="edit-interview-advance"><b>Did you advance/get the
+                                offer?</b></label>
+                        <select class="form-select" id="edit-interview-advance">
+                            <option value="" disabled>Choose the best option</option>
+                            <option value="True" {% if interview.advanced=="True" %}selected="selected" {% endif %}>Yes
+                            </option>
+                            <option value="False" {% if interview.advanced=="False" %}selected="selected" {% endif %}>No
+                            </option>
+                        </select>
+                        <div id="edit-error-interview-advance" class="red">
+                            Please select whether you advanced or not
+                        </div>
+                    </div>
+                    <br>
+                    <div class="center-container">
+                        <button type="button" class="profile-btn-reset" onclick="resetEditInterviewForm()">Cancel
+                            Changes</button>
+                        <button type="button" class="profile-btn-submit"
+                            onclick="submitEditInterviewForm({{interview.id}})">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Function to tell if value is an integer or not
+    function isInt(value) {
+        return !isNaN(value) &&
+            parseInt(Number(value)) == value &&
+            !isNaN(parseInt(value, 10));
+    }
+    function hideErrorInterviewForm() {
+        // Hide all error messages
+        $('#edit-error-interview-company').hide();
+        $('#edit-error-interview-round').hide();
+        $('#edit-error-interview-final').hide();
+        $('#edit-error-interview-jobposition').hide();
+        $('#edit-error-interview-jobtype').hide();
+        $('#edit-error-interview-year').hide();
+        $('#edit-error-interview-type').hide();
+        $('#edit-error-interview-location').hide();
+        $('#edit-error-interview-duration').hide();
+        $('#edit-error-interview-num').hide();
+        $('#edit-error-interview-how').hide();
+        $('#edit-error-interview-questions').hide();
+        $('#edit-error-interview-tips').hide();
+        $('#edit-error-interview-difficulty').hide();
+        $('#edit-error-interview-enjoyment').hide();
+        $('#edit-error-interview-advance').hide();
+    }
+    function resetEditInterviewForm() {
+        // Hide previous error messages
+        hideErrorInterviewForm();
+        // Close modal
+        $('#editAdminInterviewModal').modal('hide');
+    }
+    function submitEditInterviewForm(id) {
+        hideErrorInterviewForm();
+        // Count number of errors
+        var numErrors = 0;
+        // Get data from form
+        var company = $('#edit-interview-company').val();
+        if (company == "") {
+            $('#edit-error-interview-company').show();
+            numErrors++;
+        }
+        var round = $('#edit-interview-round').val();
+        if (round == "" || !isInt(parseInt(round)) || parseInt(round) < 0) {
+            $('#edit-error-interview-round').show();
+            numErrors++;
+        }
+        var final = $('#edit-interview-final').val();
+        if (final == null) {
+            $('#edit-error-interview-final').show();
+            numErrors++;
+        }
+        var jobposition = $('#edit-interview-jobposition').val();
+        if (jobposition == "") {
+            $('#edit-error-interview-jobposition').show();
+            numErrors++;
+        }
+        var jobtype = $('#edit-interview-jobtype').val();
+        if (jobtype == null) {
+            $('#edit-error-interview-jobtype').show();
+            numErrors++;
+        }
+        var year = $('#edit-interview-year').val();
+        if (year == null) {
+            $('#edit-error-interview-year').show();
+            numErrors++;
+        }
+        var type = $('#edit-interview-type').val();
+        if (type == null) {
+            $('#edit-error-interview-type').show();
+            numErrors++;
+        }
+        var location = $('#edit-interview-location').val();
+        if (location == null) {
+            $('#edit-error-interview-location').show();
+            numErrors++;
+        }
+        var duration = $('#edit-interview-duration').val();
+        if (duration == null) {
+            $('#edit-error-interview-duration').show();
+            numErrors++;
+        }
+        var num = $('#edit-interview-num').val();
+        if (num == "" || !isInt(parseInt(num)) || parseInt(num) < 0) {
+            $('#edit-error-interview-num').show();
+            numErrors++;
+        }
+        var how = $('#edit-interview-how').val();
+        if (how == null) {
+            $('#edit-error-interview-how').show();
+            numErrors++;
+        }
+        var questions = $('#edit-interview-questions').val();
+        if (questions == "") {
+            $('#edit-error-interview-questions').show();
+            numErrors++;
+        }
+        var tips = $('#edit-interview-tips').val();
+        if (tips == "") {
+            $('#edit-error-interview-tips').show();
+            numErrors++;
+        }
+        var technologies = $('#edit-interview-technology').val();
+        var difficulty = $('#edit-interview-difficulty').val();
+        if (difficulty == null) {
+            $('#edit-error-interview-difficulty').show();
+            numErrors++;
+        }
+        var enjoyment = $('#edit-interview-enjoyment').val();
+        if (enjoyment == null) {
+            $('#edit-error-interview-enjoyment').show();
+            numErrors++;
+        }
+        var advanced = $('#edit-interview-advance').val();
+        if (advanced == null) {
+            $('#edit-error-interview-advance').show();
+            numErrors++;
+        }
+        // Post if no errors
+        if (numErrors > 0) {
+            $('#editInterviewModal').scrollTop(0);
+            return;
+        }
+        var json_event = {
+            "company": company,
+            "round": round,
+            "final": final,
+            "job_position": jobposition,
+            "job_type": jobtype,
+            "year": year,
+            "type": type,
+            "location": location,
+            "duration": duration,
+            "num": num,
+            "how": how,
+            "questions": questions,
+            "tips": tips,
+            "technologies": technologies,
+            "difficulty": difficulty,
+            "enjoyment": enjoyment,
+            "advanced": advanced
+        };
+        if (request != null)
+            request.abort();
+        let url = "/admin/edit/interview?id=" + id;
+        request = $.post(url, {
+            dataType: 'json',
+            contentType: 'application/json',
+            event_data: JSON.stringify(json_event)
+        }).done(function (data) {
+            if (data == "ERROR") {
+                $('#editAdminInterviewModal').modal('hide');
+                $('#modalErrorBody').html("Please update your major and class year before adding any reviews. Your form information will remain when you're ready to submit (don't refresh!)")
+                $('#modalError').modal('show');
+                return;
+            }
+            $('#editAdminInterviewModal').modal('hide');
+            $('#modalSuccessBody').html("Interview review successfully updated!")
+            $('#modalSuccess').modal('show');
+            $('#admin-interviews').html(data);
+            resetForm();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            $('#editAdminInterviewModal').modal('hide');
+            $('#modalErrorBody').html("There was an error with our servers in updating your review! Try again!")
+            $('#modalError').modal('show');
+        });
+    }
+    function setup() {
+        hideErrorInterviewForm();
+    }
+    $('document').ready(setup);
+</script>

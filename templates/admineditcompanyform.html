@@ -1,0 +1,89 @@
+<!-- Modal -->
+<div class="modal fade" id="editCompanyAdminModal" tabindex="-1" aria-labelledby="editCompanyAdminModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="right-container">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="editJobForm" autocomplete="off">
+                    <div class="center-container">
+                        <h2>Edit Company</h2>
+                    </div>
+                    <div class="form-group">
+                        <label class="required" for="edit-company-name"><b>Company Name</b></label>
+                        <input type="text" class="form-control" id="edit-company-name" aria-describedby="companyNameHelp"
+                            placeholder="Enter company title (e.g. Business Intern)" required
+                            value="{{company.name}}">
+                        <div id="edit-error-name" class="red">
+                            Please put in a company name.
+                        </div>
+                    </div>
+                    <br>
+                    <div class="center-container">
+                        <button type="button" class="profile-btn-reset" onclick="resetEditCompanyForm()">Cancel
+                            Changes</button>
+                        <button type="button" class="profile-btn-submit" onclick="submitEditCompanyForm({{company.id}})">Save
+                            Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    function hideErrorCompanyForm() {
+        // Hide all error messages
+        $('#edit-error-name').hide();
+    }
+    function resetEditCompanyForm() {
+        // Hide previous error messages
+        hideErrorCompanyForm();
+        // Close modal
+        $('#editCompanyAdminModal').modal('hide');
+    }
+    function submitEditCompanyForm(id) {
+        // Hide all error messages
+        hideErrorCompanyForm();
+        // Count number of errors
+        var numErrors = 0;
+        // Get data from form
+        var name = $('#edit-company-name').val();
+        if (name == "") {
+            $('#edit-error-name').show();
+            numErrors++;
+        }
+        // Post if no errors
+        if (numErrors > 0) {
+            $('#editCompanyAdminModal').scrollTop(0);
+            return;
+        }
+        var json_event = {
+            "name": name,
+        };
+        if (request != null)
+            request.abort();
+        let url = "/admin/edit/company?id=" + id;
+        request = $.post(url, {
+            dataType: 'json',
+            contentType: 'application/json',
+            event_data: JSON.stringify(json_event)
+        }).done(function (data) {
+            $('#editCompanyAdminModal').modal('hide');
+            $('#modalSuccessBody').html("Company successfully updated!")
+            $('#modalSuccess').modal('show');
+            $('#admin-companies').html(data);
+            resetForm();
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            $('#editCompanyAdminModal').modal('hide');
+            $('#modalErrorBody').html("There was an error with our servers in updating the company! Try again!")
+            $('#modalError').modal('show');
+        });
+    }
+    function setup() {
+        hideErrorCompanyForm();
+    }
+    $('document').ready(setup);
+
+</script>

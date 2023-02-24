@@ -217,6 +217,17 @@ def update_interview(interview:models.Interviews):
             )
         session.commit()
 
+# Update interview review
+def update_interview_company(id, company):
+    with sqlalchemy.orm.Session(engine) as session:
+        session.query(models.Interviews).filter(
+            models.Interviews.id == id).update(
+                {
+                    'company': company,
+                }
+            )
+        session.commit()
+
 # Get interview review from id
 def get_interview(id) -> models.Interviews:
     # Make sure to only get one
@@ -405,6 +416,16 @@ def update_internship(internship:models.Internships):
                 }
             )
         session.commit()
+# Update internship review
+def update_internship_company(id, company):
+    with sqlalchemy.orm.Session(engine) as session:
+        session.query(models.Internships).filter(
+            models.Internships.id == id).update(
+                {
+                    'company': company,
+                }
+            )
+        session.commit()
 # Get internship review from id
 def get_internship(id) -> models.Internships:
     # Make sure to only get one
@@ -514,6 +535,32 @@ def update_company(company:models.Companies):
                     'reported': company.reported
                 }
             )
+        session.commit()
+# Update company
+def update_company_name(id, oldName, name):
+    with sqlalchemy.orm.Session(engine) as session:
+        session.query(models.Companies).filter(
+            models.Companies.id == id).update(
+                {
+                    'name': name,
+                }
+            )
+        session.commit()
+        interviews = []
+        with sqlalchemy.orm.Session(engine) as session:
+            interviews = session.query(models.Interviews).filter(
+               models.Interviews.company == oldName 
+            ).all()
+        for i in interviews:
+            update_interview_company(i.id, name)
+        session.commit()
+        internships = []
+        with sqlalchemy.orm.Session(engine) as session:
+            internships = session.query(models.Internships).filter(
+               models.Internships.company == oldName 
+            ).all()
+        for i in internships:
+            update_internship_company(i.id, name)
         session.commit()
 def sort_company_no_majors(company):
     return company.num_interviews + company.num_internships

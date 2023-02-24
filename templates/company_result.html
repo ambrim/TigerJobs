@@ -9,7 +9,7 @@
                 </div>
                 <p id="hidden-info" class="align-bottom">
                     <b>Location(s):</b> 
-                    {% if locations|length < 3%}
+                    {% if locations|length <= 3%}
                     <span>
                     {% for loc in locations[:3] %}
                         <span class="company-textbox-loc">{{loc}}</span> 
@@ -29,7 +29,7 @@
                     {% endif %}
 
                     <b>Field(s):</b> 
-                    {% if fields|length < 3%} <span>
+                    {% if fields|length <= 3%} <span>
                     {% for field in fields[:3] %}
                         <span class="company-textbox-field">{{field}}</span>
                     {% endfor %}<br>
@@ -48,7 +48,7 @@
                     {% endif %}
 
                     <b>Major(s):</b> 
-                    {% if majors|length < 3%} <span>
+                    {% if majors|length <= 3%} <span>
                     {% for major in majors[:3] %}
                         <span class="company-textbox-major">{{major}}</span>
                     {% endfor %}<br>
