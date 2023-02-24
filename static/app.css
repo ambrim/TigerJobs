@@ -593,8 +593,7 @@ input.company-bar {
     transition: transform 0.3s;
 }
 .card-upvotes-text {
-    font-size: 1rem;
-    align-content: right;
+    font-size: 16px;
 }
 .card-upvotes:hover {
     transform: translateY(-3px);
