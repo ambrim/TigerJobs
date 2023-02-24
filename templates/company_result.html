@@ -4,7 +4,20 @@
             <div class="col-lg-6 bottom-align">
                 <div class="company-title"><b>{{comp.name}}</b>   
                     <span class="company-num-reviews"><b>
-                        {{comp.num_internships + comp.num_interviews}}</b> <span class="company-review-click" onclick="showAllReviews()">total review(s)</span>
+                        {{comp.num_internships + comp.num_interviews}}</b> 
+                        <span class="company-review-click" onclick="showAllReviews()">
+                            total review(s)
+                        </span>
+                        <span class="tooltip2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#000000"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="16" x2="12" y2="12"></line>
+                                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            </svg>
+                            <span class="tooltip2text">Click on "total reviews" to see all reviews</span>
+                        </span>
+                        
                     </span>
                 </div>
                 <p id="hidden-info" class="align-bottom">
@@ -71,9 +84,18 @@
             <div class="col-lg-3 center">
                 <div class="pie animate" style="--p:{{(comp.enjoyed_internship / comp.num_internships * 100) | int}};--c:orange"> {{(comp.enjoyed_internship / comp.num_internships * 100) | int}}%</div>
                 <br> <div class="center">enjoyed their job
-                    <span class="hover-text">
+                    <!-- <span class="hover-text">
                         <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                         <span class="tooltip-text" id="right">percentage of reviewers with a rating of 3 or higher</span>
+                    </span> -->
+                    <span class="tooltip2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#000000"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        <span class="tooltip2text">percentage of reviewers with a rating of 3 or higher</span>
                     </span>
                 </div> 
             </div>
@@ -81,9 +103,18 @@
             <div class="col-lg-3 center">
                 <div class="pie animate" style="--p:0;--c:orange"> 0%</div>
                 <br> <div class="center">enjoyed their job
-                    <span class="hover-text">
+                    <!-- <span class="hover-text">
                         <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                         <span class="tooltip-text" id="right">percentage of reviewers with a rating of 3 or higher</span>
+                    </span> -->
+                    <span class="tooltip2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#000000"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        <span class="tooltip2text">percentage of reviewers with a rating of 3 or higher</span>
                     </span>
                 </div> 
             </div>
@@ -94,7 +125,16 @@
                     {{(comp.enjoyed_interview / comp.num_interviews * 100) | int}}%</div>
                 <br>
                 <div class="center">enjoyed their interview
-                    <div class="tooltip">
+                    <span class="tooltip2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#000000"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        <span class="tooltip2text">percentage of reviewers with a rating of 3 or higher</span>
+                    </span>
+                    <!-- <div class="tooltip">
                         <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none"
                             stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10"></circle>
@@ -102,7 +142,7 @@
                             <line x1="12" y1="8" x2="12.01" y2="8"></line>
                         </svg>
                         <span class="tooltip-text" id="right">percentage of reviewers with a rating of 3 or higher</span>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             {% else %}
@@ -111,7 +151,16 @@
                     0%</div>
                 <br>
                 <div class="center">enjoyed their interview
-                    <div class="tooltip">
+                    <span class="tooltip2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#000000"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        <span class="tooltip3text">percentage of reviewers with a rating of 3 or higher</span>
+                    </span>
+                    <!-- <div class="tooltip">
                         <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none"
                             stroke="#000000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10"></circle>
@@ -119,7 +168,7 @@
                             <line x1="12" y1="8" x2="12.01" y2="8"></line>
                         </svg>
                         <span class="tooltip-text" id="right">percentage of reviewers with a rating of 3 or higher</span>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             {% endif %}
@@ -131,6 +180,15 @@
                 <div class="company-title-sm"><b>Jobs at {{comp.name}}</b>   
                     <span class="company-num-reviews"><b>
                         {{comp.num_internships}} </b><span class="company-review-click" onclick="showInternshipReviews()">review(s)</span>
+                    </span>
+                    <span class="tooltip2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#000000"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        <span class="tooltip2text">Click on "reviews" to see all internship reviews</span>
                     </span>
                 </div>
                 {% if comp.num_internships > 0 %}
@@ -214,6 +272,15 @@
                             {{comp.num_interviews}} </b>
                             <span class="company-review-click" onclick="showInterviewReviews()">
                                 review(s)
+                            </span>
+                            <span class="tooltip2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#000000"
+                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                </svg>
+                                <span class="tooltip3text">Click on "reviews" to see all interview reviews</span>
                             </span>
                         </span>
                     </div>
@@ -310,6 +377,7 @@
     </div>
 </div>
 <script>
+    let request = null;
     function showLocations(show) {
         if (show) {
             $('#hidden-locations').hide();
@@ -339,6 +407,52 @@
             $('#hidden-majors').show();
             $('#shown-majors').hide();
         }
+    }
+    function upvoteJob(id) {
+        let elemId = "#upvote-count-job-" + id;
+        let upvoteIconId = "#upvote-job-" + id;
+        if ($(elemId).hasClass("card-upvote-selected")) {
+            $(upvoteIconId).css("stroke", "black");
+            $(elemId).removeClass("card-upvote-selected");
+            let num = $(elemId).text();
+            $(elemId).text(num - 1);
+        }
+        else {
+            $(upvoteIconId).css("stroke", "#2058DC");
+            $(elemId).addClass("card-upvote-selected");
+            let num = parseInt($(elemId).text());
+            $(elemId).text(num + 1);
+        }
+        if (request != null)
+            request.abort();
+        let url = "/jobs/upvote?id=" + id;
+        request = $.post(url, {
+        }).done(function (data) {
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+        });
+    }
+    function upvoteInterview(id) {
+        let elemId = "#upvote-count-interview-" + id;
+        let upvoteIconId = "#upvote-interview-" + id;
+        if ($(elemId).hasClass("card-upvote-selected")) {
+            $(upvoteIconId).css("stroke", "black");
+            $(elemId).removeClass("card-upvote-selected");
+            let num = $(elemId).text();
+            $(elemId).text(num - 1);
+        }
+        else {
+            $(upvoteIconId).css("stroke", "#2058DC");
+            $(elemId).addClass("card-upvote-selected");
+            let num = parseInt($(elemId).text());
+            $(elemId).text(num + 1);
+        }
+        if (request != null)
+            request.abort();
+        let url = "/interviews/upvote?id=" + id;
+        request = $.post(url, {
+        }).done(function (data) {
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+        });
     }
     function setup() {
         $('#shown-locations').hide();

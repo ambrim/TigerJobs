@@ -135,7 +135,7 @@ def add_test_users(session):
         major = '',
         certificates = '',
         grade = '',
-        admin = False
+        admin = True
     )
     session.add(user)
 
