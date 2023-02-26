@@ -22,7 +22,7 @@
                     <div class="form-group">
                         <label class="required" for="job-title"><b>Job Position Title</b></label>
                         <input type="text" class="form-control" id="job-title" aria-describedby="jobTitleHelp"
-                            placeholder="Enter job position title (e.g. Business Intern)" required>
+                            placeholder="Enter job position title (e.g. Business Intern)" required maxlength="50">
                         <div id="error-title" class="red">
                             Please put in your job position title.
                         </div>
@@ -31,7 +31,8 @@
                     <div class="form-group">
                         <label class="required" for="job-location"><b>Job Location</b></label>
                         <input type="text" class="form-control" id="job-location" aria-describedby="jobLocationHelp"
-                            placeholder="Enter the job city, state and country (e.g. Miami, FL, USA) or Remote">
+                            placeholder="Enter the job city, state and country (e.g. Miami, FL, USA) or Remote"
+                            maxlength="50">
                         <div id="error-location" class="red">
                             Please put in the location of the job.
                         </div>
@@ -71,7 +72,7 @@
                     <div class="form-group">
                         <label class="required" for="job-length"><b>Job Length in weeks (to the nearest week)</b></label>
                         <input type="number" class="form-control" id="job-length" aria-describedby="jobLengthHelp"
-                            placeholder="Enter the length of the job (in weeks)" min="1">
+                            placeholder="Enter the length of the job (in weeks)" min="1" maxlength="3">
                         <div id="error-length" class="red">
                             Please enter a valid job length (An integer greater than 0).
                         </div>
@@ -96,7 +97,7 @@
                     <div class="form-group autocomplete">
                         <label class="required" for="job-company"><b>Company Name</b></label>
                         <input type="text" class="form-control" id="job-company" aria-describedby="jobCompanyHelp"
-                            placeholder="Enter the name of the company">
+                            placeholder="Enter the name of the company" maxlength="50">
                         <div id="error-company" class="red">
                             Please enter the company.
                         </div>
@@ -140,19 +141,19 @@
                     <div class="form-group">
                         <label for="job-description"><b>Job Description</b></label>
                         <textarea class="form-control" id="job-description" aria-describedby="jobDescriptionHelp"
-                            placeholder="Enter a description of your daily tasks/work"></textarea>
+                            placeholder="Enter a description of your daily tasks/work" maxlength="1000"></textarea>
                     </div>
                     <br>
                     <div class="form-group">
                         <label for="job-technologies"><b>Technologies Used</b></label>
                         <input type="text" class="form-control" id="job-technologies" aria-describedby="jobTechnologyHelp"
-                            placeholder="Enter any technologies you used (e.g. Excel, PowerPoint, Python)">
+                            placeholder="Enter any technologies you used (e.g. Excel, PowerPoint, Python)" maxlength="50">
                     </div>
                     <br>
                     <div class="form-group">
                         <label for="job-salary"><b>Job Salary in dollars per hour (to the nearest dollar) (you're anonymous!)</b></label>
                         <input type="number" class="form-control" id="job-salary" aria-describedby="jobSalaryHelp"
-                            placeholder="Enter the salary of the job (in dollars per hour)" min="0">
+                            placeholder="Enter the salary of the job (in dollars per hour)" min="0" maxlength="4">
                         <div id="error-salary" class="red">
                             Please enter a valid salary (An integer greater than or equal to 0).
                         </div>
@@ -275,7 +276,7 @@
                     <div class="form-group autocomplete">
                         <label class="required" for="interview-company"><b>Interview Company</b></label>
                         <input type="text" class="form-control" id="interview-company" aria-describedby="interviewCompany"
-                            placeholder="Enter the company the interview was with">
+                            placeholder="Enter the company the interview was with" maxlength="50">
                         <div id="error-interview-company" class="red">
                             Please put in the company you interviewed with.
                         </div>
@@ -285,7 +286,7 @@
                     <div class="form-group">
                         <label class="required" for="interview-round"><b>Interview Round</b></label>
                         <input type="number" class="form-control" id="interview-round" aria-describedby="interviewRoundHelp"
-                            placeholder="Enter the round of the interview" min="0">
+                            placeholder="Enter the round of the interview" min="0" maxlength="3">
                         <div id="error-interview-round" class="red">
                             Please put in the round of the interview (must be an integer greater than 0).
                         </div>
@@ -306,7 +307,7 @@
                     <div class="form-group">
                         <label class="required" for="interview-jobposition"><b>Job Position</b></label>
                         <input class="form-control" id="interview-jobposition" aria-describedby="interviewQuestionsHelp"
-                            placeholder="Enter the position of the job">
+                            placeholder="Enter the position of the job" maxlength="50">
                         <div id="error-interview-jobposition" class="red">
                             Please enter the job position of the interview.
                         </div>
@@ -416,7 +417,7 @@
                     <div class="form-group">
                         <label class="required" for="interview-num"><b>How many interviewers did you have?</b></label>
                         <input type="number" class="form-control" id="interview-num"
-                            placeholder="Enter the number of interviewers you had" min="0">
+                            placeholder="Enter the number of interviewers you had" min="0" maxlength="3">
                         <div id="error-interview-num" class="red">
                             Please enter a valid number of interviewers
                         </div>
@@ -444,7 +445,7 @@
                     <div class="form-group">
                         <label class="required" for="interview-questions"><b>Interview Questions</b></label>
                         <textarea class="form-control" id="interview-questions" aria-describedby="interviewQuestionsHelp"
-                            placeholder="Enter any questions you remember"></textarea>
+                            placeholder="Enter any questions you remember" maxlength="1000"></textarea>
                         <div id="error-interview-questions" class="red">
                             Please enter any questions you remember from the interview.
                         </div>
@@ -453,7 +454,8 @@
                     <div class="form-group">
                         <label class="required" for="interview-tips"><b>Any tips for the interview?</b></label>
                         <textarea class="form-control" id="interview-tips" aria-describedby="interviewQuestionsHelp"
-                            placeholder="Enter any tips for preparing for this interview (e.g. any resources you want to share? how far in advance did you get started?)"></textarea>
+                            placeholder="Enter any tips for preparing for this interview (e.g. any resources you want to share? how far in advance did you get started?)"
+                            maxlength="1000"></textarea>
                         <div id="error-interview-tips" class="red">
                             Please enter any tips you have for the interview.
                         </div>
@@ -462,7 +464,7 @@
                     <div class="form-group">
                         <label for="interview-technology"><b>Technologies Used</b></label>
                         <input class="form-control" id="interview-technology" aria-describedby="interviewQuestionsHelp"
-                            placeholder="Enter any technologies you used (e.g. Excel, PowerPoint, Python)">
+                            placeholder="Enter any technologies you used (e.g. Excel, PowerPoint, Python)" maxlength="50">
                     </div>
                     <br>
                     <div class="form-group">

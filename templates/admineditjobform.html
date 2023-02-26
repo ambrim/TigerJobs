@@ -14,7 +14,7 @@
                         <label class="required" for="edit-job-title"><b>Job Position Title</b></label>
                         <input type="text" class="form-control" id="edit-job-title" aria-describedby="jobTitleHelp"
                             placeholder="Enter job position title (e.g. Business Intern)" required
-                            value="{{job.title}}">
+                            value="{{job.title}}" maxlength="50">
                         <div id="edit-error-title" class="red">
                             Please put in your job position title.
                         </div>
@@ -25,7 +25,7 @@
                         <input type="text" class="form-control" id="edit-job-location"
                             aria-describedby="jobLocationHelp"
                             placeholder="Enter the job city, state and country (e.g. Miami, FL, USA) or Remote"
-                            value="{{job.location}}">
+                            value="{{job.location}}" maxlength="50">
                         <div id="edit-error-location" class="red">
                             Please put in the location of the job.
                         </div>
@@ -81,7 +81,7 @@
                                 week)</b></label>
                         <input type="number" class="form-control" id="edit-job-length" aria-describedby="jobLengthHelp"
                             placeholder="Enter the length of the job (in weeks)" min="1" value="{{job.length}}">
-                        <div id="edit-error-length" class="red">
+                        <div id="edit-error-length" class="red" maxlength="3">
                             Please enter a valid job length (An integer greater than 0).
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                     <div class="form-group autocomplete">
                         <label class="required" for="edit-job-company"><b>Company Name</b></label>
                         <input type="text" class="form-control" id="edit-job-company" aria-describedby="jobCompanyHelp"
-                            placeholder="Enter the name of the company" value="{{job.company}}" disabled>
+                            placeholder="Enter the name of the company" value="{{job.company}}" disabled maxlength="50">
                         <div id="edit-error-company" class="red">
                             Please enter the company.
                         </div>
@@ -190,7 +190,8 @@
                     <div class="form-group">
                         <label for="edit-job-description"><b>Job Description</b></label>
                         <textarea class="form-control" id="edit-job-description" aria-describedby="jobDescriptionHelp"
-                            placeholder="Enter a description of your daily tasks/work">{{job.description}}</textarea>
+                            placeholder="Enter a description of your daily tasks/work"
+                            maxlength="1000">{{job.description}}</textarea>
                     </div>
                     <br>
                     <div class="form-group">
@@ -198,7 +199,7 @@
                         <input type="text" class="form-control" id="edit-job-technologies"
                             aria-describedby="jobTechnologyHelp"
                             placeholder="Enter any technologies you used (e.g. Excel, PowerPoint, Python)"
-                            value="{{job.technologies}}">
+                            value="{{job.technologies}}" maxlength="50">
                     </div>
                     <br>
                     <div class="form-group">
@@ -206,7 +207,7 @@
                                 anonymous!)</b></label>
                         <input type="number" class="form-control" id="edit-job-salary" aria-describedby="jobSalaryHelp"
                             placeholder="Enter the salary of the job (in dollars per hour)" min="0"
-                            value="{{job.salary}}">
+                            value="{{job.salary}}" maxlength="4">
                         <div id="edit-error-salary" class="red">
                             Please enter a valid salary (An integer greater than or equal to 0).
                         </div>

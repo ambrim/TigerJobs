@@ -15,7 +15,7 @@
                         <label class="required" for="edit-interview-company"><b>Interview Company</b></label>
                         <input type="text" class="form-control" id="edit-interview-company"
                             aria-describedby="interviewCompany" placeholder="Enter the company the interview was with"
-                            value="{{interview.company}}" disabled>
+                            value="{{interview.company}}" disabled maxlength="50">
                         <div id="edit-error-interview-company" class="red">
                             Please put in the company you interviewed with.
                         </div>
@@ -26,7 +26,7 @@
                         <label class="required" for="edit-interview-round"><b>Interview Round</b></label>
                         <input type="number" class="form-control" id="edit-interview-round"
                             aria-describedby="interviewRoundHelp" placeholder="Enter the round of the interview" min="0"
-                            value="{{interview.round}}">
+                            value="{{interview.round}}" maxlength="3">
                         <div id="edit-error-interview-round" class="red">
                             Please put in the round of the interview (must be an integer greater than 0).
                         </div>
@@ -50,7 +50,7 @@
                         <label class="required" for="edit-interview-jobposition"><b>Job Position</b></label>
                         <input class="form-control" id="edit-interview-jobposition"
                             aria-describedby="interviewQuestionsHelp" placeholder="Enter the position of the job"
-                            value="{{interview.job_position}}">
+                            value="{{interview.job_position}}" maxlength="50">
                         <div id="edit-error-interview-jobposition" class="red">
                             Please enter the job position of the interview.
                         </div>
@@ -231,7 +231,7 @@
                                 have?</b></label>
                         <input type="number" class="form-control" id="edit-interview-num"
                             placeholder="Enter the number of interviewers you had" min="0"
-                            value="{{interview.num_interviewers}}">
+                            value="{{interview.num_interviewers}}" maxlength="3">
                         <div id="edit-error-interview-num" class="red">
                             Please enter a valid number of interviewers
                         </div>
@@ -279,7 +279,8 @@
                         <label class="required" for="edit-interview-questions"><b>Interview Questions</b></label>
                         <textarea class="form-control" id="edit-interview-questions"
                             aria-describedby="interviewQuestionsHelp"
-                            placeholder="Enter any questions you remember">{{interview.question_description}}</textarea>
+                            placeholder="Enter any questions you remember"
+                            maxlength="1000">{{interview.question_description}}</textarea>
                         <div id="edit-error-interview-questions" class="red">
                             Please enter any questions you remember from the interview.
                         </div>
@@ -289,7 +290,8 @@
                         <label class="required" for="edit-interview-tips"><b>Any tips for the interview?</b></label>
                         <textarea class="form-control" id="edit-interview-tips"
                             aria-describedby="interviewQuestionsHelp"
-                            placeholder="Enter any tips for preparing for this interview (e.g. any resources you want to share? how far in advance did you get started?)">{{interview.tips}}</textarea>
+                            placeholder="Enter any tips for preparing for this interview (e.g. any resources you want to share? how far in advance did you get started?)"
+                            maxlength="1000">{{interview.tips}}</textarea>
                         <div id="edit-error-interview-tips" class="red">
                             Please enter any tips you have for the interview.
                         </div>
@@ -300,7 +302,7 @@
                         <input class="form-control" id="edit-interview-technology"
                             aria-describedby="interviewQuestionsHelp"
                             placeholder="Enter any technologies you used (e.g. Excel, PowerPoint, Python)"
-                            value="{{interview.technologies}}">
+                            value="{{interview.technologies}}" maxlength="50">
                     </div>
                     <br>
                     <div class="form-group">
