@@ -219,7 +219,20 @@
             $('#modalError').modal('show');
         });
     }
+    function showFilters(val) {
+        if (val) {
+            $('#job-filters-section').show();
+            $('#show-filter').hide();
+            $('#hide-filter').show();
+        }
+        else {
+            $('#job-filters-section').hide();
+            $('#show-filter').show();
+            $('#hide-filter').hide();
+        }
+    }
     function setup() {
+        $('#hide-filter').hide();
         // Don't submit form on enter
         $("form").keypress(function (e) {
             if (e.keyCode == 13) {

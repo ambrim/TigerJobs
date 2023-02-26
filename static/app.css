@@ -1028,3 +1028,21 @@ from{--p:0}
 .tooltip2:hover .tooltip3text {
     visibility: visible;
 }
+
+.filter-show-btn {
+    display: none;
+}
+/* MEDIA QUERIES */
+@media (max-width: 767px) {
+    .filters-md {
+        display: none;
+    }
+    .filter-show-btn {
+        display: block;
+    }
+    .filter-show-btn:hover {
+        display: block;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+}

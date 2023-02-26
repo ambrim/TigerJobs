@@ -240,7 +240,20 @@
             $('#modalError').modal('show');
         });
     }
+    function showFilters(val) {
+        if (val) {
+            $('#interview-filters-section').show();
+            $('#show-filter-interview').hide();
+            $('#hide-filter-interview').show();
+        }
+        else {
+            $('#interview-filters-section').hide();
+            $('#show-filter-interview').show();
+            $('#hide-filter-interview').hide();
+        }
+    }
     function setup() {
+        $('#hide-filter-interview').hide();
         // Don't submit form on enter
         $("form").keypress(function (e) {
             if (e.keyCode == 13) {
