@@ -1032,9 +1032,18 @@ from{--p:0}
 .filter-show-btn {
     display: none;
 }
+.filters-md {
+    display: none;
+}
+.filters-lg {
+    display: block;
+}
 /* MEDIA QUERIES */
 @media (max-width: 767px) {
     .filters-md {
+        display: none;
+    }
+    .filters-lg {
         display: none;
     }
     .filter-show-btn {

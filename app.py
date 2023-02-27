@@ -547,7 +547,7 @@ def add_interview():
     # Either update company or add company to database
     company = database.get_company_by_name(data['company'])
     if company is None:
-        current_fields = [data['companyType']]
+        current_fields = [data['job_type']]
         current_majors = [user.major]
         current_grades = [0, 0, 0, 0, 0]
         current_grades[grades_global.index(data['year'])] += 1
