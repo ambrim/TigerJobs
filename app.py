@@ -233,6 +233,157 @@ def company_page(id):
             comp_internships=comp_internships)
     response = flask.make_response(html)
     return response
+
+# Refresh a company's stats
+@app.route('/companies/refresh', methods=['POST'])
+def companies_refresh():
+    netid, admin = auth.authenticate()
+    if not admin:
+        return "YOU ARE NOT AUTHORIZED TO ACCESS THIS ROUTE!"
+    id = flask.request.args.get('id')
+    comp = database.get_company(id)
+    comp_interviews, comp_internships = database.get_reviews_by_company(id)
+    # Fields of company to update
+    num_interviews = len(comp_interviews)
+    num_internships = len(comp_internships)
+    interview_difficulty = 0
+    interview_enjoyment = 0
+    internship_supervisor = 0
+    internship_pay = 0
+    internship_balance = 0
+    internship_culture = 0
+    internship_career = 0
+    internship_difficulty = 0
+    internship_enjoyment = 0
+    locations=[]
+    location_count=[]
+    fields = []
+    field_count = []
+    majors = []
+    major_count = []
+    interview_grades = [0, 0, 0, 0, 0]
+    internship_grades = [0, 0, 0, 0, 0]
+    advanced = 0
+    enjoyed_interview = 0
+    enjoyed_internship = 0
+    difficult_interview = 0
+    difficult_internship = 0
+
+    # Go through all internships to update
+    for job in comp_internships:
+        internship_supervisor += job.supervisor
+        internship_pay += job.pay
+        internship_balance += job.balance
+        internship_culture += job.culture
+        internship_career += job.career_impact
+        internship_difficulty += job.difficulty
+        internship_enjoyment += job.enjoyment
+        # Update locations and location count
+        if job.location.upper() not in (location.upper() for location in locations):
+            locations.append(job.location)
+            location_count.append(1)
+        else:
+            new_locations = [location.upper() for location in locations]
+            location_index = new_locations.index(job.location.upper())
+            location_count[location_index] += 1
+        # Update fields and fields count
+        if job.company_type not in fields:
+            fields.append(job.company_type)
+            field_count.append(1)
+        else:
+            field_index = fields.index(job.company_type)
+            field_count[field_index] += 1
+        # Update majors and major count
+        if job.major not in majors:
+            majors.append(job.major)
+            major_count.append(1)
+        else:
+            major_index = majors.index(job.major)
+            major_count[major_index] += 1
+        # Grades
+        internship_grades[grades_global.index(job.grade)] += 1
+        if job.enjoyment >= 3:
+            enjoyed_internship += 1
+        if job.difficulty >= 3:
+            difficult_internship += 1
+
+    # Go through all interviews to update
+    for interview in comp_interviews:
+        interview_difficulty += interview.difficulty
+        interview_enjoyment += interview.enjoyment
+        # Update fields and fields count
+        if interview.job_field not in fields:
+            fields.append(interview.job_field)
+            field_count.append(1)
+        else:
+            field_index = fields.index(interview.job_field)
+            field_count[field_index] += 1
+        # Update majors and major count
+        if interview.major not in majors:
+            majors.append(interview.major)
+            major_count.append(1)
+        else:
+            major_index = majors.index(interview.major)
+            major_count[major_index] += 1
+        interview_grades[grades_global.index(interview.grade)] += 1
+        if interview.advanced:
+            advanced += 1
+        if interview.enjoyment >= 3:
+            enjoyed_interview += 1
+        if interview.difficulty >= 3:
+            difficult_interview += 1
+
+    # Updated stats for company
+    company = models.Companies(
+        id = id,
+        name = comp.name,
+        num_interviews = num_interviews,
+        num_internships = num_internships,
+        interview_difficulty = interview_difficulty,
+        interview_enjoyment = interview_enjoyment,
+        internship_supervisor = internship_supervisor,
+        internship_pay = internship_pay,
+        internship_balance = internship_balance,
+        internship_culture = internship_culture,
+        internship_career = internship_career,
+        internship_difficulty = internship_difficulty,
+        internship_enjoyment = internship_enjoyment,
+        locations=locations,
+        location_count=location_count,
+        fields=fields,
+        field_count=field_count,
+        majors=majors,
+        major_count=major_count,
+        interview_grades=interview_grades,
+        internship_grades=internship_grades,
+        advanced = advanced,
+        enjoyed_interview = enjoyed_interview,
+        enjoyed_internship = enjoyed_internship,
+        difficult_interview = difficult_interview,
+        difficult_internship = difficult_internship,
+        reported = comp.reported
+    )
+    # Update company
+    database.update_company(company)
+
+    # Sort locations, fields, and majors
+    zip_locations = zip(company.location_count, company.locations)
+    locations = [x for _, x in sorted(zip_locations, reverse=True)]
+    zip_fields = zip(company.field_count, company.fields)
+    fields = [x for _, x in sorted(zip_fields, reverse=True)]
+    zip_majors = zip(company.major_count, company.majors)
+    majors = [x for _, x in sorted(zip_majors, reverse=True)]
+    html = flask.render_template('templates/company_result.html', 
+            netid=netid,
+            admin=admin,
+            comp=company,
+            locations=locations,
+            fields=fields,
+            majors=majors,
+            comp_interviews=comp_interviews,
+            comp_internships=comp_internships)
+    response = flask.make_response(html)
+    return response
 #----------------------------------------------------------------------
 # About Routes
 #----------------------------------------------------------------------

@@ -331,6 +331,22 @@ h2 {
 .profile-col {
     margin-bottom: 10px;
 }
+.profile-stat-blue {
+    background-color: #4269e2;
+    padding:5px 10px;
+    border: 1px solid #4269e2;
+    border-radius: 5px;
+    color:white;
+    font-weight: 700;
+}
+.profile-stat-yellow {
+    background-color: #FAB305;
+    padding: 5px 10px;
+    border: 1px solid #FAB305;
+    border-radius: 5px;
+    color:white;
+    font-weight:700;
+}
 .required:after {
     content: "* ";
     color: red;

@@ -22,7 +22,7 @@
     <!-- Content -->
     <div class="top-container-jobs">
         <div class="row">
-            <div class="col-md-8 container-scroll-companies">
+            <div id="company-result" class="col-md-8 container-scroll-companies">
                 {% include 'templates/company_result.html' %}
             </div>
             <div class="col-md-4 container-scroll-companies">
@@ -30,14 +30,39 @@
                 <!--{% include 'templates/companies_search_results.html' %}-->
             </div>
         </div>
+        {% if admin %}
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 center-container">
+                <h4>Is the information for this company inconsistent with the reviews?</h4>
+                <button class="profile-btn-submit" onclick="refreshCompanyStats({{comp.id}})"><b>Refresh this company's statistics</b></button>
+                <br>
+                <br>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        {% endif %}
     </div>
-
-    <!--
-    <div class="pie animate" style="--p:60;--c:orange"> 60%</div>
-    <div class="pie animate no-round" style="--p:80;--c:orange;"> 80%</div>
-    <div class="Stars" style="--rating: 2.6;"></div>
-    -->
+    {% include 'templates/modalsuccess.html' %}
+    {% include 'templates/modalerror.html' %}
     <script>
+        let request = null;
+        function refreshCompanyStats(id) {
+            if (request != null)
+                request.abort();
+            let url = "/companies/refresh?id=" + id;
+            request = $.post(url, {
+            }).done(function (data) {
+                $('#modalSuccessBody').html("Company statistics successfully refreshed!");
+                $('#modalSuccess').modal('show');
+                $('#company-result').html(data);
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                $('#modalErrorBody').html("There was an error updating the company information. Try again!");
+                $('#modalError').modal('show');
+            });
+        }
         function showInternshipReviews() {
             $('#comp-internships').show();
             $('#comp-interviews').hide();
