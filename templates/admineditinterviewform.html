@@ -26,7 +26,8 @@
                         <label class="required" for="edit-interview-round"><b>Interview Round</b></label>
                         <input type="number" class="form-control" id="edit-interview-round"
                             aria-describedby="interviewRoundHelp" placeholder="Enter the round of the interview" min="0"
-                            value="{{interview.round}}" maxlength="3">
+                            value="{{interview.round}}" maxlength="3"
+                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                         <div id="edit-error-interview-round" class="red">
                             Please put in the round of the interview (must be an integer greater than 0).
                         </div>
@@ -229,7 +230,8 @@
                                 have?</b></label>
                         <input type="number" class="form-control" id="edit-interview-num"
                             placeholder="Enter the number of interviewers you had" min="0"
-                            value="{{interview.num_interviewers}}" maxlength="3">
+                            value="{{interview.num_interviewers}}" maxlength="3"
+                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                         <div id="edit-error-interview-num" class="red">
                             Please enter a valid number of interviewers
                         </div>

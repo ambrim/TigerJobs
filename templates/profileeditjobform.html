@@ -63,8 +63,9 @@
                     <div class="form-group">
                         <label class="required" for="edit-job-length"><b>Job Length in weeks (to the nearest week)</b></label>
                         <input type="number" class="form-control" id="edit-job-length" aria-describedby="jobLengthHelp"
-                            placeholder="Enter the length of the job (in weeks)" min="1" value="{{job.length}}">
-                        <div id="edit-error-length" class="red" maxlength="3">
+                            placeholder="Enter the length of the job (in weeks)" min="1" value="{{job.length}}" maxlength="3"
+                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                        <div id="edit-error-length" class="red">
                             Please enter a valid job length (An integer greater than 0).
                         </div>
                     </div>
@@ -146,7 +147,8 @@
                                 anonymous!)</b></label>
                         <input type="number" class="form-control" id="edit-job-salary" aria-describedby="jobSalaryHelp"
                             placeholder="Enter the salary of the job (in dollars per hour)" min="0" value="{{job.salary}}"
-                            maxlength="4">
+                            maxlength="4"
+                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
                         <div id="edit-error-salary" class="red">
                             Please enter a valid salary (An integer greater than or equal to 0).
                         </div>
