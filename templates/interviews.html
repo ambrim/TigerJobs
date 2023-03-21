@@ -32,6 +32,9 @@
             </div>
             <div class="col container-scroll-jobs">
                 <div class="bottom center">
+                    <a href="/profile">
+                        <button class="add-review-job-btn">Add your own review!</button>
+                    </a>
                     <div onclick="hideRatings()" type="button" id="eye-slash" class="center">
                         <b>Hide Rating Scales</b> 
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="18" fill="currentColor" class="bi bi-eye-slash" viewBox="0 0 16 16">
@@ -239,6 +242,22 @@
             $('#modalErrorBody').html("Error reporting. Try again!")
             $('#modalError').modal('show');
         });
+    }
+    if (matchMedia) { // technically this is window.matchMedia, which is actually a function stored as a property on the window object. If the browser supports matchMedia then this is true. Else - no media queries regardless.
+        const mq = window.matchMedia("(max-width: 767px)"); // The matchMedia() function is passed a media query string.
+        mq.addListener(WidthChange);
+        WidthChange(mq); // Immediately calls the new listener and pass in the mq object.
+    }
+
+    function WidthChange(mq) {
+        // Equivalant to window.matchMedia("(min-width: 481px)").matches... .matches is a Boolean.
+        if (mq.matches) {
+            showFilters(false); // If mq.matches is true ( meaning >= 481px)
+        } else {
+            showFilters(false);
+            $('#hide-filter-interview').hide();
+            $('#show-filter-interview').hide();
+        }
     }
     function showFilters(val) {
         if (val) {

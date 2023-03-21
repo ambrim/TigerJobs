@@ -367,6 +367,26 @@ h2 {
     margin-left: 30px;
     margin-right: 20px;
 }
+.add-review-job-btn {
+    color: #51a34f;
+    font-size: 20px;
+    background-color: white;
+    border: 1px solid #51a34f;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 8px 4px;
+    cursor: pointer;
+    border-radius: 10px;
+    width:100%;
+    /* margin-bottom: 30px; */
+}
+.add-review-job-btn:hover {
+    color: white;
+    background-color: #51a34f;
+    transition: 0.3s;
+}
 .filters-card {
     background-color: #ffffff;
     height:85vh;
