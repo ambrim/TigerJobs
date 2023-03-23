@@ -13,7 +13,10 @@
         crossorigin="anonymous"></script>
     <!-- CSS stylesheet  -->
     <link rel="stylesheet" type="text/css" href="../static/app.css">
-    <style type="text/css"></style>
+    <style type="text/css"> 
+        @import url('https://fonts.cdnfonts.com/css/aileron');
+        body {font-family: 'Aileron', sans-serif;}
+    </style>
 </head>
 
 <body style="background-color: white">
@@ -37,28 +40,35 @@
     <!-- Content -->
     <div class="top-container center-container">
         <h1 class="color-animate"><b>TigerJobs</b></h1>
-        <div class="landing-desc center-container">
-            A place for <span class="yellow"><b>Princeton students</b></span> to leave reviews and find what they need
-            to land their next <span class='console-container'><b><span id='text'></span></b>
-            <span class='console-underscore' id='console'>&#95;</span>
-            </span>
+        <div class="landing-desc left-container">
+            We're all in this together. Find what you need to land your next <span class='console-container'><b><span id='text'></span></b>
+            <!--<span class='console-underscore' id='console'>&#95;</span>
+            </span>-->
+            <br>
+            <br>
         </div>
         <br>
-        <a href="/login"><button type="button" class="landing-btn"><b>Get Started!</b></button></a>
         <div class="container">
             <div class="row">
                 <div class="col-lg">
-                    <img class="landing-img" src='/static/assets/landing.jpg'>
+                    <img class="landing-img" src='/static/assets/landing.jpg' height="400">
+                    <br>
+                    <h4><i>The best advice is an experience shared.</i></h4>
                 </div>
                 <div class="col-lg center-container">
-                    <h3><i>The best advice is an experience shared.</i></h3>
+                    <p class="landing-list center-container">
+                        <span><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></span>
+                        &nbsp; Post anonymous reviews of your past job and interview experiences.
+                    </p>
                     <br>
-                    <p class="landing-list left-container">
-                        1. Post anonymous reviews of your past job and interview experiences.
+                    <p class="landing-list center-container">
+                        <span><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></span>
+                        &nbsp; Read what other students have to say about theirs.
                     </p>
-                    <p class="landing-list left-container">
-                        2. Read what other students have to say about theirs.
-                    </p>
+                    <br>
+                    <a href="/login"><button type="button" class="landing-btn"><b>Get Started</b></button></a>
+                    <br>
+                    Created by Princeton students for Princeton students.
                 </div>
             </div>
         </div>
