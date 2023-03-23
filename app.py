@@ -391,15 +391,9 @@ def companies_refresh():
 @app.route('/about', methods=['GET'])
 def about():
     netid, admin = auth.authenticate()
-    comp = database.get_company_by_name('MITRE')
-    res = database.get_all_companies() ######## PLACEHOLDER ########
-    top = database.get_top_companies('') ######## PLACEHOLDER ########
     html = flask.render_template('templates/about.html', 
             netid=netid,
-            admin=admin,
-            comp=comp,
-            company_top_res=top,
-            company_search_res=res)
+            admin=admin)
     response = flask.make_response(html)
     return response
 #----------------------------------------------------------------------

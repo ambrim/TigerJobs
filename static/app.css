@@ -404,6 +404,9 @@ h2 {
 .font-20px {
     font-size: 20px;
 }
+.font-18px {
+    font-size: 18px;
+}
 .font-16px {
     font-size: 16px;
 }
@@ -1075,8 +1078,32 @@ from{--p:0}
 .filters-lg {
     display: block;
 }
+/* About page */
+.about-desc {
+    font-size: 18px;
+}
+.blurb-bg-about {
+    background-color: white;
+    padding: 30px 50px;
+    border-radius: 20px;
+    transition: transform 0.3s;
+    margin: 0px;
+}
+.blurb-bg-about:hover {
+    transform: scale(1.03);
+    transition: transform 0.3s;
+}
+.picture-text {
+    font-size: 18px;
+}
+.about-img {
+    width: 80%;
+}
 /* MEDIA QUERIES */
 @media (max-width: 767px) {
+    .about-img {
+        width: 200px;
+    }
     .filters-md {
         display: none;
     }
