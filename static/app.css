@@ -776,6 +776,7 @@ from{--p:0}
     padding: 9px 4px 9px 9px;
     border-radius: 10px;
     border: 1px solid #212529;
+    width: 100%;
 }
 .rec-companies-card {
     background-color: #fff;

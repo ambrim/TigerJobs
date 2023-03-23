@@ -1,2 +1,3 @@
 tiger_jobs/
 __pycache__/
+init_db.py
