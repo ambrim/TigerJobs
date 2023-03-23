@@ -3,7 +3,6 @@ import sqlalchemy
 from sqlalchemy.dialects.postgresql import ARRAY
 
 Base = sqlalchemy.ext.declarative.declarative_base()
-# MIGHT WANT TO MOVE UPVOTING INTO REVIEWS THEMSELVES NOT IN USER
 # Interviews Review Table
 class Interviews (Base):
     __tablename__ = 'interviews'
