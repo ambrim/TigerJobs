@@ -181,6 +181,7 @@ h2 {
     cursor: pointer;
     border-radius: 50px;
     margin-bottom: 50px;
+    transition: 0.3s;
 }
 .landing-btn:hover {
     color: white;
@@ -216,6 +217,7 @@ h2 {
   -webkit-text-fill-color: transparent;
   animation: textclip 3s ease-in-out;
   display: inline-block;
+  animation-iteration-count: infinite;
 }
 
 @keyframes textclip {
@@ -238,6 +240,7 @@ h2 {
     cursor: pointer;
     border-radius: 50px;
     margin-bottom: 30px;
+    transition: 0.3s;
 }
 .center-button {
     display: flex;
@@ -285,6 +288,7 @@ h2 {
     display: inline-block;
     cursor: pointer;
     border-radius: 10px;
+    transition: 0.3s;
 }
 .profile-btn:hover {
     color: white;
@@ -302,6 +306,7 @@ h2 {
     display: inline-block;
     cursor: pointer;
     border-radius: 10px;
+    transition: 0.3s;
 }
 
 .profile-btn-submit:hover {
@@ -320,6 +325,7 @@ h2 {
     display: inline-block;
     cursor: pointer;
     border-radius: 10px;
+    transition: 0.3s;
 }
 
 .profile-btn-reset:hover {
@@ -368,23 +374,28 @@ h2 {
     margin-right: 20px;
 }
 .add-review-job-btn {
-    color: #51a34f;
-    font-size: 20px;
-    background-color: white;
-    border: 1px solid #51a34f;
+    width:100%;
+    border-radius: 10px;
     padding: 10px 20px;
+    font-size: 20px;
+    border: solid 3px transparent;
     text-align: center;
     text-decoration: none;
+    font-weight: 600;
     display: inline-block;
     margin: 8px 4px;
-    cursor: pointer;
-    border-radius: 10px;
-    width:100%;
-    /* margin-bottom: 30px; */
+    background-image: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), linear-gradient(101deg,
+            #2058DC,
+            #FAB305);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    box-shadow: 2px 1000px 1px #fff inset;
+    transition: 0.3s;
 }
 .add-review-job-btn:hover {
+    box-shadow: none;
     color: white;
-    background-color: #51a34f;
+    /* background-color: #51a34f; */
     transition: 0.3s;
 }
 .filters-card {
@@ -550,6 +561,7 @@ input.company-bar {
     display: inline-block;
     cursor: pointer;
     border-radius: 10px;
+    transition: 0.3s;
 }
 .report-btn:hover {
     color: white;
@@ -567,6 +579,7 @@ input.company-bar {
     margin-left: 10px;
     margin-right: 15px;
     padding: 10px 11px;
+    transition: 0.3s;
 }
 .submit:hover {
     background-color: #5a82ea;
@@ -927,9 +940,11 @@ from{--p:0}
     margin-left: 10px;
     margin-right: 15px;
     padding: 10px 11px;
+    transition: 0.3s;
 } 
 .company-search-submit:hover {
     background-color: #5a82ea;
+    transition: 0.3s;
 }
 .company-review-click:hover {
     cursor: pointer;
@@ -949,6 +964,7 @@ from{--p:0}
     display: inline-block;
     cursor: pointer;
     border-radius: 10px;
+    transition: 0.3s;
 }
 .admin-delete-btn:hover {
     margin-top: 5px;
@@ -970,6 +986,7 @@ from{--p:0}
     display: inline-block;
     cursor: pointer;
     border-radius: 10px;
+    transition: 0.3s;
 }
 .admin-dismiss-btn:hover {
     margin-top: 5px;
@@ -991,6 +1008,7 @@ from{--p:0}
     display: inline-block;
     cursor: pointer;
     border-radius: 10px;
+    transition: 0.3s;
 }
 .admin-warning-btn:hover {
     margin-top: 5px;

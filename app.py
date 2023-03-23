@@ -396,6 +396,12 @@ def about():
             admin=admin)
     response = flask.make_response(html)
     return response
+# Landing about
+@app.route('/home/about', methods=['GET'])
+def about_landing():
+    html = flask.render_template('templates/abouthome.html')
+    response = flask.make_response(html)
+    return response
 #----------------------------------------------------------------------
 # Profile Routes
 #----------------------------------------------------------------------
