@@ -21,44 +21,47 @@
     </svg>
     <br>
 </div>
-<small id="interview-search-help" class="form-text text-muted">
-    Enter a company, position title, or keyword...
-</small>
-<div class="row">
-    <div class="col g-0">
-        <form class="nosubmit">
-            <input  id="interview-search-bar"
-                    class="nosubmit form-control form-control-lg" 
-                    type="text"
-                    name="query"
-                    placeholder="Search for interview reviews"
-                    value="{{ last_query_unquoted }}"
-                    pattern="^[a-zA-Z0-9-:?%\x22\x27\x26\x2C ]+$"
-                    maxlength="50"
-                    autocomplete="off"
-                    autocapitalize="off" />
-        </form>
+<div class="form-container">
+    <small id="interview-search-help" class="form-text text-muted">
+        Enter a company, position title, or keyword...
+    </small>
+    <div class="row">
+        <div class="col">
+            <form class="nosubmit">
+                <input  id="interview-search-bar"
+                        class="nosubmit form-control form-control-lg" 
+                        type="text"
+                        name="query"
+                        placeholder="Search for interview reviews"
+                        value="{{ last_query_unquoted }}"
+                        pattern="^[a-zA-Z0-9-:?%\x22\x27\x26\x2C ]+$"
+                        maxlength="50"
+                        autocomplete="off"
+                        autocapitalize="off" 
+                        oninput="getFilteredInterviewData()"/>
+            </form>
+        </div>
+        <!-- <div class="col-md-auto g-0">
+            <span type="button" class="submit" onclick=getFilteredInterviewData()> Search
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+            </span>
+        </div> -->
     </div>
-    <div class="col-md-auto g-0">
-        <span type="button" class="submit" onclick=getFilteredInterviewData()> Search
-            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-        </span>
-    </div>
-</div>
-<div class="row top-buffer">
-    <div>
-        <span class="sort-bar col-sm-8">
-            <i>Sort:</i>
-            <span><button id="interviewsortDate" class="sort-btn sort-btn-selected" onclick="changeSortDate()">Recency</button></span>
-            <span><button id="interviewsortUpvoted" class="sort-btn" onclick="changeSortUpvote()">Upvotes</button></span>
-            <span><button id="interviewsortDifficulty" class="sort-btn" onclick="changeSortDifficulty()">Difficulty</button></span>
-            <span><button id="interviewsortEnjoyment" class="sort-btn" onclick="changeSortEnjoyment()">Enjoyment</button></span>
-            <span></span>
-        </span>
-        <span class="sort-bar col-sm-4">
-            <i>By:</i>
-            <span><button id="interviewsortDirection" class="sort-btn sort-btn-selected" onclick="changeSortDirection()">Highest to Lowest</button></span>
-        </span>
+    <div class="row top-buffer">
+        <div>
+            <span class="sort-bar col-sm-8">
+                <i>Sort:</i>
+                <span><button id="interviewsortDate" class="sort-btn sort-btn-selected" onclick="changeSortDate()">Recency</button></span>
+                <span><button id="interviewsortUpvoted" class="sort-btn" onclick="changeSortUpvote()">Upvotes</button></span>
+                <span><button id="interviewsortDifficulty" class="sort-btn" onclick="changeSortDifficulty()">Difficulty</button></span>
+                <span><button id="interviewsortEnjoyment" class="sort-btn" onclick="changeSortEnjoyment()">Enjoyment</button></span>
+                <span></span>
+            </span>
+            <span class="sort-bar col-sm-4">
+                <i>By:</i>
+                <span><button id="interviewsortDirection" class="sort-btn sort-btn-selected" onclick="changeSortDirection()">Highest to Lowest</button></span>
+            </span>
+        </div>
     </div>
 </div>
 <script>

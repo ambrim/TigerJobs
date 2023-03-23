@@ -85,6 +85,10 @@ nav.fill ul li a:hover:after {
     overflow-x: hidden;
     height: 85vh;
 }
+.form-container {
+    margin-left: 10px;
+    margin-right: 10px;
+}
 /* Element Styling */
 body {
     background-color: #c3e7ff;
@@ -512,7 +516,7 @@ form.nosubmit {
     background-color: #ffffff;
     border-radius: 10px;
     max-width: 100%;
-    margin-left: 11px
+    /* margin-left: 11px */
 }
 input.nosubmit {
     border: none;
