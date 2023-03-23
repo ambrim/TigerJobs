@@ -501,7 +501,7 @@
             <b>Job Fields</b>
             <div>
                 <select id="dropdown-fields" multiple name="native-select" placeholder="Select job fields"
-                    data-search="false" data-silent-initial-value-set="true">
+                    data-search="false" data-silent-initial-value-set="true" onchange="getFilteredData()">
                     <option value="Pharmaceuticals">Pharmaceuticals</option>
                     <option value="Biotech">Biotech</option>
                     <option value="Healthcare">Healthcare</option>
@@ -532,17 +532,13 @@
         </div>
     </div>
     <br>
-    <div class="row">
-        <div class="col-12 center-container">
-            <button class="profile-btn-submit" onclick="getFilteredData()">Update Filters</button>
-        </div>
-    </div>
 </div>
 <script>
     // Global variable for locations but in JSON
     var locations_json = {{ locations | tojson }};
     function deleteLocation(el) {
         el.remove();
+        getFilteredData();
     }
     function autocomplete(inp, arr) {
         /*the autocomplete function takes two arguments,
@@ -659,6 +655,9 @@
             disableSelectAll: false,
             additionalClasses: 'filters-major',
         });
+        $('#dropdown-fields').change(function () {
+            getFilteredData();
+        });
         VirtualSelect.init({
             ele: '#dropdown-majors',
             multiple: 'true',
@@ -669,6 +668,9 @@
             hasOptionDescription: false,
             disableSelectAll: false,
             additionalClasses: 'filters-major',
+        });
+        $('#dropdown-majors').change(function () {
+            getFilteredData();
         });
         VirtualSelect.init({
             ele: '#dropdown-certificates',
@@ -681,7 +683,9 @@
             disableSelectAll: false,
             additionalClasses: 'filters-major',
         });
-        
+        $('#dropdown-certificates').change(function () {
+            getFilteredData();
+        });
         // Autocomplete for locations
         autocomplete(document.getElementById("filter-location"), locations_json);
     }
