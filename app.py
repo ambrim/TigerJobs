@@ -385,7 +385,7 @@ def companies_refresh():
     response = flask.make_response(html)
     return response
 #----------------------------------------------------------------------
-# About Routes
+# About/Help Routes
 #----------------------------------------------------------------------
 # About page
 @app.route('/about', methods=['GET'])
@@ -400,6 +400,15 @@ def about():
 @app.route('/home/about', methods=['GET'])
 def about_landing():
     html = flask.render_template('templates/abouthome.html')
+    response = flask.make_response(html)
+    return response
+# Help page
+@app.route('/help', methods=['GET'])
+def help():
+    netid, admin = auth.authenticate()
+    html = flask.render_template('templates/help.html', 
+            netid=netid,
+            admin=admin)
     response = flask.make_response(html)
     return response
 #----------------------------------------------------------------------

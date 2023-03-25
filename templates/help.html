@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TigerJobs</title>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
+    <!------------------------JS/CSS/JQuery/Bootstrap src ------------>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <!-- CSS stylesheet  -->
+    <link rel="stylesheet" type="text/css" href="../static/app.css">
+    <style type="text/css"></style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    {% include 'templates/navbar.html' %}
+    <div class="top-container-help center-container">
+        <h2 class="color-animate"><b>Help Page</b></h2>
+        <div class="blurb-bg-about">
+            <p class="help-desc">
+                On the Jobs/Interviews page, you can search and filter through
+                different reviews left by fellow students. The 
+                results update automatically as you type/select filters.
+                You can also sort the reviews based on the selected criteria.
+                To better understand the reviews, check out the rating 
+                scales which describe what the numbers in the reviews mean.
+                If you see any reviews that you want to save, make sure to 
+                upvote them.
+                If you see a review that has inappropriate content, make sure
+                to report it so we can remove it.
+                You can click on the company name of any review to be taken 
+                to a page showing all reviews and stats for that company.
+                To add your own review, click on the "Add your own review!"
+                button, which will take you to the Profile page.
+            </p>
+            <br>
+            <img src="static/assets/help-1.png" width="95%">
+        </div>
+        <br>
+        <div class="blurb-bg-about">
+            <p class="help-desc">
+                On the Profile page, first fill in your major,
+                certificates, and class year and then press update. 
+                You won't be able to submit a review without doing so.
+                Next press leave a review and then select the type of review
+                you want to leave. Any questions with an asterisk are required
+                while the rest are optional. Note that the only info that will be
+                shown is the info you submit, and your major/certificates. Be careful
+                not to put any information in violation of a confidentiality agreement.
+                After submitting a review,
+                you can see all the reviews you've left in the section below.
+            </p>
+            <br>
+            <img src="static/assets/help-2.png" width="95%">
+        </div>
+        <br>
+        <div class="blurb-bg-about">
+            <p class="help-desc">
+               If you want to edit a review you submitted, go to the 
+               "Your reviews" section and click on the review you want
+               to change. Then, you can edit or delete the review.
+            </p>
+            <br>
+            <img src="static/assets/help-3.png" width="95%">
+        </div>
+        <br>
+        <div class="blurb-bg-about">
+            <p class="help-desc">
+                On the Companies page, you can search through popular
+                companies among Princeton students of different majors. 
+                You can either search for a company by name (again, this 
+                will update as you type), or see the top companies by major.
+                The top companies are simply the companies with the most total 
+                reviews from the given major, so this is a good way to 
+                find companies that people from your major consistently
+                apply to. By clicking on the company name, you'll be taken
+                to a page with more details about the company, including other
+                reviews and company stats.
+            </p>
+            <br>
+            <img src="static/assets/help-4.png" width="95%">
+        </div>
+        <br>
+        <div class="blurb-bg-about">
+            <p class="help-desc">
+               For a specific company, you can see details such
+               as locations people have worked at, fields offered, and 
+               majors of students who have applied or worked there. You
+               can also see statistics about how people felt about working
+               and interviewing at the company. For more specific info,
+               all reviews for the company are on the right hand side.
+               By default, both job and interview reviews show up. To filter by 
+               only job reviews, click "reviews" in the Jobs at Company section.
+               To filter by only interview reviews, click "reviews" in the Interviews
+               at Company section. To show all reviews, click "total reviews".
+               The tooltips give the same information in case you forget.
+            </p>
+            <br>
+            <img src="static/assets/help-5.png" width="95%">
+        </div>
+        <br>
+        </div>
+    </div>
+</body>
+
+</html>
