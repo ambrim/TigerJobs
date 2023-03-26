@@ -1,4 +1,8 @@
 /* Navbar styling */
+@import url('https://fonts.cdnfonts.com/css/aileron');
+html * {
+    font-family: 'Aileron', sans-serif;
+}
 .navbar-custom {
     background-color: #2058DC;
 }
@@ -55,7 +59,9 @@ nav.fill ul li a:hover:after {
 .small-logo {
     height: 40px;
 }
-
+.smaller-logo {
+    height: 30px;
+}
 /* Containers */
 .top-container {
     margin-top: 30px;
