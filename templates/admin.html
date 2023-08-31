@@ -110,6 +110,9 @@
             });
         }
         function deleteInterview(id) {
+            if (!confirm("Are you sure you want to delete this interview? This cannot be undone.")) {
+                return;
+            }
             if (request != null)
                 request.abort();
             url = "/admin/delete/interview?id=" + id;
@@ -151,6 +154,9 @@
             });
         }
         function deleteJob(id) {
+            if (!confirm("Are you sure you want to delete this job? This cannot be undone.")) {
+                return;
+            }
             if (request != null)
                 request.abort();
             url = "/admin/delete/job?id=" + id;

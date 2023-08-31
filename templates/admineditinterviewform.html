@@ -281,6 +281,10 @@
                             aria-describedby="interviewQuestionsHelp"
                             placeholder="Enter any questions you remember"
                             maxlength="1000">{{interview.question_description}}</textarea>
+                        <div class="plagiarism-warning">
+                            * Please do not post detailed information about interview
+                            processes and online assessments that you are not allowed to share publicly *
+                        </div>
                         <div id="edit-error-interview-questions" class="red">
                             Please enter any questions you remember from the interview.
                         </div>
@@ -495,6 +499,9 @@
         // Post if no errors
         if (numErrors > 0) {
             $('#editInterviewModal').scrollTop(0);
+            return;
+        }
+        if (!confirm("By accepting this, you confirm you did not share detailed information about interview processes and online assessments that you are not allowed to share publicly.")) {
             return;
         }
         var json_event = {

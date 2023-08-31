@@ -9,6 +9,7 @@
     </p>
     {% else %}
     {% for comp in company_search_res %}
+    {% if comp.num_interviews > 0 or comp.num_internships > 0 %}
     <div class="container-flush">
         <div class="search-results-card">
             <div class="row">
@@ -97,5 +98,6 @@
             </div>
         </div>
     </div>
+    {% endif %}
     {% endfor %} {% endif %}
 </div>

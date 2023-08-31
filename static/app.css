@@ -288,6 +288,10 @@ h2 {
 .modal-header {
     border: 0px;
 }
+.plagiarism-warning {
+    color:#4269e2;
+    font-size: small;
+}
 .profile-btn {
     color: white;
     background-color: #FAB305;
