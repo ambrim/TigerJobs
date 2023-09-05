@@ -227,6 +227,15 @@ def update_interview_company(id, company):
                 }
             )
         session.commit()
+def update_interview_company_id(id, company_id):
+    with sqlalchemy.orm.Session(engine) as session:
+        session.query(models.Interviews).filter(
+            models.Interviews.id == id).update(
+                {
+                    'company_id': company_id,
+                }
+            )
+        session.commit()
 
 # Get interview review from id
 def get_interview(id) -> models.Interviews:
@@ -426,6 +435,15 @@ def update_internship_company(id, company):
                 }
             )
         session.commit()
+def update_internship_company_id(id, company_id):
+    with sqlalchemy.orm.Session(engine) as session:
+        session.query(models.Internships).filter(
+            models.Internships.id == id).update(
+                {
+                    'company_id': company_id,
+                }
+            )
+        session.commit()
 # Get internship review from id
 def get_internship(id) -> models.Internships:
     # Make sure to only get one
@@ -495,6 +513,13 @@ def get_company_by_name(name) -> models.Companies:
         company = session.query(models.Companies).filter(
             models.Companies.name.ilike(name)).first()
     return company
+def get_all_companies_with_name(name) -> models.Companies:
+    # Make sure to only get one company
+    companies = []
+    with sqlalchemy.orm.Session(engine) as session:
+        companies = session.query(models.Companies).filter(
+            models.Companies.name.ilike(name)).all()
+    return companies
 # Delete a company
 def delete_company(id):
     with sqlalchemy.orm.Session(engine) as session:
@@ -590,6 +615,28 @@ def get_search_companies(query):
         companies = session.query(models.Companies).filter(
             models.Companies.name.ilike('%{}%'.format(query))).all()
     return companies
+def merge_companies(comp1, comp2):
+    interviews = []
+    with sqlalchemy.orm.Session(engine) as session:
+        interviews = session.query(models.Interviews).filter(
+            models.Interviews.company_id == comp2.id 
+        ).all()
+    for i in interviews:
+        update_interview_company_id(i.id, comp1.id)
+    session.commit()
+    internships = []
+    with sqlalchemy.orm.Session(engine) as session:
+        internships = session.query(models.Internships).filter(
+            models.Internships.company_id == comp2.id 
+        ).all()
+    for i in internships:
+        update_internship_company_id(i.id, comp1.id)
+    session.commit()
+    with sqlalchemy.orm.Session(engine) as session:
+        session.query(models.Companies).filter(
+            models.Companies.id == comp2.id).delete()
+        session.commit()
+    
 
 #----------------------------------------------------------------------
 # User Queries
@@ -662,6 +709,20 @@ def get_reviews_by_company(id):
     with sqlalchemy.orm.Session(engine) as session:
         internships = session.query(models.Internships).filter(
             models.Internships.company_id == id
+        ).all()
+    return (interviews, internships)
+
+# Get all reviews by company
+def get_reviews_by_company_name(name):
+    interviews = []
+    with sqlalchemy.orm.Session(engine) as session:
+        interviews = session.query(models.Interviews).filter(
+            models.Interviews.company == name
+        ).all()
+    internships = []
+    with sqlalchemy.orm.Session(engine) as session:
+        internships = session.query(models.Internships).filter(
+            models.Internships.company == name
         ).all()
     return (interviews, internships)
 

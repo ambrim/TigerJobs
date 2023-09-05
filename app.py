@@ -242,7 +242,10 @@ def companies_refresh():
         return "YOU ARE NOT AUTHORIZED TO ACCESS THIS ROUTE!"
     id = flask.request.args.get('id')
     comp = database.get_company(id)
-    comp_interviews, comp_internships = database.get_reviews_by_company(id)
+    potential_company_merge = database.get_all_companies_with_name(comp.name)
+    if len(potential_company_merge) == 2:
+        database.merge_companies(potential_company_merge[0], potential_company_merge[1])
+    comp_interviews, comp_internships = database.get_reviews_by_company_name(comp.name)
     # Fields of company to update
     num_interviews = len(comp_interviews)
     num_internships = len(comp_internships)
