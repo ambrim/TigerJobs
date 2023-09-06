@@ -51,7 +51,7 @@
                          Job Type: {{job.type}} <br>
                          Job Field: {{job.company_type}} <br>
                          Length: {{job.length}} weeks <br>
-                         {% if job.description != "" %}
+                         {% if job.salary != None %}
                               Salary: ${{job.salary}}/hr <br>
                          {% endif %}
                          Date Posted: <i>{{job.date_created}}</i>
