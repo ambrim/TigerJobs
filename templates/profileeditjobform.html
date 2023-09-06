@@ -74,11 +74,11 @@
                         <label class="required" for="edit-job-year"><b>What year were you in at the time of the job? (e.g. for summer after Sophomore year, put Sophomore)</b></label>
                         <select class="form-select" id="edit-job-year">
                             <option value="" disabled>Select your class year at the time of the job</option>
-                            <option value="fr" {% if job.major == "fr" %}selected="selected"{% endif %}>Freshman (4 years till graduation)</option>
-                            <option value="so" {% if job.major == "so" %}selected="selected"{% endif %}>Sophomore (3 years till graduation)</option>
-                            <option value="jr" {% if job.major == "jr" %}selected="selected"{% endif %}>Junior (2 years till graduation)</option>
-                            <option value="sr" {% if job.major == "sr" %}selected="selected"{% endif %}>Senior (1 year till graduation)</option>
-                            <option value="grad" {% if job.major == "grad" %}selected="selected"{% endif %}>Graduate Student</option>
+                            <option value="fr" {% if job.grade == "fr" %}selected="selected"{% endif %}>Freshman (4 years till graduation)</option>
+                            <option value="so" {% if job.grade == "so" %}selected="selected"{% endif %}>Sophomore (3 years till graduation)</option>
+                            <option value="jr" {% if job.grade == "jr" %}selected="selected"{% endif %}>Junior (2 years till graduation)</option>
+                            <option value="sr" {% if job.grade == "sr" %}selected="selected"{% endif %}>Senior (1 year till graduation)</option>
+                            <option value="grad" {% if job.grade == "grad" %}selected="selected"{% endif %}>Graduate Student</option>
                         </select>
                         <div id="edit-error-year" class="red">
                             Please select your class year at the time of the job.
