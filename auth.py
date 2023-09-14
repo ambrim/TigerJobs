@@ -71,6 +71,8 @@ def authenticate():
     if 'username' in session:
         username = session.get('username').strip()
         user = database.get_user(username)
+        if user is not None:
+            admin = user.admin
         if user is None:
             user = models.Users(
                 netid = username,
@@ -80,8 +82,8 @@ def authenticate():
                 admin = False
             )
             database.add_user(user)
-        
-        return (username, user.admin)
+            admin = False
+        return (username, admin)
     # If the request does not contain a login ticket, then redirect
     # the browser to the login page to get one.
     ticket = request.args.get('ticket')
@@ -97,6 +99,8 @@ def authenticate():
                      + quote(strip_ticket(request.url)))
         abort(redirect(login_url))
     user = database.get_user(username)
+    if user is not None:
+        admin = user.admin
     if user is None:
         user = models.Users(
             netid = username,
@@ -106,11 +110,11 @@ def authenticate():
             admin = False
         )
         database.add_user(user)
+        admin = False
     # The user is authenticated, so store the username in
     # the session.
     session['username'] = username
-    return (username, user.admin)
-
+    return (username, admin)
 
 # ----------------------------------------------------------------------
 
